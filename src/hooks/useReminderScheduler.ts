@@ -31,7 +31,7 @@ export function useReminderScheduler(settings: ReminderSettings) {
       if (now >= dueTime) {
         new Notification('Time to stretch', {
           body: 'A few minutes now will save you from stiffness later.',
-          icon: '/icons/icon-192.png',
+          icon: `${import.meta.env.BASE_URL}icons/icon-192.png`,
           tag: 'str3tch-daily-reminder',
         });
         localStorage.setItem(LAST_NOTIFIED_KEY, todayKey());
