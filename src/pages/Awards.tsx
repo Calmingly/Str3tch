@@ -39,7 +39,10 @@ export function Awards() {
                   : 'bg-white/60 opacity-50 ring-slate-100 dark:bg-slate-900/40 dark:ring-slate-800'
               }`}
             >
-              <span className={`text-3xl ${unlocked ? '' : 'grayscale'}`}>{achievement.icon}</span>
+              <achievement.icon
+                className={`text-3xl ${unlocked ? '' : 'text-slate-400 dark:text-slate-600'}`}
+                style={unlocked ? { color: 'var(--accent)' } : undefined}
+              />
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 {achievement.name}
               </p>

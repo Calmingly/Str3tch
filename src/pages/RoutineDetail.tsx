@@ -1,4 +1,5 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { MdArrowBack, MdEdit, MdDeleteOutline } from 'react-icons/md';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -22,27 +23,30 @@ export function RoutineDetail() {
         className={`-mx-4 -mt-6 rounded-b-3xl bg-gradient-to-br px-4 pb-6 pt-6 text-white ${style.gradient}`}
       >
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-sm text-white/80">
-            ← Back
+          <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
+            <MdArrowBack /> Back
           </Link>
           {routine.isCustom && (
             <div className="flex gap-3 text-sm text-white/85">
-              <Link to={`/build/${routine.id}`}>Edit</Link>
+              <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
+                <MdEdit /> Edit
+              </Link>
               <button
                 type="button"
+                className="flex items-center gap-1"
                 onClick={() => {
                   removeCustom(routine.id);
                   navigate('/');
                 }}
               >
-                Delete
+                <MdDeleteOutline /> Delete
               </button>
             </div>
           )}
         </div>
         <div className="mt-3 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
-            {style.icon}
+            <style.icon />
           </div>
           <div>
             <h1 className="text-xl font-bold">{routine.name}</h1>

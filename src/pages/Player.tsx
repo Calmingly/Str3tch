@@ -1,5 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import {
+  MdClose,
+  MdCheckCircle,
+  MdCelebration,
+  MdSentimentVeryDissatisfied,
+  MdSentimentDissatisfied,
+  MdSentimentNeutral,
+  MdSentimentSatisfied,
+  MdSentimentVerySatisfied,
+} from 'react-icons/md';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
 import { useSessions } from '../hooks/useSessions';
@@ -16,12 +26,12 @@ import type { FeelingRating, Routine } from '../types';
 
 const TICK_MS = 100;
 
-const FEELINGS: { value: FeelingRating['value']; label: string; emoji: string }[] = [
-  { value: 1, label: 'Rough', emoji: '😣' },
-  { value: 2, label: 'Meh', emoji: '😕' },
-  { value: 3, label: 'Okay', emoji: '🙂' },
-  { value: 4, label: 'Good', emoji: '😌' },
-  { value: 5, label: 'Great', emoji: '🤩' },
+const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof MdSentimentNeutral }[] = [
+  { value: 1, label: 'Rough', Icon: MdSentimentVeryDissatisfied },
+  { value: 2, label: 'Meh', Icon: MdSentimentDissatisfied },
+  { value: 3, label: 'Okay', Icon: MdSentimentNeutral },
+  { value: 4, label: 'Good', Icon: MdSentimentSatisfied },
+  { value: 5, label: 'Great', Icon: MdSentimentVerySatisfied },
 ];
 
 export function Player() {
@@ -137,9 +147,9 @@ function PlayerSession({ routine }: { routine: Routine }) {
     return (
       <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 bg-slate-50 px-6 text-center text-slate-900 dark:bg-slate-950 dark:text-slate-100">
         <div
-          className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl ${style.gradient}`}
+          className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
-          ✅
+          <MdCheckCircle />
         </div>
         <h1 className="text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
@@ -173,7 +183,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
   if (done) {
     return (
       <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 bg-slate-50 px-6 text-center text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-        <p className="text-4xl">🎉</p>
+        <MdCelebration className="text-4xl" style={{ color: 'var(--accent)' }} />
         <h1 className="text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
         <div className="flex gap-2">
@@ -188,7 +198,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
                   : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-400 dark:ring-slate-800'
               }`}
             >
-              <span className="text-xl">{f.emoji}</span>
+              <f.Icon className="text-xl" />
               {f.label}
             </button>
           ))}
@@ -213,8 +223,11 @@ function PlayerSession({ routine }: { routine: Routine }) {
   return (
     <div className="mx-auto flex min-h-full max-w-md flex-col bg-slate-50 px-6 pb-8 pt-6 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
       <div className="flex items-center justify-between">
-        <Link to={`/routine/${routine.id}`} className="text-sm font-medium text-slate-400">
-          ✕ Exit
+        <Link
+          to={`/routine/${routine.id}`}
+          className="flex items-center gap-1 text-sm font-medium text-slate-400"
+        >
+          <MdClose /> Exit
         </Link>
         <span className="text-xs font-medium text-slate-400">
           {index + 1} / {steps.length}

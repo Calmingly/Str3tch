@@ -1,13 +1,20 @@
+import {
+  MdSentimentVeryDissatisfied,
+  MdSentimentDissatisfied,
+  MdSentimentNeutral,
+  MdSentimentSatisfied,
+  MdSentimentVerySatisfied,
+} from 'react-icons/md';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
 
-const FEELING_EMOJI: Record<number, string> = {
-  1: '😣',
-  2: '😕',
-  3: '🙂',
-  4: '😌',
-  5: '🤩',
+const FEELING_ICON: Record<number, typeof MdSentimentNeutral> = {
+  1: MdSentimentVeryDissatisfied,
+  2: MdSentimentDissatisfied,
+  3: MdSentimentNeutral,
+  4: MdSentimentSatisfied,
+  5: MdSentimentVerySatisfied,
 };
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -50,7 +57,9 @@ export function Progress() {
 
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
-          <p className="text-2xl font-bold text-sky-600 dark:text-sky-400">{animatedCurrent}</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>
+            {animatedCurrent}
+          </p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Day streak</p>
         </div>
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
@@ -79,11 +88,12 @@ export function Progress() {
                 <div className="flex h-20 w-full items-end">
                   <div
                     className={`w-full rounded-full transition-all ${
-                      mins > 0
-                        ? 'bg-gradient-to-t from-sky-500 to-sky-400'
-                        : 'bg-slate-100 dark:bg-slate-800'
+                      mins === 0 ? 'bg-slate-100 dark:bg-slate-800' : ''
                     }`}
-                    style={{ height: `${heightPct}%` }}
+                    style={{
+                      height: `${heightPct}%`,
+                      backgroundColor: mins > 0 ? 'var(--accent)' : undefined,
+                    }}
                     title={`${Math.round(mins)} min`}
                   />
                 </div>
@@ -106,8 +116,9 @@ export function Progress() {
               key={day}
               title={day}
               className={`aspect-square rounded-md ${
-                streak.daysThisWeek.has(day) ? 'bg-sky-500' : 'bg-slate-100 dark:bg-slate-800'
+                streak.daysThisWeek.has(day) ? '' : 'bg-slate-100 dark:bg-slate-800'
               }`}
+              style={streak.daysThisWeek.has(day) ? { backgroundColor: 'var(--accent)' } : undefined}
             />
           ))}
         </div>
@@ -120,23 +131,28 @@ export function Progress() {
             No sessions yet — finish a routine to see it here.
           </p>
         )}
-        {sessions.map((s) => (
-          <div
-            key={s.id}
-            className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
-          >
-            <div>
-              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                {s.routineName}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                {formatFriendlyDate(s.completedAt)} · {formatTime(s.completedAt)} ·{' '}
-                {Math.round(s.durationSeconds / 60)} min
-              </p>
+        {sessions.map((s) => {
+          const FeelingIcon = s.feeling ? FEELING_ICON[s.feeling] : null;
+          return (
+            <div
+              key={s.id}
+              className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+            >
+              <div>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  {s.routineName}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {formatFriendlyDate(s.completedAt)} · {formatTime(s.completedAt)} ·{' '}
+                  {Math.round(s.durationSeconds / 60)} min
+                </p>
+              </div>
+              {FeelingIcon && (
+                <FeelingIcon className="text-xl text-slate-400 dark:text-slate-500" />
+              )}
             </div>
-            {s.feeling && <span className="text-xl">{FEELING_EMOJI[s.feeling]}</span>}
-          </div>
-        ))}
+          );
+        })}
       </section>
     </div>
   );

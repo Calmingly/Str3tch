@@ -62,12 +62,12 @@ export function BodyMap() {
                   cx={h.cx}
                   cy={h.cy}
                   r={h.r}
-                  className={
-                    isSelected
-                      ? 'fill-sky-400/40 stroke-sky-500'
-                      : 'fill-sky-100/70 stroke-sky-300 dark:fill-sky-500/10 dark:stroke-sky-800'
-                  }
-                  strokeWidth={2}
+                  strokeWidth={isSelected ? 2.5 : 1.5}
+                  style={{
+                    fill: 'var(--accent-soft)',
+                    stroke: 'var(--accent)',
+                    opacity: isSelected ? 1 : 0.55,
+                  }}
                 />
                 <text
                   x={h.cx}
@@ -106,7 +106,7 @@ export function BodyMap() {
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-lg ${style.gradient}`}
                 >
-                  {style.icon}
+                  <style.icon />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold text-slate-900 dark:text-slate-100">

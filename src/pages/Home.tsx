@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { MdLocalFireDepartment, MdAccessibilityNew, MdBuild } from 'react-icons/md';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { useCountUp } from '../hooks/useCountUp';
 import { GOAL_STYLES, primaryGoalStyle } from '../lib/theme';
 import { RingProgress } from '../components/RingProgress';
+import { Logo } from '../components/Logo';
 import { addDays, dayKey, todayKey } from '../lib/date';
 
 const WEEKLY_GOAL = 5;
@@ -33,13 +35,14 @@ export function Home() {
 
   return (
     <div className="flex flex-col gap-5 pb-2">
-      <header className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            {streak.current > 0 ? `${streak.current} day streak 🔥` : 'Let’s get moving today'}
+      <header className="flex flex-col gap-1">
+        <Logo />
+        {streak.current > 0 && (
+          <p className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
+            <MdLocalFireDepartment style={{ color: 'var(--accent)' }} />
+            {streak.current} day streak
           </p>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Str3tch</h1>
-        </div>
+        )}
       </header>
 
       <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
@@ -48,8 +51,8 @@ export function Home() {
             progress={daysThisWeekCount / WEEKLY_GOAL}
             size={92}
             strokeWidth={9}
-            color="#0ea5e9"
-            trackColor="#e0f2fe"
+            color="var(--accent)"
+            trackColor="var(--accent-soft)"
           >
             <div className="text-center">
               <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
@@ -87,8 +90,8 @@ export function Home() {
         to={`/routine/${suggested.id}`}
         className={`block rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg ${suggestedStyle.gradient}`}
       >
-        <p className="text-xs font-semibold uppercase tracking-wide text-white/80">
-          {suggestedStyle.icon} Quick start
+        <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
+          <suggestedStyle.icon /> Quick start
         </p>
         <p className="mt-1 text-lg font-bold">{suggested.name}</p>
         <p className="mt-1 text-sm text-white/85">
@@ -101,7 +104,7 @@ export function Home() {
           to="/body-map"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
         >
-          <span className="text-2xl">🧍</span>
+          <MdAccessibilityNew className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Where's it tight?
           </span>
@@ -110,7 +113,7 @@ export function Home() {
           to="/build"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
         >
-          <span className="text-2xl">🛠️</span>
+          <MdBuild className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Build a routine
           </span>
@@ -135,7 +138,7 @@ export function Home() {
               <div
                 className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
               >
-                {style.icon}
+                <style.icon />
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">

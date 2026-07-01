@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MdLightMode, MdDarkMode, MdBrightnessAuto, MdCheck } from 'react-icons/md';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -6,11 +7,13 @@ import {
 } from '../hooks/useReminderScheduler';
 import { useVoiceSettings, speechSupported } from '../hooks/useVoiceSettings';
 import { useThemeMode, type ThemeMode } from '../hooks/useThemeMode';
+import { useAccentTheme } from '../hooks/useAccentTheme';
+import { ACCENT_THEMES } from '../lib/accentThemes';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; icon: string }[] = [
-  { value: 'light', label: 'Light', icon: '☀️' },
-  { value: 'dark', label: 'Dark', icon: '🌙' },
-  { value: 'auto', label: 'Auto', icon: '🌓' },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof MdLightMode }[] = [
+  { value: 'light', label: 'Light', Icon: MdLightMode },
+  { value: 'dark', label: 'Dark', Icon: MdDarkMode },
+  { value: 'auto', label: 'Auto', Icon: MdBrightnessAuto },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -20,9 +23,8 @@ function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: b
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`h-6 w-11 shrink-0 rounded-full transition-colors ${
-        checked ? 'bg-sky-500' : 'bg-slate-200 dark:bg-slate-700'
-      }`}
+      className="h-6 w-11 shrink-0 rounded-full transition-colors bg-slate-200 dark:bg-slate-700"
+      style={checked ? { backgroundColor: 'var(--accent)' } : undefined}
     >
       <span
         className={`block h-5 w-5 translate-x-0.5 rounded-full bg-white shadow transition-transform ${
@@ -37,6 +39,7 @@ export function Settings() {
   const { settings, setSettings } = useReminderSettings();
   const { settings: voice, setSettings: setVoice } = useVoiceSettings();
   const { mode, setMode } = useThemeMode();
+  const { accentId, setAccentId } = useAccentTheme();
   const [permission, setPermission] = useState<NotificationPermission | 'unsupported'>(
     notificationsSupported() ? Notification.permission : 'unsupported',
   );
@@ -66,21 +69,49 @@ export function Settings() {
       <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
         <p className="mb-3 font-semibold text-slate-900 dark:text-slate-100">Appearance</p>
         <div className="grid grid-cols-3 gap-2">
-          {THEME_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => setMode(opt.value)}
-              className={`flex flex-col items-center gap-1 rounded-xl py-2.5 text-xs font-semibold transition-colors ${
-                mode === opt.value
-                  ? 'bg-sky-500 text-white'
-                  : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
-              }`}
-            >
-              <span className="text-lg">{opt.icon}</span>
-              {opt.label}
-            </button>
-          ))}
+          {THEME_OPTIONS.map((opt) => {
+            const active = mode === opt.value;
+            return (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => setMode(opt.value)}
+                className={`flex flex-col items-center gap-1 rounded-xl py-2.5 text-xs font-semibold transition-colors ${
+                  active
+                    ? 'text-white'
+                    : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                }`}
+                style={active ? { backgroundColor: 'var(--accent)' } : undefined}
+              >
+                <opt.Icon className="text-lg" />
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
+          Color theme
+        </p>
+        <div className="grid grid-cols-6 gap-2">
+          {ACCENT_THEMES.map((theme) => {
+            const active = accentId === theme.id;
+            return (
+              <button
+                key={theme.id}
+                type="button"
+                onClick={() => setAccentId(theme.id)}
+                aria-label={theme.name}
+                title={theme.name}
+                className={`flex h-9 w-9 items-center justify-center rounded-full transition-transform ${
+                  active ? 'scale-110' : ''
+                }`}
+                style={{ backgroundColor: theme.hex }}
+              >
+                {active && <MdCheck className="text-white" />}
+              </button>
+            );
+          })}
         </div>
       </section>
 

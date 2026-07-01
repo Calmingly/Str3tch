@@ -1,13 +1,14 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { MdSelfImprovement, MdShowChart, MdEmojiEvents, MdSettings } from 'react-icons/md';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', icon: '🧘' },
-  { to: '/progress', label: 'Progress', icon: '📈' },
-  { to: '/awards', label: 'Awards', icon: '🏆' },
-  { to: '/settings', label: 'Settings', icon: '⚙️' },
+  { to: '/', label: 'Routines', Icon: MdSelfImprovement },
+  { to: '/progress', label: 'Progress', Icon: MdShowChart },
+  { to: '/awards', label: 'Awards', Icon: MdEmojiEvents },
+  { to: '/settings', label: 'Settings', Icon: MdSettings },
 ];
 
 export function Layout() {
@@ -34,27 +35,23 @@ export function Layout() {
       </main>
       <nav className="fixed bottom-0 inset-x-0 border-t border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
         <div className="mx-auto max-w-md flex">
-          {navItems.map((item) => (
+          {navItems.map(({ to, label, Icon }) => (
             <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === '/'}
-              className={({ isActive }) =>
-                `flex-1 flex flex-col items-center gap-1 py-3 text-xs font-semibold transition-colors ${
-                  isActive ? 'text-sky-600 dark:text-sky-400' : 'text-slate-400'
-                }`
-              }
+              key={to}
+              to={to}
+              end={to === '/'}
+              className="flex-1 flex flex-col items-center gap-1 py-3 text-xs font-semibold text-slate-400 transition-colors"
+              style={({ isActive }) => (isActive ? { color: 'var(--accent)' } : undefined)}
             >
               {({ isActive }) => (
                 <>
                   <span
-                    className={`flex h-8 w-8 items-center justify-center rounded-full text-lg leading-none transition-colors ${
-                      isActive ? 'bg-sky-100 dark:bg-sky-500/20' : ''
-                    }`}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-xl leading-none transition-colors"
+                    style={isActive ? { backgroundColor: 'var(--accent-soft)' } : undefined}
                   >
-                    {item.icon}
+                    <Icon />
                   </span>
-                  {item.label}
+                  {label}
                 </>
               )}
             </NavLink>

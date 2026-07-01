@@ -4,6 +4,8 @@
 
 :root {
   color-scheme: light;
+  --accent: #0ea5e9;
+  --accent-soft: #0ea5e922;
 }
 
 :root.dark {

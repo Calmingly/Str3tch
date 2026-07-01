@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { MdKeyboardArrowUp, MdKeyboardArrowDown, MdClose, MdAdd } from 'react-icons/md';
 import { STRETCHES, getStretch } from '../data/stretches';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { GOAL_STYLES } from '../lib/theme';
@@ -104,7 +105,9 @@ export function RoutineBuilder() {
                   active ? `bg-gradient-to-br text-white ${style.gradient}` : style.chip
                 }`}
               >
-                {style.icon} {style.label}
+                <span className="inline-flex items-center gap-1">
+                  <style.icon /> {style.label}
+                </span>
               </button>
             );
           })}
@@ -135,7 +138,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move up"
                 >
-                  ▲
+                  <MdKeyboardArrowUp />
                 </button>
                 <button
                   type="button"
@@ -144,7 +147,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move down"
                 >
-                  ▼
+                  <MdKeyboardArrowDown />
                 </button>
               </div>
               <p className="flex-1 text-sm font-medium text-slate-900 dark:text-slate-100">
@@ -161,10 +164,10 @@ export function RoutineBuilder() {
               <button
                 type="button"
                 onClick={() => removeStep(i)}
-                className="text-slate-400 hover:text-red-500"
+                className="text-lg text-slate-400 hover:text-red-500"
                 aria-label="Remove"
               >
-                ✕
+                <MdClose />
               </button>
             </div>
           );
@@ -192,7 +195,7 @@ export function RoutineBuilder() {
                   {usedStretchIds.has(stretch.id) ? ' · added' : ''}
                 </p>
               </div>
-              <span className="text-lg text-sky-500">+</span>
+              <MdAdd className="text-lg" style={{ color: 'var(--accent)' }} />
             </button>
           ))}
         </div>
@@ -202,7 +205,8 @@ export function RoutineBuilder() {
         type="button"
         disabled={!canSave}
         onClick={handleSave}
-        className="rounded-2xl bg-gradient-to-br from-sky-400 to-blue-500 py-3.5 text-center font-bold text-white shadow-lg disabled:opacity-40"
+        className="rounded-2xl py-3.5 text-center font-bold text-white shadow-lg disabled:opacity-40"
+        style={{ backgroundColor: 'var(--accent)' }}
       >
         Save routine
       </button>
