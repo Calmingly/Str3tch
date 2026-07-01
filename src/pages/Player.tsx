@@ -4,6 +4,8 @@ import { getRoutine } from '../data/routines';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
 import { useSessions } from '../hooks/useSessions';
+import { primaryGoalStyle } from '../lib/theme';
+import { RingProgress } from '../components/RingProgress';
 import type { FeelingRating } from '../types';
 
 const TICK_MS = 100;
@@ -33,6 +35,7 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
 
   const steps = useMemo(() => expandRoutine(routine), [routine]);
   const totalSeconds = useMemo(() => routineDurationSeconds(routine), [routine]);
+  const style = primaryGoalStyle(routine.goal);
 
   const [index, setIndex] = useState(0);
   const [msLeft, setMsLeft] = useState(steps[0].seconds * 1000);
@@ -86,21 +89,23 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
 
   if (saved) {
     return (
-      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 bg-slate-950 px-6 text-center text-slate-100">
-        <p className="text-4xl">✅</p>
-        <h1 className="text-xl font-semibold">Nice work</h1>
-        <p className="text-sm text-slate-400">Logged in your progress.</p>
+      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 bg-slate-50 px-6 text-center text-slate-900">
+        <div className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl ${style.gradient}`}>
+          ✅
+        </div>
+        <h1 className="text-xl font-bold">Nice work</h1>
+        <p className="text-sm text-slate-500">Logged in your progress.</p>
         <button
           type="button"
           onClick={() => navigate('/progress')}
-          className="mt-2 w-full rounded-xl bg-sky-500 py-3 font-semibold text-slate-950"
+          className={`mt-2 w-full rounded-2xl bg-gradient-to-br py-3 font-bold text-white shadow-lg ${style.gradient}`}
         >
           View progress
         </button>
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="w-full rounded-xl border border-slate-800 py-3 font-semibold text-slate-300"
+          className="w-full rounded-2xl bg-white py-3 font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100"
         >
           Back to routines
         </button>
@@ -110,18 +115,20 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
 
   if (done) {
     return (
-      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 bg-slate-950 px-6 text-center text-slate-100">
+      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 bg-slate-50 px-6 text-center text-slate-900">
         <p className="text-4xl">🎉</p>
-        <h1 className="text-xl font-semibold">Routine complete</h1>
-        <p className="text-sm text-slate-400">How did that feel?</p>
+        <h1 className="text-xl font-bold">Routine complete</h1>
+        <p className="text-sm text-slate-500">How did that feel?</p>
         <div className="flex gap-2">
           {FEELINGS.map((f) => (
             <button
               key={f.value}
               type="button"
               onClick={() => setFeeling(f.value)}
-              className={`flex flex-col items-center gap-1 rounded-lg px-2.5 py-2 text-xs ${
-                feeling === f.value ? 'bg-sky-500 text-slate-950' : 'bg-slate-900 text-slate-300'
+              className={`flex flex-col items-center gap-1 rounded-2xl px-2.5 py-2 text-xs font-medium transition-colors ${
+                feeling === f.value
+                  ? `bg-gradient-to-br text-white ${style.gradient}`
+                  : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100'
               }`}
             >
               <span className="text-xl">{f.emoji}</span>
@@ -132,7 +139,7 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
         <button
           type="button"
           onClick={handleFinish}
-          className="mt-2 w-full rounded-xl bg-sky-500 py-3 font-semibold text-slate-950"
+          className={`mt-2 w-full rounded-2xl bg-gradient-to-br py-3 font-bold text-white shadow-lg ${style.gradient}`}
         >
           Save & finish
         </button>
@@ -148,56 +155,49 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
   const secondsLeftDisplay = Math.ceil(msLeft / 1000);
 
   return (
-    <div className="mx-auto flex min-h-full max-w-md flex-col bg-slate-950 px-6 pb-8 pt-6 text-slate-100">
+    <div className="mx-auto flex min-h-full max-w-md flex-col bg-slate-50 px-6 pb-8 pt-6 text-slate-900">
       <div className="flex items-center justify-between">
-        <Link to={`/routine/${routine.id}`} className="text-sm text-slate-400">
+        <Link to={`/routine/${routine.id}`} className="text-sm font-medium text-slate-400">
           ✕ Exit
         </Link>
-        <span className="text-xs text-slate-500">
+        <span className="text-xs font-medium text-slate-400">
           {index + 1} / {steps.length}
         </span>
       </div>
 
-      <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-slate-800">
+      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
         <div
-          className="h-full bg-sky-500 transition-all duration-150"
+          className={`h-full bg-gradient-to-r transition-all duration-150 ${style.gradient}`}
           style={{ width: `${overallProgress * 100}%` }}
         />
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
         <div>
-          <p className="text-sm uppercase tracking-wide text-slate-400">
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             {current.side ? `${current.side} side` : current.stretch.area.join(' · ')}
           </p>
-          <h1 className="mt-1 text-2xl font-semibold text-white">{current.stretch.name}</h1>
+          <h1 className="mt-1 text-2xl font-bold text-slate-900">{current.stretch.name}</h1>
         </div>
 
-        <div className="relative flex h-48 w-48 items-center justify-center">
-          <svg className="absolute h-full w-full -rotate-90" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="46" fill="none" stroke="#1e293b" strokeWidth="6" />
-            <circle
-              cx="50"
-              cy="50"
-              r="46"
-              fill="none"
-              stroke="#38bdf8"
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeDasharray={2 * Math.PI * 46}
-              strokeDashoffset={2 * Math.PI * 46 * (1 - stepProgress)}
-              className="transition-all duration-150"
-            />
-          </svg>
-          <span className="text-5xl font-semibold tabular-nums">{secondsLeftDisplay}</span>
-        </div>
+        <RingProgress
+          progress={stepProgress}
+          size={192}
+          strokeWidth={10}
+          color={style.ring}
+          trackColor="#e2e8f0"
+        >
+          <span className="text-5xl font-bold tabular-nums text-slate-900">
+            {secondsLeftDisplay}
+          </span>
+        </RingProgress>
 
-        <ul className="max-w-xs space-y-1 text-sm text-slate-400">
+        <ul className="max-w-xs space-y-1 text-sm text-slate-500">
           {current.stretch.instructions.map((line, i) => (
             <li key={i}>{line}</li>
           ))}
         </ul>
-        <p className="text-xs text-slate-500">{current.stretch.cue}</p>
+        <p className="text-xs text-slate-400">{current.stretch.cue}</p>
       </div>
 
       <div className="flex items-center justify-center gap-4">
@@ -205,14 +205,14 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
           type="button"
           onClick={() => goToStep(index - 1)}
           disabled={index === 0}
-          className="rounded-full border border-slate-800 px-4 py-3 text-sm text-slate-300 disabled:opacity-30"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 disabled:opacity-30"
         >
           Back
         </button>
         <button
           type="button"
           onClick={() => setPaused((p) => !p)}
-          className="rounded-full bg-sky-500 px-8 py-3 text-sm font-semibold text-slate-950"
+          className={`rounded-full bg-gradient-to-br px-8 py-3 text-sm font-bold text-white shadow-lg ${style.gradient}`}
         >
           {paused ? 'Resume' : 'Pause'}
         </button>
@@ -225,7 +225,7 @@ function PlayerSession({ routine }: { routine: ReturnType<typeof getRoutine> }) 
               goToStep(index + 1);
             }
           }}
-          className="rounded-full border border-slate-800 px-4 py-3 text-sm text-slate-300"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100"
         >
           Skip
         </button>
