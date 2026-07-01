@@ -1,0 +1,83 @@
+import type { Routine } from '../types';
+
+export const ROUTINES: Routine[] = [
+  {
+    id: 'morning-wake-up',
+    name: 'Morning Wake-Up',
+    description: 'A gentle full-body sequence to start the day and build the habit.',
+    goal: ['general-mobility', 'habit-building'],
+    area: ['full-body'],
+    steps: [
+      { stretchId: 'deep-breathing' },
+      { stretchId: 'cat-cow' },
+      { stretchId: 'standing-side-bend' },
+      { stretchId: 'hip-flexor-lunge' },
+      { stretchId: 'standing-hamstring' },
+      { stretchId: 'ankle-circles' },
+    ],
+  },
+  {
+    id: 'desk-reset',
+    name: 'Desk Reset',
+    description: 'Undo hours of sitting: neck, shoulders, and upper back.',
+    goal: ['targeted-relief'],
+    area: ['neck', 'shoulders', 'back'],
+    steps: [
+      { stretchId: 'neck-tilt' },
+      { stretchId: 'neck-rotation' },
+      { stretchId: 'shoulder-rolls' },
+      { stretchId: 'cross-body-shoulder' },
+      { stretchId: 'chest-opener' },
+      { stretchId: 'seated-spinal-twist' },
+    ],
+  },
+  {
+    id: 'lower-back-hips-relief',
+    name: 'Lower Back & Hips Relief',
+    description: 'Targeted relief for a tight or achy low back and hips.',
+    goal: ['targeted-relief'],
+    area: ['back', 'hips'],
+    steps: [
+      { stretchId: 'childs-pose' },
+      { stretchId: 'knee-to-chest' },
+      { stretchId: 'figure-four' },
+      { stretchId: 'seated-spinal-twist' },
+      { stretchId: 'hip-flexor-lunge' },
+    ],
+  },
+  {
+    id: 'hips-hamstrings-mobility',
+    name: 'Hips & Hamstrings Mobility',
+    description: 'Build long-term flexibility through the hips and legs.',
+    goal: ['general-mobility'],
+    area: ['hips', 'hamstrings'],
+    steps: [
+      { stretchId: 'hip-flexor-lunge' },
+      { stretchId: 'figure-four' },
+      { stretchId: 'seated-forward-fold' },
+      { stretchId: 'standing-hamstring' },
+      { stretchId: 'quad-stretch' },
+    ],
+  },
+  {
+    id: 'post-activity-cooldown',
+    name: 'Post-Activity Cooldown',
+    description: 'Cool down after running, lifting, or a round of golf.',
+    goal: ['activity-recovery'],
+    area: ['hamstrings', 'quads', 'calves', 'hips'],
+    steps: [
+      { stretchId: 'standing-hamstring' },
+      { stretchId: 'quad-stretch' },
+      { stretchId: 'calf-wall-stretch' },
+      { stretchId: 'hip-flexor-lunge' },
+      { stretchId: 'figure-four' },
+      { stretchId: 'deep-breathing' },
+    ],
+  },
+];
+
+export function getRoutine(id: string): Routine {
+  const routine = ROUTINES.find((r) => r.id === id);
+  if (!routine) throw new Error(`Unknown routine: ${id}`);
+  return routine;
+}
