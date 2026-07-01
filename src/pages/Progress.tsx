@@ -1,4 +1,5 @@
 import { useSessions } from '../hooks/useSessions';
+import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
 
 const FEELING_EMOJI: Record<number, string> = {
@@ -37,28 +38,34 @@ export function Progress() {
   }
   const maxMinutes = Math.max(1, ...week.map((d) => minutesByDay.get(d) ?? 0));
 
+  const animatedCurrent = useCountUp(streak.current);
+  const animatedLongest = useCountUp(streak.longest);
+  const animatedTotal = useCountUp(streak.totalSessions);
+
   return (
     <div className="flex flex-col gap-6 pb-4">
       <header>
-        <h1 className="text-2xl font-bold text-slate-900">Progress</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Progress</h1>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100">
-          <p className="text-2xl font-bold text-sky-600">{streak.current}</p>
-          <p className="text-xs text-slate-500">Day streak</p>
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+          <p className="text-2xl font-bold text-sky-600 dark:text-sky-400">{animatedCurrent}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Day streak</p>
         </div>
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100">
-          <p className="text-2xl font-bold text-orange-500">{streak.longest}</p>
-          <p className="text-xs text-slate-500">Best streak</p>
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+          <p className="text-2xl font-bold text-orange-500">{animatedLongest}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Best streak</p>
         </div>
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100">
-          <p className="text-2xl font-bold text-violet-600">{streak.totalSessions}</p>
-          <p className="text-xs text-slate-500">Total sessions</p>
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+          <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
+            {animatedTotal}
+          </p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Total sessions</p>
         </div>
       </div>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
         <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-400">
           This week
         </h2>
@@ -72,7 +79,9 @@ export function Progress() {
                 <div className="flex h-20 w-full items-end">
                   <div
                     className={`w-full rounded-full transition-all ${
-                      mins > 0 ? 'bg-gradient-to-t from-sky-500 to-sky-400' : 'bg-slate-100'
+                      mins > 0
+                        ? 'bg-gradient-to-t from-sky-500 to-sky-400'
+                        : 'bg-slate-100 dark:bg-slate-800'
                     }`}
                     style={{ height: `${heightPct}%` }}
                     title={`${Math.round(mins)} min`}
@@ -87,7 +96,7 @@ export function Progress() {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
           Last 4 weeks
         </h2>
@@ -97,7 +106,7 @@ export function Progress() {
               key={day}
               title={day}
               className={`aspect-square rounded-md ${
-                streak.daysThisWeek.has(day) ? 'bg-sky-500' : 'bg-slate-100'
+                streak.daysThisWeek.has(day) ? 'bg-sky-500' : 'bg-slate-100 dark:bg-slate-800'
               }`}
             />
           ))}
@@ -107,18 +116,20 @@ export function Progress() {
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">History</h2>
         {sessions.length === 0 && (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             No sessions yet — finish a routine to see it here.
           </p>
         )}
         {sessions.map((s) => (
           <div
             key={s.id}
-            className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100"
+            className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
           >
             <div>
-              <p className="text-sm font-semibold text-slate-900">{s.routineName}</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                {s.routineName}
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {formatFriendlyDate(s.completedAt)} · {formatTime(s.completedAt)} ·{' '}
                 {Math.round(s.durationSeconds / 60)} min
               </p>

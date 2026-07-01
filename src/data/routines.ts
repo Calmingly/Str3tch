@@ -75,9 +75,3 @@ export const ROUTINES: Routine[] = [
     ],
   },
 ];
-
-export function getRoutine(id: string): Routine {
-  const routine = ROUTINES.find((r) => r.id === id);
-  if (!routine) throw new Error(`Unknown routine: ${id}`);
-  return routine;
-}

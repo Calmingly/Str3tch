@@ -1,7 +1,13 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 html,
@@ -16,3 +22,48 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: none;
 }
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pop {
+  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes pose-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes pose-rotate {
+  0%, 100% { transform: rotate(-9deg); }
+  50% { transform: rotate(9deg); }
+}
+@keyframes pose-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@keyframes pose-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes pose-breathe {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.035); opacity: 0.92; }
+}
+
+.animate-pose-sway { transform-origin: 50% 60%; animation: pose-sway 2.6s ease-in-out infinite; }
+.animate-pose-rotate { transform-origin: 50% 60%; animation: pose-rotate 2s ease-in-out infinite; }
+.animate-pose-pulse { transform-origin: 50% 60%; animation: pose-pulse 1.8s ease-in-out infinite; }
+.animate-pose-bounce { transform-origin: 50% 60%; animation: pose-bounce 1.6s ease-in-out infinite; }
+.animate-pose-breathe { transform-origin: 50% 60%; animation: pose-breathe 3.2s ease-in-out infinite; }

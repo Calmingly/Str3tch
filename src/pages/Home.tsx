@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ROUTINES } from '../data/routines';
+import { motion } from 'framer-motion';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
+import { useAllRoutines } from '../hooks/useAllRoutines';
+import { useCountUp } from '../hooks/useCountUp';
 import { GOAL_STYLES, primaryGoalStyle } from '../lib/theme';
 import { RingProgress } from '../components/RingProgress';
 import { addDays, dayKey, todayKey } from '../lib/date';
@@ -14,7 +16,8 @@ function minutes(seconds: number) {
 
 export function Home() {
   const { streak, sessions } = useSessions();
-  const suggested = ROUTINES[0];
+  const { all: routines } = useAllRoutines();
+  const suggested = routines[0];
   const suggestedStyle = primaryGoalStyle(suggested.goal);
 
   const today = todayKey();
@@ -24,18 +27,22 @@ export function Home() {
     sessions.map((s) => dayKey(s.completedAt)).filter((d) => last7.has(d)),
   ).size;
 
+  const animatedDays = useCountUp(daysThisWeekCount);
+  const animatedLongest = useCountUp(streak.longest);
+  const animatedTotal = useCountUp(streak.totalSessions);
+
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header className="flex items-center justify-between">
         <div>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             {streak.current > 0 ? `${streak.current} day streak 🔥` : 'Let’s get moving today'}
           </p>
-          <h1 className="text-2xl font-bold text-slate-900">Str3tch</h1>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Str3tch</h1>
         </div>
       </header>
 
-      <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100">
+      <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
         <div className="flex items-center gap-5">
           <RingProgress
             progress={daysThisWeekCount / WEEKLY_GOAL}
@@ -45,22 +52,30 @@ export function Home() {
             trackColor="#e0f2fe"
           >
             <div className="text-center">
-              <p className="text-xl font-bold text-slate-900">{daysThisWeekCount}</p>
+              <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
+                {animatedDays}
+              </p>
               <p className="text-[10px] font-medium text-slate-400">/ {WEEKLY_GOAL} days</p>
             </div>
           </RingProgress>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-slate-900">Weekly goal</p>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+              Weekly goal
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
               Stretch {WEEKLY_GOAL} days a week to build the habit.
             </p>
             <div className="mt-3 flex gap-4">
               <div>
-                <p className="text-lg font-bold text-slate-900">{streak.longest}</p>
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  {animatedLongest}
+                </p>
                 <p className="text-[11px] text-slate-400">Best streak</p>
               </div>
               <div>
-                <p className="text-lg font-bold text-slate-900">{streak.totalSessions}</p>
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  {animatedTotal}
+                </p>
                 <p className="text-[11px] text-slate-400">Total sessions</p>
               </div>
             </div>
@@ -81,15 +96,41 @@ export function Home() {
         </p>
       </Link>
 
+      <div className="grid grid-cols-2 gap-3">
+        <Link
+          to="/body-map"
+          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+        >
+          <span className="text-2xl">🧍</span>
+          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Where's it tight?
+          </span>
+        </Link>
+        <Link
+          to="/build"
+          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+        >
+          <span className="text-2xl">🛠️</span>
+          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Build a routine
+          </span>
+        </Link>
+      </div>
+
       <section className="flex flex-col gap-3">
         <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">All routines</h2>
-        {ROUTINES.map((routine) => {
+        {routines.map((routine, i) => {
           const style = primaryGoalStyle(routine.goal);
           return (
-            <Link
+            <motion.div
               key={routine.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, delay: Math.min(i, 6) * 0.04 }}
+            >
+            <Link
               to={`/routine/${routine.id}`}
-              className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98]"
+              className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:bg-slate-900 dark:ring-slate-800"
             >
               <div
                 className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
@@ -98,12 +139,21 @@ export function Home() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="truncate font-semibold text-slate-900">{routine.name}</p>
+                  <p className="truncate font-semibold text-slate-900 dark:text-slate-100">
+                    {routine.name}
+                    {routine.isCustom && (
+                      <span className="ml-1.5 text-[10px] font-semibold text-violet-500">
+                        CUSTOM
+                      </span>
+                    )}
+                  </p>
                   <span className="shrink-0 text-xs font-medium text-slate-400">
                     {minutes(routineDurationSeconds(routine))} min
                   </span>
                 </div>
-                <p className="mt-0.5 truncate text-xs text-slate-500">{routine.description}</p>
+                <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
+                  {routine.description}
+                </p>
                 <div className="mt-1.5 flex flex-wrap gap-1">
                   {routine.goal.map((g) => (
                     <span
@@ -116,6 +166,7 @@ export function Home() {
                 </div>
               </div>
             </Link>
+            </motion.div>
           );
         })}
       </section>

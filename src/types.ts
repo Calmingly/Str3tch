@@ -36,6 +36,7 @@ export interface Routine {
   goal: Goal[];
   area: BodyArea[];
   steps: RoutineStep[];
+  isCustom?: boolean;
 }
 
 export interface ExpandedStep {
