@@ -242,7 +242,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        <StretchIllustration stretchId={current.stretch.id} color={style.ring} size={120} />
+        <StretchIllustration stretchId={current.stretch.id} size={160} rounded="lg" />
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
