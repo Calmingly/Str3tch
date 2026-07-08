@@ -1,14 +1,23 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { TbStretching, TbChartLine, TbTrophy, TbSettings } from 'react-icons/tb';
+import {
+  TbHome2,
+  TbHome2Filled,
+  TbChartAreaLine,
+  TbChartAreaLineFilled,
+  TbTrophy,
+  TbTrophyFilled,
+  TbSettings,
+  TbSettingsFilled,
+} from 'react-icons/tb';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: TbStretching },
-  { to: '/progress', label: 'Progress', Icon: TbChartLine },
-  { to: '/awards', label: 'Awards', Icon: TbTrophy },
-  { to: '/settings', label: 'Settings', Icon: TbSettings },
+  { to: '/', label: 'Routines', Icon: TbHome2, IconActive: TbHome2Filled },
+  { to: '/progress', label: 'Progress', Icon: TbChartAreaLine, IconActive: TbChartAreaLineFilled },
+  { to: '/awards', label: 'Awards', Icon: TbTrophy, IconActive: TbTrophyFilled },
+  { to: '/settings', label: 'Settings', Icon: TbSettings, IconActive: TbSettingsFilled },
 ];
 
 export function Layout() {
@@ -38,7 +47,7 @@ export function Layout() {
       </main>
       <nav className="fixed inset-x-4 bottom-4 mx-auto max-w-md rounded-full bg-white/90 shadow-lg shadow-black/5 ring-1 ring-slate-900/5 backdrop-blur-lg dark:bg-white/[0.06] dark:ring-white/10">
         <div className="flex px-1.5 py-1.5">
-          {navItems.map(({ to, label, Icon }) => (
+          {navItems.map(({ to, label, Icon, IconActive }) => (
             <NavLink
               key={to}
               to={to}
@@ -57,7 +66,7 @@ export function Layout() {
                     />
                   )}
                   <span className="relative z-10 text-lg leading-none">
-                    <Icon />
+                    {isActive ? <IconActive /> : <Icon />}
                   </span>
                   <span className="relative z-10">{label}</span>
                 </>
