@@ -212,6 +212,7 @@ export const STRETCHES: Stretch[] = [
     cue: 'A calm reset before or after your routine.',
     defaultSeconds: 30,
     bilateral: false,
+    breathingPace: { inhaleSeconds: 4, exhaleSeconds: 6 },
   },
 ];
 

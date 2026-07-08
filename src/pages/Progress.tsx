@@ -1,13 +1,23 @@
+import { useMemo, useState } from 'react';
 import {
   PiSmileySadFill,
   PiSmileyMehFill,
   PiSmileyBlankFill,
   PiSmileyFill,
   PiSmileyStickerFill,
+  PiMagnifyingGlassBold,
 } from 'react-icons/pi';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
+
+type HistoryRange = 'all' | '7d' | '30d';
+
+const RANGE_OPTIONS: { value: HistoryRange; label: string }[] = [
+  { value: 'all', label: 'All' },
+  { value: '7d', label: '7 days' },
+  { value: '30d', label: '30 days' },
+];
 
 const FEELING_ICON: Record<number, typeof PiSmileyBlankFill> = {
   1: PiSmileySadFill,
@@ -37,6 +47,19 @@ export function Progress() {
   const { sessions, streak } = useSessions();
   const days = last28Days();
   const week = last7Days();
+  const [query, setQuery] = useState('');
+  const [range, setRange] = useState<HistoryRange>('all');
+
+  const filteredSessions = useMemo(() => {
+    const cutoffDays = range === '7d' ? 7 : range === '30d' ? 30 : null;
+    const cutoffTime = cutoffDays !== null ? Date.now() - cutoffDays * 86400000 : null;
+    const q = query.trim().toLowerCase();
+    return sessions.filter((s) => {
+      if (q && !s.routineName.toLowerCase().includes(q)) return false;
+      if (cutoffTime !== null && new Date(s.completedAt).getTime() < cutoffTime) return false;
+      return true;
+    });
+  }, [sessions, query, range]);
 
   const minutesByDay = new Map<string, number>();
   for (const s of sessions) {
@@ -126,12 +149,52 @@ export function Progress() {
 
       <section className="flex flex-col gap-2">
         <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">History</h2>
+
+        {sessions.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+              <PiMagnifyingGlassBold className="text-slate-400" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search by routine name"
+                className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-slate-100"
+              />
+            </div>
+            <div className="flex gap-2">
+              {RANGE_OPTIONS.map((opt) => {
+                const active = range === opt.value;
+                return (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setRange(opt.value)}
+                    className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                      active
+                        ? 'text-white'
+                        : 'bg-slate-50 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                    }`}
+                    style={active ? { backgroundColor: 'var(--accent)' } : undefined}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {sessions.length === 0 && (
           <p className="text-sm text-slate-500 dark:text-slate-400">
             No sessions yet — finish a routine to see it here.
           </p>
         )}
-        {sessions.map((s) => {
+        {sessions.length > 0 && filteredSessions.length === 0 && (
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            No sessions match your search.
+          </p>
+        )}
+        {filteredSessions.map((s) => {
           const FeelingIcon = s.feeling ? FEELING_ICON[s.feeling] : null;
           return (
             <div

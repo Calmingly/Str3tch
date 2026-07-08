@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PiArrowLeftBold, PiPencilSimpleBold, PiTrashBold, PiCopyBold } from 'react-icons/pi';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
@@ -6,17 +7,24 @@ import { useAllRoutines } from '../hooks/useAllRoutines';
 import { StretchIllustration } from '../components/StretchIllustration';
 import type { Routine } from '../types';
 
+const UNDO_WINDOW_MS = 4000;
+
 export function RoutineDetail() {
   const { routineId } = useParams();
   const navigate = useNavigate();
   const { getById, removeCustom, saveCustom } = useAllRoutines();
-  const routine = getById(routineId ?? '');
+  const [pendingDelete, setPendingDelete] = useState<Routine | null>(null);
+  const deleteTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (deleteTimerRef.current) window.clearTimeout(deleteTimerRef.current);
+    };
+  }, []);
+
+  const routine = pendingDelete ?? getById(routineId ?? '');
 
   if (!routine) return <Navigate to="/" replace />;
-
-  const steps = expandRoutine(routine);
-  const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
-  const style = primaryGoalStyle(routine.goal);
 
   const handleDuplicate = () => {
     const copy: Routine = {
@@ -28,6 +36,40 @@ export function RoutineDetail() {
     saveCustom(copy);
     navigate(`/build/${copy.id}`);
   };
+
+  const handleDelete = () => {
+    removeCustom(routine.id);
+    setPendingDelete(routine);
+    deleteTimerRef.current = window.setTimeout(() => navigate('/'), UNDO_WINDOW_MS);
+  };
+
+  const handleUndo = () => {
+    if (deleteTimerRef.current) window.clearTimeout(deleteTimerRef.current);
+    saveCustom(routine);
+    setPendingDelete(null);
+  };
+
+  if (pendingDelete) {
+    return (
+      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center">
+        <p className="text-sm text-slate-500 dark:text-slate-400">
+          "{pendingDelete.name}" deleted.
+        </p>
+        <button
+          type="button"
+          onClick={handleUndo}
+          className="rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-lg"
+          style={{ backgroundColor: 'var(--accent)' }}
+        >
+          Undo
+        </button>
+      </div>
+    );
+  }
+
+  const steps = expandRoutine(routine);
+  const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
+  const style = primaryGoalStyle(routine.goal);
 
   return (
     <div className="flex flex-col gap-5 pb-2">
@@ -47,14 +89,7 @@ export function RoutineDetail() {
                 <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
                   <PiPencilSimpleBold /> Edit
                 </Link>
-                <button
-                  type="button"
-                  className="flex items-center gap-1"
-                  onClick={() => {
-                    removeCustom(routine.id);
-                    navigate('/');
-                  }}
-                >
+                <button type="button" className="flex items-center gap-1" onClick={handleDelete}>
                   <PiTrashBold /> Delete
                 </button>
               </>

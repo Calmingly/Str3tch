@@ -14,6 +14,11 @@ export type Goal =
   | 'activity-recovery'
   | 'habit-building';
 
+export interface BreathingPace {
+  inhaleSeconds: number;
+  exhaleSeconds: number;
+}
+
 export interface Stretch {
   id: string;
   name: string;
@@ -22,6 +27,7 @@ export interface Stretch {
   cue: string;
   defaultSeconds: number;
   bilateral: boolean;
+  breathingPace?: BreathingPace;
 }
 
 export interface RoutineStep {

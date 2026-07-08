@@ -8,6 +8,7 @@ import {
 import { useVoiceSettings, speechSupported } from '../hooks/useVoiceSettings';
 import { useThemeMode, type ThemeMode } from '../hooks/useThemeMode';
 import { useAccentTheme } from '../hooks/useAccentTheme';
+import { useTextSize } from '../hooks/useTextSize';
 import { ACCENT_THEMES } from '../lib/accentThemes';
 
 const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof PiSunDimBold }[] = [
@@ -40,6 +41,7 @@ export function Settings() {
   const { settings: voice, setSettings: setVoice } = useVoiceSettings();
   const { mode, setMode } = useThemeMode();
   const { accentId, setAccentId } = useAccentTheme();
+  const { textSize, setTextSize } = useTextSize();
   const [permission, setPermission] = useState<NotificationPermission | 'unsupported'>(
     notificationsSupported() ? Notification.permission : 'unsupported',
   );
@@ -152,6 +154,21 @@ export function Settings() {
             use reminders.
           </p>
         )}
+      </section>
+
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">Larger text</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Increase text size throughout the app.
+            </p>
+          </div>
+          <ToggleSwitch
+            checked={textSize === 'large'}
+            onChange={(large) => setTextSize(large ? 'large' : 'normal')}
+          />
+        </div>
       </section>
 
       <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">

@@ -17,8 +17,10 @@ import { useAllRoutines } from '../hooks/useAllRoutines';
 import { primaryGoalStyle } from '../lib/theme';
 import { RingProgress } from '../components/RingProgress';
 import { StretchIllustration } from '../components/StretchIllustration';
+import { BreathingPacer } from '../components/BreathingPacer';
 import { AchievementToast } from '../components/AchievementToast';
 import { useVoiceSettings, speak } from '../hooks/useVoiceSettings';
+import { useWakeLock } from '../hooks/useWakeLock';
 import { celebrateCompletion, celebrateAchievement } from '../lib/confetti';
 import { ACHIEVEMENTS, unlockedAchievementIds } from '../data/achievements';
 import type { Achievement } from '../data/achievements';
@@ -52,6 +54,8 @@ function PlayerSession({ routine }: { routine: Routine }) {
   const steps = useMemo(() => expandRoutine(routine), [routine]);
   const totalSeconds = useMemo(() => routineDurationSeconds(routine), [routine]);
   const style = primaryGoalStyle(routine.goal);
+
+  useWakeLock(true);
 
   const [index, setIndex] = useState(0);
   const [msLeft, setMsLeft] = useState(steps[0].seconds * 1000);
@@ -251,7 +255,16 @@ function PlayerSession({ routine }: { routine: Routine }) {
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        <StretchIllustration stretchId={current.stretch.id} size={160} rounded="lg" />
+        {current.stretch.breathingPace ? (
+          <BreathingPacer
+            key={current.stretch.id}
+            inhaleSeconds={current.stretch.breathingPace.inhaleSeconds}
+            exhaleSeconds={current.stretch.breathingPace.exhaleSeconds}
+            size={160}
+          />
+        ) : (
+          <StretchIllustration stretchId={current.stretch.id} size={160} rounded="lg" />
+        )}
 
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
