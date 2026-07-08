@@ -1,6 +1,6 @@
 import type { IconType } from 'react-icons';
 import {
-  PiPersonSimpleWalkFill,
+  PiLeafFill,
   PiFireFill,
   PiCalendarCheckFill,
   PiTrophyFill,
@@ -35,7 +35,7 @@ export const ACHIEVEMENTS: Achievement[] = [
     id: 'first-stretch',
     name: 'First Stretch',
     description: 'Complete your first routine',
-    icon: PiPersonSimpleWalkFill,
+    icon: PiLeafFill,
     isUnlocked: (ctx) => ctx.sessions.length >= 1,
   },
   {

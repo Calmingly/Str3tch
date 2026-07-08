@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiFireBold, PiWheelchairBold, PiWrenchBold, PiXBold } from 'react-icons/pi';
+import { PiFireBold, PiMapPinBold, PiWrenchBold, PiXBold } from 'react-icons/pi';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -189,7 +189,7 @@ export function Home() {
           to="/body-map"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <PiWheelchairBold className="text-2xl" style={{ color: 'var(--accent)' }} />
+          <PiMapPinBold className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Where's it tight?
           </span>

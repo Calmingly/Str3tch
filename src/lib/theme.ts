@@ -1,5 +1,5 @@
 import type { IconType } from 'react-icons';
-import { PiPersonSimpleFill, PiFireFill, PiLightningFill, PiSparkleFill } from 'react-icons/pi';
+import { PiFlowerLotusFill, PiFireFill, PiLightningFill, PiSparkleFill } from 'react-icons/pi';
 import type { Goal } from '../types';
 
 export interface GoalStyle {
@@ -15,7 +15,7 @@ export interface GoalStyle {
 export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   'general-mobility': {
     label: 'General mobility',
-    icon: PiPersonSimpleFill,
+    icon: PiFlowerLotusFill,
     gradient: 'from-emerald-400 to-teal-500',
     solid: 'bg-emerald-500',
     text: 'text-emerald-600',
