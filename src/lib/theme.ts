@@ -1,5 +1,5 @@
 import type { IconType } from 'react-icons';
-import { TbYoga, TbFlame, TbBolt, TbSparkles } from 'react-icons/tb';
+import { PiPersonSimpleFill, PiFireFill, PiLightningFill, PiSparkleFill } from 'react-icons/pi';
 import type { Goal } from '../types';
 
 export interface GoalStyle {
@@ -15,7 +15,7 @@ export interface GoalStyle {
 export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   'general-mobility': {
     label: 'General mobility',
-    icon: TbYoga,
+    icon: PiPersonSimpleFill,
     gradient: 'from-emerald-400 to-teal-500',
     solid: 'bg-emerald-500',
     text: 'text-emerald-600',
@@ -24,7 +24,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'targeted-relief': {
     label: 'Targeted relief',
-    icon: TbFlame,
+    icon: PiFireFill,
     gradient: 'from-amber-400 to-orange-500',
     solid: 'bg-orange-500',
     text: 'text-orange-600',
@@ -33,7 +33,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'activity-recovery': {
     label: 'Activity recovery',
-    icon: TbBolt,
+    icon: PiLightningFill,
     gradient: 'from-sky-400 to-blue-500',
     solid: 'bg-sky-500',
     text: 'text-sky-600',
@@ -42,7 +42,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'habit-building': {
     label: 'Daily habit',
-    icon: TbSparkles,
+    icon: PiSparkleFill,
     gradient: 'from-violet-400 to-purple-500',
     solid: 'bg-violet-500',
     text: 'text-violet-600',

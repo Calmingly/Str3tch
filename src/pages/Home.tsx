@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TbFlame, TbAccessible, TbTool, TbX } from 'react-icons/tb';
+import { PiFireBold, PiWheelchairBold, PiWrenchBold, PiXBold } from 'react-icons/pi';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -96,7 +96,7 @@ export function Home() {
         <Logo />
         {streak.current > 0 && (
           <p className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
-            <TbFlame style={{ color: 'var(--accent)' }} />
+            <PiFireBold style={{ color: 'var(--accent)' }} />
             {streak.current} day streak
           </p>
         )}
@@ -189,7 +189,7 @@ export function Home() {
           to="/body-map"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <TbAccessible className="text-2xl" style={{ color: 'var(--accent)' }} />
+          <PiWheelchairBold className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Where's it tight?
           </span>
@@ -198,7 +198,7 @@ export function Home() {
           to="/build"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <TbTool className="text-2xl" style={{ color: 'var(--accent)' }} />
+          <PiWrenchBold className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Build a routine
           </span>
@@ -220,7 +220,7 @@ export function Home() {
                 onClick={() => setActiveGoal(null)}
                 className="flex items-center gap-0.5 text-xs font-semibold text-slate-400"
               >
-                <TbX /> Clear
+                <PiXBold /> Clear
               </motion.button>
             )}
           </AnimatePresence>

@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
-  TbX,
-  TbCircleCheck,
-  TbConfetti,
-  TbMoodCry,
-  TbMoodSad,
-  TbMoodNeutral,
-  TbMoodSmile,
-  TbMoodHappy,
-} from 'react-icons/tb';
+  PiXBold,
+  PiCheckFill,
+  PiConfettiFill,
+  PiSmileySadFill,
+  PiSmileyMehFill,
+  PiSmileyBlankFill,
+  PiSmileyFill,
+  PiSmileyStickerFill,
+} from 'react-icons/pi';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
 import { useSessions } from '../hooks/useSessions';
@@ -26,12 +26,12 @@ import type { FeelingRating, Routine } from '../types';
 
 const TICK_MS = 100;
 
-const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof TbMoodNeutral }[] = [
-  { value: 1, label: 'Rough', Icon: TbMoodCry },
-  { value: 2, label: 'Meh', Icon: TbMoodSad },
-  { value: 3, label: 'Okay', Icon: TbMoodNeutral },
-  { value: 4, label: 'Good', Icon: TbMoodSmile },
-  { value: 5, label: 'Great', Icon: TbMoodHappy },
+const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof PiSmileyBlankFill }[] = [
+  { value: 1, label: 'Rough', Icon: PiSmileySadFill },
+  { value: 2, label: 'Meh', Icon: PiSmileyMehFill },
+  { value: 3, label: 'Okay', Icon: PiSmileyBlankFill },
+  { value: 4, label: 'Good', Icon: PiSmileyFill },
+  { value: 5, label: 'Great', Icon: PiSmileyStickerFill },
 ];
 
 export function Player() {
@@ -152,7 +152,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <div
           className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
-          <TbCircleCheck />
+          <PiCheckFill />
         </div>
         <h1 className="text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
@@ -189,7 +189,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 px-6 text-center text-slate-900 dark:text-slate-100"
         style={{ background: 'var(--app-bg)' }}
       >
-        <TbConfetti className="text-4xl" style={{ color: 'var(--accent)' }} />
+        <PiConfettiFill className="text-4xl" style={{ color: 'var(--accent)' }} />
         <h1 className="text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
         <div className="flex gap-2">
@@ -236,7 +236,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           to={`/routine/${routine.id}`}
           className="flex items-center gap-1 text-sm font-medium text-slate-400"
         >
-          <TbX /> Exit
+          <PiXBold /> Exit
         </Link>
         <span className="text-xs font-medium text-slate-400">
           {index + 1} / {steps.length}

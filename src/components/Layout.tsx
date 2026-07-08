@@ -1,23 +1,23 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  TbHome2,
-  TbHome2Filled,
-  TbChartAreaLine,
-  TbChartAreaLineFilled,
-  TbTrophy,
-  TbTrophyFilled,
-  TbSettings,
-  TbSettingsFilled,
-} from 'react-icons/tb';
+  PiHouseBold,
+  PiHouseFill,
+  PiChartLineBold,
+  PiChartLineFill,
+  PiTrophyBold,
+  PiTrophyFill,
+  PiGearBold,
+  PiGearFill,
+} from 'react-icons/pi';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: TbHome2, IconActive: TbHome2Filled },
-  { to: '/progress', label: 'Progress', Icon: TbChartAreaLine, IconActive: TbChartAreaLineFilled },
-  { to: '/awards', label: 'Awards', Icon: TbTrophy, IconActive: TbTrophyFilled },
-  { to: '/settings', label: 'Settings', Icon: TbSettings, IconActive: TbSettingsFilled },
+  { to: '/', label: 'Routines', Icon: PiHouseBold, IconActive: PiHouseFill },
+  { to: '/progress', label: 'Progress', Icon: PiChartLineBold, IconActive: PiChartLineFill },
+  { to: '/awards', label: 'Awards', Icon: PiTrophyBold, IconActive: PiTrophyFill },
+  { to: '/settings', label: 'Settings', Icon: PiGearBold, IconActive: PiGearFill },
 ];
 
 export function Layout() {

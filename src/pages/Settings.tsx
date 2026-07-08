@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { TbSun, TbMoon, TbContrast, TbCheck } from 'react-icons/tb';
+import { PiSunDimBold, PiMoonBold, PiCircleHalfBold, PiCheckBold } from 'react-icons/pi';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -10,10 +10,10 @@ import { useThemeMode, type ThemeMode } from '../hooks/useThemeMode';
 import { useAccentTheme } from '../hooks/useAccentTheme';
 import { ACCENT_THEMES } from '../lib/accentThemes';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof TbSun }[] = [
-  { value: 'light', label: 'Light', Icon: TbSun },
-  { value: 'dark', label: 'Dark', Icon: TbMoon },
-  { value: 'auto', label: 'Auto', Icon: TbContrast },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof PiSunDimBold }[] = [
+  { value: 'light', label: 'Light', Icon: PiSunDimBold },
+  { value: 'dark', label: 'Dark', Icon: PiMoonBold },
+  { value: 'auto', label: 'Auto', Icon: PiCircleHalfBold },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -108,7 +108,7 @@ export function Settings() {
                 }`}
                 style={{ backgroundColor: theme.hex }}
               >
-                {active && <TbCheck className="text-white" />}
+                {active && <PiCheckBold className="text-white" />}
               </button>
             );
           })}

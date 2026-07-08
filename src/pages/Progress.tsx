@@ -1,20 +1,20 @@
 import {
-  TbMoodCry,
-  TbMoodSad,
-  TbMoodNeutral,
-  TbMoodSmile,
-  TbMoodHappy,
-} from 'react-icons/tb';
+  PiSmileySadFill,
+  PiSmileyMehFill,
+  PiSmileyBlankFill,
+  PiSmileyFill,
+  PiSmileyStickerFill,
+} from 'react-icons/pi';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
 
-const FEELING_ICON: Record<number, typeof TbMoodNeutral> = {
-  1: TbMoodCry,
-  2: TbMoodSad,
-  3: TbMoodNeutral,
-  4: TbMoodSmile,
-  5: TbMoodHappy,
+const FEELING_ICON: Record<number, typeof PiSmileyBlankFill> = {
+  1: PiSmileySadFill,
+  2: PiSmileyMehFill,
+  3: PiSmileyBlankFill,
+  4: PiSmileyFill,
+  5: PiSmileyStickerFill,
 };
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
