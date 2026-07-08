@@ -79,7 +79,7 @@ export function RoutineBuilder() {
         </p>
       </header>
 
-      <section className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+      <section className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -128,7 +128,7 @@ export function RoutineBuilder() {
           return (
             <div
               key={`${step.stretchId}-${i}`}
-              className="flex items-center gap-2 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+              className="flex items-center gap-2 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
             >
               <div className="flex flex-col">
                 <button
@@ -184,7 +184,7 @@ export function RoutineBuilder() {
               key={stretch.id}
               type="button"
               onClick={() => addStretch(stretch.id)}
-              className="flex items-center justify-between rounded-2xl bg-white p-3 text-left shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+              className="flex items-center justify-between rounded-2xl bg-white p-3 text-left shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
             >
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-100">

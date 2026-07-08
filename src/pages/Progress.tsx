@@ -56,17 +56,17 @@ export function Progress() {
       </header>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
           <p className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>
             {animatedCurrent}
           </p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Day streak</p>
         </div>
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
           <p className="text-2xl font-bold text-orange-500">{animatedLongest}</p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Best streak</p>
         </div>
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
           <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
             {animatedTotal}
           </p>
@@ -74,7 +74,7 @@ export function Progress() {
         </div>
       </div>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <h2 className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-400">
           This week
         </h2>
@@ -106,7 +106,7 @@ export function Progress() {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-400">
           Last 4 weeks
         </h2>
@@ -136,7 +136,7 @@ export function Progress() {
           return (
             <div
               key={s.id}
-              className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+              className="flex items-center justify-between rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
             >
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">

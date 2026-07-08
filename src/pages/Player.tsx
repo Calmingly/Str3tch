@@ -145,7 +145,10 @@ function PlayerSession({ routine }: { routine: Routine }) {
 
   if (saved) {
     return (
-      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 bg-slate-50 px-6 text-center text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <div
+        className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 px-6 text-center text-slate-900 dark:text-slate-100"
+        style={{ background: 'var(--app-bg)' }}
+      >
         <div
           className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
@@ -172,7 +175,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="w-full rounded-2xl bg-white py-3 font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-800"
+          className="w-full rounded-2xl bg-white py-3 font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-300 dark:ring-[var(--surface-border)]"
         >
           Back to routines
         </button>
@@ -182,7 +185,10 @@ function PlayerSession({ routine }: { routine: Routine }) {
 
   if (done) {
     return (
-      <div className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 bg-slate-50 px-6 text-center text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <div
+        className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 px-6 text-center text-slate-900 dark:text-slate-100"
+        style={{ background: 'var(--app-bg)' }}
+      >
         <MdCelebration className="text-4xl" style={{ color: 'var(--accent)' }} />
         <h1 className="text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
@@ -195,7 +201,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
               className={`flex flex-col items-center gap-1 rounded-2xl px-2.5 py-2 text-xs font-medium transition-colors ${
                 feeling === f.value
                   ? `bg-gradient-to-br text-white ${style.gradient}`
-                  : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-400 dark:ring-slate-800'
+                  : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]'
               }`}
             >
               <f.Icon className="text-xl" />
@@ -221,7 +227,10 @@ function PlayerSession({ routine }: { routine: Routine }) {
   const secondsLeftDisplay = Math.ceil(msLeft / 1000);
 
   return (
-    <div className="mx-auto flex min-h-full max-w-md flex-col bg-slate-50 px-6 pb-8 pt-6 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div
+      className="mx-auto flex min-h-full max-w-md flex-col px-6 pb-8 pt-6 text-slate-900 dark:text-slate-100"
+      style={{ background: 'var(--app-bg)' }}
+    >
       <div className="flex items-center justify-between">
         <Link
           to={`/routine/${routine.id}`}
@@ -278,7 +287,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           type="button"
           onClick={() => goToStep(index - 1)}
           disabled={index === 0}
-          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 disabled:opacity-30 dark:bg-slate-900 dark:text-slate-400 dark:ring-slate-800"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 disabled:opacity-30 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
         >
           Back
         </button>
@@ -298,7 +307,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
               goToStep(index + 1);
             }
           }}
-          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:text-slate-400 dark:ring-slate-800"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
         >
           Skip
         </button>

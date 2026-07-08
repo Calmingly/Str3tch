@@ -17,8 +17,11 @@ export function Layout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-full flex flex-col bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100">
-      <main className="flex-1 overflow-y-auto pb-24">
+    <div
+      className="min-h-full flex flex-col text-slate-900 transition-colors dark:text-slate-100"
+      style={{ background: 'var(--app-bg)' }}
+    >
+      <main className="flex-1 overflow-y-auto pb-28">
         <div className="mx-auto w-full max-w-md px-4 pt-6">
           <AnimatePresence mode="wait">
             <motion.div
@@ -33,25 +36,30 @@ export function Layout() {
           </AnimatePresence>
         </div>
       </main>
-      <nav className="fixed bottom-0 inset-x-0 border-t border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
-        <div className="mx-auto max-w-md flex">
+      <nav className="fixed inset-x-4 bottom-4 mx-auto max-w-md rounded-full bg-white/90 shadow-lg shadow-black/5 ring-1 ring-slate-900/5 backdrop-blur-lg dark:bg-white/[0.06] dark:ring-white/10">
+        <div className="flex px-1.5 py-1.5">
           {navItems.map(({ to, label, Icon }) => (
             <NavLink
               key={to}
               to={to}
               end={to === '/'}
-              className="flex-1 flex flex-col items-center gap-1 py-3 text-xs font-semibold text-slate-400 transition-colors"
+              className="relative flex-1 flex flex-col items-center gap-0.5 rounded-full py-2 text-[11px] font-semibold text-slate-400 transition-colors"
               style={({ isActive }) => (isActive ? { color: 'var(--accent)' } : undefined)}
             >
               {({ isActive }) => (
                 <>
-                  <span
-                    className="flex h-8 w-8 items-center justify-center rounded-full text-xl leading-none transition-colors"
-                    style={isActive ? { backgroundColor: 'var(--accent-soft)' } : undefined}
-                  >
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-soft)' }}
+                      transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
+                    />
+                  )}
+                  <span className="relative z-10 text-lg leading-none">
                     <Icon />
                   </span>
-                  {label}
+                  <span className="relative z-10">{label}</span>
                 </>
               )}
             </NavLink>

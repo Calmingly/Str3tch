@@ -35,8 +35,8 @@ export function Awards() {
               transition={{ duration: 0.25, delay: Math.min(i, 8) * 0.03 }}
               className={`flex flex-col items-center gap-2 rounded-2xl p-4 text-center shadow-sm ring-1 transition-opacity ${
                 unlocked
-                  ? 'bg-white ring-slate-100 dark:bg-slate-900 dark:ring-slate-800'
-                  : 'bg-white/60 opacity-50 ring-slate-100 dark:bg-slate-900/40 dark:ring-slate-800'
+                  ? 'bg-white ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]'
+                  : 'bg-white/60 opacity-50 ring-slate-100 dark:bg-white/[0.03] dark:ring-[var(--surface-border)]'
               }`}
             >
               <achievement.icon

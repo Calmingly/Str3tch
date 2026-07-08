@@ -6,10 +6,20 @@
   color-scheme: light;
   --accent: #0ea5e9;
   --accent-soft: #0ea5e922;
+  --app-bg: radial-gradient(140% 60% at 50% 0%, #eaf6f6 0%, #f4f7fa 45%, #f8fafc 100%);
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-border: rgba(15, 23, 42, 0.06);
+  --text-hero: #0f172a;
 }
 
 :root.dark {
   color-scheme: dark;
+  --app-bg: radial-gradient(120% 55% at 50% 0%, #164048 0%, #0d2830 28%, #0a1720 55%, #05080c 100%);
+  --surface: #12161c;
+  --surface-2: #171c23;
+  --surface-border: rgba(255, 255, 255, 0.05);
+  --text-hero: #f8fafc;
 }
 
 html,

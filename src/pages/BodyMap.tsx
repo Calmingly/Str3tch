@@ -43,7 +43,7 @@ export function BodyMap() {
         </p>
       </header>
 
-      <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800">
+      <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <svg viewBox="0 0 100 160" className="mx-auto h-80 w-auto">
           <g fill="none" stroke="#cbd5e1" strokeWidth={3} strokeLinecap="round" className="dark:stroke-slate-700">
             <circle cx={50} cy={14} r={9} />
@@ -101,7 +101,7 @@ export function BodyMap() {
               <Link
                 key={routine.id}
                 to={`/routine/${routine.id}`}
-                className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-slate-900 dark:ring-slate-800"
+                className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
               >
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-lg ${style.gradient}`}
