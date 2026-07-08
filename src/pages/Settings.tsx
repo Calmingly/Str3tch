@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MdLightMode, MdDarkMode, MdBrightnessAuto, MdCheck } from 'react-icons/md';
+import { TbSun, TbMoon, TbContrast, TbCheck } from 'react-icons/tb';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -10,10 +10,10 @@ import { useThemeMode, type ThemeMode } from '../hooks/useThemeMode';
 import { useAccentTheme } from '../hooks/useAccentTheme';
 import { ACCENT_THEMES } from '../lib/accentThemes';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof MdLightMode }[] = [
-  { value: 'light', label: 'Light', Icon: MdLightMode },
-  { value: 'dark', label: 'Dark', Icon: MdDarkMode },
-  { value: 'auto', label: 'Auto', Icon: MdBrightnessAuto },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof TbSun }[] = [
+  { value: 'light', label: 'Light', Icon: TbSun },
+  { value: 'dark', label: 'Dark', Icon: TbMoon },
+  { value: 'auto', label: 'Auto', Icon: TbContrast },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -108,7 +108,7 @@ export function Settings() {
                 }`}
                 style={{ backgroundColor: theme.hex }}
               >
-                {active && <MdCheck className="text-white" />}
+                {active && <TbCheck className="text-white" />}
               </button>
             );
           })}

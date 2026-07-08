@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { MdKeyboardArrowUp, MdKeyboardArrowDown, MdClose, MdAdd } from 'react-icons/md';
+import { TbChevronUp, TbChevronDown, TbX, TbPlus } from 'react-icons/tb';
 import { STRETCHES, getStretch } from '../data/stretches';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { GOAL_STYLES } from '../lib/theme';
@@ -138,7 +138,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move up"
                 >
-                  <MdKeyboardArrowUp />
+                  <TbChevronUp />
                 </button>
                 <button
                   type="button"
@@ -147,7 +147,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move down"
                 >
-                  <MdKeyboardArrowDown />
+                  <TbChevronDown />
                 </button>
               </div>
               <p className="flex-1 text-sm font-medium text-slate-900 dark:text-slate-100">
@@ -167,7 +167,7 @@ export function RoutineBuilder() {
                 className="text-lg text-slate-400 hover:text-red-500"
                 aria-label="Remove"
               >
-                <MdClose />
+                <TbX />
               </button>
             </div>
           );
@@ -195,7 +195,7 @@ export function RoutineBuilder() {
                   {usedStretchIds.has(stretch.id) ? ' · added' : ''}
                 </p>
               </div>
-              <MdAdd className="text-lg" style={{ color: 'var(--accent)' }} />
+              <TbPlus className="text-lg" style={{ color: 'var(--accent)' }} />
             </button>
           ))}
         </div>

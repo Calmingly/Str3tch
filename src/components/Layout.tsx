@@ -1,14 +1,14 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MdSelfImprovement, MdShowChart, MdEmojiEvents, MdSettings } from 'react-icons/md';
+import { TbStretching, TbChartLine, TbTrophy, TbSettings } from 'react-icons/tb';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: MdSelfImprovement },
-  { to: '/progress', label: 'Progress', Icon: MdShowChart },
-  { to: '/awards', label: 'Awards', Icon: MdEmojiEvents },
-  { to: '/settings', label: 'Settings', Icon: MdSettings },
+  { to: '/', label: 'Routines', Icon: TbStretching },
+  { to: '/progress', label: 'Progress', Icon: TbChartLine },
+  { to: '/awards', label: 'Awards', Icon: TbTrophy },
+  { to: '/settings', label: 'Settings', Icon: TbSettings },
 ];
 
 export function Layout() {

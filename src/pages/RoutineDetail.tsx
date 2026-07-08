@@ -1,5 +1,5 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { MdArrowBack, MdEdit, MdDeleteOutline } from 'react-icons/md';
+import { TbArrowLeft, TbEdit, TbTrash } from 'react-icons/tb';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -24,12 +24,12 @@ export function RoutineDetail() {
       >
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
-            <MdArrowBack /> Back
+            <TbArrowLeft /> Back
           </Link>
           {routine.isCustom && (
             <div className="flex gap-3 text-sm text-white/85">
               <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
-                <MdEdit /> Edit
+                <TbEdit /> Edit
               </Link>
               <button
                 type="button"
@@ -39,7 +39,7 @@ export function RoutineDetail() {
                   navigate('/');
                 }}
               >
-                <MdDeleteOutline /> Delete
+                <TbTrash /> Delete
               </button>
             </div>
           )}

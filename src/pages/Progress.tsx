@@ -1,20 +1,20 @@
 import {
-  MdSentimentVeryDissatisfied,
-  MdSentimentDissatisfied,
-  MdSentimentNeutral,
-  MdSentimentSatisfied,
-  MdSentimentVerySatisfied,
-} from 'react-icons/md';
+  TbMoodCry,
+  TbMoodSad,
+  TbMoodNeutral,
+  TbMoodSmile,
+  TbMoodHappy,
+} from 'react-icons/tb';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
 
-const FEELING_ICON: Record<number, typeof MdSentimentNeutral> = {
-  1: MdSentimentVeryDissatisfied,
-  2: MdSentimentDissatisfied,
-  3: MdSentimentNeutral,
-  4: MdSentimentSatisfied,
-  5: MdSentimentVerySatisfied,
+const FEELING_ICON: Record<number, typeof TbMoodNeutral> = {
+  1: TbMoodCry,
+  2: TbMoodSad,
+  3: TbMoodNeutral,
+  4: TbMoodSmile,
+  5: TbMoodHappy,
 };
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
