@@ -11,6 +11,7 @@ import { Logo } from '../components/Logo';
 import { WeekBarChart } from '../components/WeekBarChart';
 import { addDays, dayKey, todayKey } from '../lib/date';
 import { computeMomentum } from '../lib/momentum';
+import { pickSuggestedRoutine } from '../lib/suggest';
 import type { Goal } from '../types';
 
 const WEEKLY_MINUTES_GOAL = 60;
@@ -23,7 +24,7 @@ function minutes(seconds: number) {
 export function Home() {
   const { streak, sessions } = useSessions();
   const { all: routines } = useAllRoutines();
-  const suggested = routines[0];
+  const suggested = useMemo(() => pickSuggestedRoutine(routines, sessions), [routines, sessions]);
   const suggestedStyle = primaryGoalStyle(suggested.goal);
   const [activeGoal, setActiveGoal] = useState<Goal | null>(null);
 

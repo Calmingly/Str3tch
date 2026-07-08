@@ -1,14 +1,15 @@
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { PiArrowLeftBold, PiPencilSimpleBold, PiTrashBold } from 'react-icons/pi';
+import { PiArrowLeftBold, PiPencilSimpleBold, PiTrashBold, PiCopyBold } from 'react-icons/pi';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { StretchIllustration } from '../components/StretchIllustration';
+import type { Routine } from '../types';
 
 export function RoutineDetail() {
   const { routineId } = useParams();
   const navigate = useNavigate();
-  const { getById, removeCustom } = useAllRoutines();
+  const { getById, removeCustom, saveCustom } = useAllRoutines();
   const routine = getById(routineId ?? '');
 
   if (!routine) return <Navigate to="/" replace />;
@@ -16,6 +17,17 @@ export function RoutineDetail() {
   const steps = expandRoutine(routine);
   const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
   const style = primaryGoalStyle(routine.goal);
+
+  const handleDuplicate = () => {
+    const copy: Routine = {
+      ...routine,
+      id: `custom-${crypto.randomUUID()}`,
+      name: `${routine.name} (copy)`,
+      isCustom: true,
+    };
+    saveCustom(copy);
+    navigate(`/build/${copy.id}`);
+  };
 
   return (
     <div className="flex flex-col gap-5 pb-2">
@@ -26,23 +38,28 @@ export function RoutineDetail() {
           <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
             <PiArrowLeftBold /> Back
           </Link>
-          {routine.isCustom && (
-            <div className="flex gap-3 text-sm text-white/85">
-              <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
-                <PiPencilSimpleBold /> Edit
-              </Link>
-              <button
-                type="button"
-                className="flex items-center gap-1"
-                onClick={() => {
-                  removeCustom(routine.id);
-                  navigate('/');
-                }}
-              >
-                <PiTrashBold /> Delete
-              </button>
-            </div>
-          )}
+          <div className="flex gap-3 text-sm text-white/85">
+            <button type="button" onClick={handleDuplicate} className="flex items-center gap-1">
+              <PiCopyBold /> Duplicate
+            </button>
+            {routine.isCustom && (
+              <>
+                <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
+                  <PiPencilSimpleBold /> Edit
+                </Link>
+                <button
+                  type="button"
+                  className="flex items-center gap-1"
+                  onClick={() => {
+                    removeCustom(routine.id);
+                    navigate('/');
+                  }}
+                >
+                  <PiTrashBold /> Delete
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <div className="mt-3 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
