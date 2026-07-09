@@ -214,6 +214,90 @@ export const STRETCHES: Stretch[] = [
     bilateral: false,
     breathingPace: { inhaleSeconds: 4, exhaleSeconds: 6 },
   },
+  {
+    id: 'wrist-flexor-stretch',
+    name: 'Wrist Flexor Stretch',
+    area: ['wrists'],
+    instructions: [
+      'Extend one arm forward, palm facing up.',
+      'Use the other hand to gently pull the fingers back toward you.',
+    ],
+    cue: 'Stretch along the inside of the forearm and wrist.',
+    defaultSeconds: 20,
+    bilateral: true,
+  },
+  {
+    id: 'wrist-extensor-stretch',
+    name: 'Wrist Extensor Stretch',
+    area: ['wrists'],
+    instructions: [
+      'Extend one arm forward, palm facing down.',
+      'Use the other hand to gently press the back of the hand down and back.',
+    ],
+    cue: 'Stretch along the top of the forearm and wrist.',
+    defaultSeconds: 20,
+    bilateral: true,
+  },
+  {
+    id: 'pigeon-pose',
+    name: 'Pigeon Pose',
+    area: ['hips'],
+    instructions: [
+      'From hands and knees, bring one knee forward behind your wrist, shin angled across the mat.',
+      'Extend the other leg straight back and lower your hips toward the floor.',
+    ],
+    cue: 'Deep opening through the outer hip and glute of the front leg.',
+    defaultSeconds: 35,
+    bilateral: true,
+  },
+  {
+    id: 'it-band-stretch',
+    name: 'Standing IT Band Stretch',
+    area: ['hips'],
+    instructions: [
+      'Stand tall and cross one leg behind the other.',
+      'Lean your torso away from the back leg, reaching the same-side arm overhead.',
+    ],
+    cue: 'Stretch along the outer thigh and hip of the back leg.',
+    defaultSeconds: 25,
+    bilateral: true,
+  },
+  {
+    id: 'overhead-lat-stretch',
+    name: 'Overhead Lat Stretch',
+    area: ['back', 'shoulders'],
+    instructions: [
+      'Reach both arms overhead and clasp your hands.',
+      'Lean your torso gently to one side, keeping your hips square.',
+    ],
+    cue: 'Stretch down the side of your back and underarm.',
+    defaultSeconds: 25,
+    bilateral: true,
+  },
+  {
+    id: 'thread-the-needle',
+    name: 'Thread the Needle',
+    area: ['back', 'shoulders'],
+    instructions: [
+      'From hands and knees, slide one arm underneath your body, palm up.',
+      'Lower that shoulder and ear to the floor, letting your torso rotate.',
+    ],
+    cue: 'Gentle twist through the upper back and stretch across the shoulder blade.',
+    defaultSeconds: 30,
+    bilateral: true,
+  },
+  {
+    id: 'plantar-fascia-stretch',
+    name: 'Seated Plantar Stretch',
+    area: ['calves'],
+    instructions: [
+      'Sit and cross one ankle over the opposite knee.',
+      'Pull your toes back toward your shin with one hand.',
+    ],
+    cue: 'Stretch along the arch and bottom of the foot.',
+    defaultSeconds: 20,
+    bilateral: true,
+  },
 ];
 
 export function getStretch(id: string): Stretch {

@@ -16,6 +16,7 @@ interface Hotspot {
 const HOTSPOTS: Hotspot[] = [
   { areas: ['neck'], label: 'Neck', cx: 50, cy: 16, r: 10 },
   { areas: ['shoulders'], label: 'Shoulders', cx: 50, cy: 33, r: 15 },
+  { areas: ['wrists'], label: 'Wrists', cx: 22, cy: 51, r: 8 },
   { areas: ['back'], label: 'Back', cx: 50, cy: 58, r: 17 },
   { areas: ['hips'], label: 'Hips', cx: 50, cy: 82, r: 13 },
   { areas: ['hamstrings', 'quads'], label: 'Thighs', cx: 50, cy: 108, r: 14 },

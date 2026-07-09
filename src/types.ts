@@ -6,6 +6,7 @@ export type BodyArea =
   | 'hamstrings'
   | 'quads'
   | 'calves'
+  | 'wrists'
   | 'full-body';
 
 export type Goal =

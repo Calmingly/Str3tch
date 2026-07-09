@@ -116,7 +116,7 @@ export function RoutineDetail() {
             key={`${step.stretch.id}-${step.side}-${i}`}
             className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
           >
-            <StretchIllustration stretchId={step.stretch.id} size={44} />
+            <StretchIllustration stretchId={step.stretch.id} name={step.stretch.name} size={44} />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
                 {step.stretch.name}

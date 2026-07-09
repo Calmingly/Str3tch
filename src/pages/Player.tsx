@@ -263,7 +263,12 @@ function PlayerSession({ routine }: { routine: Routine }) {
             size={160}
           />
         ) : (
-          <StretchIllustration stretchId={current.stretch.id} size={160} rounded="lg" />
+          <StretchIllustration
+            stretchId={current.stretch.id}
+            name={current.stretch.name}
+            size={160}
+            rounded="lg"
+          />
         )}
 
         <div>
