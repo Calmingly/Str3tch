@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { motion, type PanInfo } from 'framer-motion';
 import {
   PiXBold,
   PiCheckFill,
@@ -114,6 +115,16 @@ function PlayerSession({ routine }: { routine: Routine }) {
     const clamped = Math.max(0, Math.min(steps.length - 1, nextIndex));
     setIndex(clamped);
     setMsLeft(steps[clamped].seconds * 1000);
+  };
+
+  const handleSwipe = (_: unknown, info: PanInfo) => {
+    const SWIPE_THRESHOLD = 60;
+    if (info.offset.x <= -SWIPE_THRESHOLD) {
+      if (isLast) setDone(true);
+      else goToStep(index + 1);
+    } else if (info.offset.x >= SWIPE_THRESHOLD) {
+      goToStep(index - 1);
+    }
   };
 
   useEffect(() => {
@@ -254,7 +265,14 @@ function PlayerSession({ routine }: { routine: Routine }) {
         />
       </div>
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
+      <motion.div
+        key={index}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.15}
+        onDragEnd={handleSwipe}
+        className="flex flex-1 touch-pan-y flex-col items-center justify-center gap-4 text-center"
+      >
         {current.stretch.breathingPace ? (
           <BreathingPacer
             key={current.stretch.id}
@@ -298,7 +316,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           ))}
         </ul>
         <p className="text-xs text-slate-400">{current.stretch.cue}</p>
-      </div>
+      </motion.div>
 
       <div className="flex items-center justify-center gap-4">
         <button

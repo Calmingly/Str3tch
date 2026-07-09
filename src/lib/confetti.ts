@@ -1,6 +1,5 @@
-import confetti from 'canvas-confetti';
-
-export function celebrateCompletion() {
+export async function celebrateCompletion() {
+  const { default: confetti } = await import('canvas-confetti');
   confetti({
     particleCount: 60,
     spread: 70,
@@ -10,7 +9,8 @@ export function celebrateCompletion() {
   });
 }
 
-export function celebrateAchievement() {
+export async function celebrateAchievement() {
+  const { default: confetti } = await import('canvas-confetti');
   const end = Date.now() + 600;
   const colors = ['#facc15', '#f97316', '#0ea5e9'];
   (function frame() {

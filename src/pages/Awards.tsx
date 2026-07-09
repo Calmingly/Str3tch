@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { PiCheckFill } from 'react-icons/pi';
 import { ACHIEVEMENTS } from '../data/achievements';
 import { useSessions } from '../hooks/useSessions';
 import { useCustomRoutines } from '../hooks/useCustomRoutines';
@@ -13,6 +14,15 @@ export function Awards() {
     [sessions, customRoutines],
   );
 
+  const sortedAchievements = useMemo(() => {
+    return [...ACHIEVEMENTS].sort((a, b) => {
+      const aUnlocked = a.isUnlocked(ctx);
+      const bUnlocked = b.isUnlocked(ctx);
+      if (aUnlocked === bUnlocked) return 0;
+      return aUnlocked ? -1 : 1;
+    });
+  }, [ctx]);
+
   const unlockedCount = ACHIEVEMENTS.filter((a) => a.isUnlocked(ctx)).length;
 
   return (
@@ -25,20 +35,29 @@ export function Awards() {
       </header>
 
       <div className="grid grid-cols-2 gap-3">
-        {ACHIEVEMENTS.map((achievement, i) => {
+        {sortedAchievements.map((achievement, i) => {
           const unlocked = achievement.isUnlocked(ctx);
           return (
             <motion.div
               key={achievement.id}
+              layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: Math.min(i, 8) * 0.03 }}
-              className={`flex flex-col items-center gap-2 rounded-2xl p-4 text-center shadow-sm ring-1 transition-opacity ${
+              className={`relative flex flex-col items-center gap-2 rounded-2xl p-4 text-center shadow-sm ring-1 transition-opacity ${
                 unlocked
                   ? 'bg-white ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]'
                   : 'bg-white/60 opacity-50 ring-slate-100 dark:bg-white/[0.03] dark:ring-[var(--surface-border)]'
               }`}
             >
+              {unlocked && (
+                <span
+                  className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full text-[11px] text-white"
+                  style={{ backgroundColor: 'var(--accent)' }}
+                >
+                  <PiCheckFill />
+                </span>
+              )}
               <achievement.icon
                 className={`text-3xl ${unlocked ? '' : 'text-slate-400 dark:text-slate-600'}`}
                 style={unlocked ? { color: 'var(--accent)' } : undefined}
