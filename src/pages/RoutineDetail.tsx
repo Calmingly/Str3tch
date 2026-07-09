@@ -11,7 +11,7 @@ import {
   RiVolumeMuteLine,
 } from '@remixicon/react';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
-import { primaryGoalStyle } from '../lib/theme';
+import { primaryGoalStyle, routineIcon } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { useFavorites } from '../hooks/useFavorites';
 import { useVoiceSettings } from '../hooks/useVoiceSettings';
@@ -95,6 +95,7 @@ export function RoutineDetail() {
   const steps = expandRoutine(routine);
   const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
   const style = primaryGoalStyle(routine.goal);
+  const Icon = routineIcon(routine);
   const voiceOverride = getOverride(routine.id);
 
   return (
@@ -137,7 +138,7 @@ export function RoutineDetail() {
         </div>
         <div className="mt-3 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
-            <style.icon size="1em" />
+            <Icon size="1em" />
           </div>
           <div>
             <h1 className="text-xl font-bold">{routine.name}</h1>

@@ -1,3 +1,5 @@
+import type { Icon } from './lib/iconType';
+
 export type BodyArea =
   | 'neck'
   | 'shoulders'
@@ -44,6 +46,7 @@ export interface Routine {
   area: BodyArea[];
   steps: RoutineStep[];
   isCustom?: boolean;
+  icon?: Icon;
 }
 
 export interface ExpandedStep {

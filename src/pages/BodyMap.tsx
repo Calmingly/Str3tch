@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import type { BodyArea } from '../types';
 import { useAllRoutines } from '../hooks/useAllRoutines';
-import { primaryGoalStyle } from '../lib/theme';
+import { primaryGoalStyle, routineIcon } from '../lib/theme';
 import { routineDurationSeconds } from '../data/expand';
 
 interface Hotspot {
@@ -98,6 +98,7 @@ export function BodyMap() {
           )}
           {matches.map((routine) => {
             const style = primaryGoalStyle(routine.goal);
+            const Icon = routineIcon(routine);
             return (
               <Link
                 key={routine.id}
@@ -107,7 +108,7 @@ export function BodyMap() {
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-lg ${style.gradient}`}
                 >
-                  <style.icon />
+                  <Icon size="1em" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold text-slate-900 dark:text-slate-100">

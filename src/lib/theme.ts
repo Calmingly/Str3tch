@@ -1,6 +1,6 @@
 import { RiFlowerFill, RiFireFill, RiFlashlightFill, RiSparklingFill } from '@remixicon/react';
 import type { Icon } from './iconType';
-import type { Goal } from '../types';
+import type { Goal, Routine } from '../types';
 
 export interface GoalStyle {
   label: string;
@@ -53,4 +53,8 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
 
 export function primaryGoalStyle(goals: Goal[]): GoalStyle {
   return GOAL_STYLES[goals[0]];
+}
+
+export function routineIcon(routine: Routine): Icon {
+  return routine.icon ?? primaryGoalStyle(routine.goal).icon;
 }

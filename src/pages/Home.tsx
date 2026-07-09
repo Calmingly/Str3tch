@@ -15,7 +15,7 @@ import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { useFavorites } from '../hooks/useFavorites';
 import { useCountUp } from '../hooks/useCountUp';
-import { GOAL_STYLES, primaryGoalStyle } from '../lib/theme';
+import { GOAL_STYLES, primaryGoalStyle, routineIcon } from '../lib/theme';
 import { Logo } from '../components/Logo';
 import { WeekBarChart } from '../components/WeekBarChart';
 import { addDays, dayKey, todayKey } from '../lib/date';
@@ -248,6 +248,7 @@ export function Home() {
         <AnimatePresence mode="popLayout">
           {visibleRoutines.map((routine, i) => {
             const style = primaryGoalStyle(routine.goal);
+            const Icon = routineIcon(routine);
             return (
               <motion.div
                 key={routine.id}
@@ -265,7 +266,7 @@ export function Home() {
                     <div
                       className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
                     >
-                      <style.icon size="1em" />
+                      <Icon size="1em" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2 pr-6">
