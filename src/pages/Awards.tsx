@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { IconCheckFilled } from '@tabler/icons-react';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import { ACHIEVEMENTS } from '../data/achievements';
 import { useSessions } from '../hooks/useSessions';
 import { useCustomRoutines } from '../hooks/useCustomRoutines';
@@ -55,12 +55,11 @@ export function Awards() {
                   className="absolute right-2.5 top-2.5 flex h-5 w-5 items-center justify-center rounded-full text-[11px] text-white"
                   style={{ backgroundColor: 'var(--accent)' }}
                 >
-                  <IconCheckFilled size="1em" />
+                  <CheckIcon className="size-[1em]" />
                 </span>
               )}
               <achievement.icon
-                size={30}
-                className={unlocked ? '' : 'text-slate-400 dark:text-slate-600'}
+                className={`size-[30px] ${unlocked ? '' : 'text-slate-400 dark:text-slate-600'}`}
                 style={unlocked ? { color: 'var(--accent)' } : undefined}
               />
               <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">

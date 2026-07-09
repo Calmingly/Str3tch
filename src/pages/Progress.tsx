@@ -1,12 +1,9 @@
 import { useMemo, useState } from 'react';
+import { FaceFrownIcon, MinusCircleIcon, FaceSmileIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import {
-  IconMoodSadFilled,
-  IconMoodConfuzedFilled,
-  IconMoodEmptyFilled,
-  IconMoodSmileFilled,
-  IconMoodHappyFilled,
-  IconSearch,
-} from '@tabler/icons-react';
+  FaceFrownIcon as FaceFrownIconSolid,
+  FaceSmileIcon as FaceSmileIconSolid,
+} from '@heroicons/react/24/solid';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
@@ -20,12 +17,12 @@ const RANGE_OPTIONS: { value: HistoryRange; label: string }[] = [
   { value: '30d', label: '30 days' },
 ];
 
-const FEELING_ICON: Record<number, typeof IconMoodEmptyFilled> = {
-  1: IconMoodSadFilled,
-  2: IconMoodConfuzedFilled,
-  3: IconMoodEmptyFilled,
-  4: IconMoodSmileFilled,
-  5: IconMoodHappyFilled,
+const FEELING_ICON: Record<number, typeof MinusCircleIcon> = {
+  1: FaceFrownIconSolid,
+  2: FaceFrownIcon,
+  3: MinusCircleIcon,
+  4: FaceSmileIcon,
+  5: FaceSmileIconSolid,
 };
 
 const STREAK_RING_GOAL_DAYS = 7;
@@ -164,7 +161,7 @@ export function Progress() {
         {sessions.length > 0 && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-              <IconSearch size="1em" className="text-slate-400" />
+              <MagnifyingGlassIcon className="size-[1em] text-slate-400" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -222,7 +219,7 @@ export function Progress() {
                 </p>
               </div>
               {FeelingIcon && (
-                <FeelingIcon size="1.25em" className="text-lg text-slate-400 dark:text-slate-500" />
+                <FeelingIcon className="size-[1.25em] text-slate-400 dark:text-slate-500" />
               )}
             </div>
           );

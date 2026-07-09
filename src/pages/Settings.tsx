@@ -1,5 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { IconSun, IconMoon, IconContrast, IconCheck, IconPalette, IconDownload, IconUpload } from '@tabler/icons-react';
+import {
+  SunIcon,
+  MoonIcon,
+  ComputerDesktopIcon,
+  CheckIcon,
+  SwatchIcon,
+  ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
+} from '@heroicons/react/24/outline';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -13,10 +21,10 @@ import { useCompactMode } from '../hooks/useCompactMode';
 import { ACCENT_THEMES } from '../lib/accentThemes';
 import { exportData, importData } from '../lib/dataTransfer';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof IconSun }[] = [
-  { value: 'light', label: 'Light', Icon: IconSun },
-  { value: 'dark', label: 'Dark', Icon: IconMoon },
-  { value: 'auto', label: 'Auto', Icon: IconContrast },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof SunIcon }[] = [
+  { value: 'light', label: 'Light', Icon: SunIcon },
+  { value: 'dark', label: 'Dark', Icon: MoonIcon },
+  { value: 'auto', label: 'Auto', Icon: ComputerDesktopIcon },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -92,7 +100,7 @@ export function Settings() {
                 }`}
                 style={active ? { backgroundColor: 'var(--accent)' } : undefined}
               >
-                <opt.Icon size="1.1em" className="text-lg" />
+                <opt.Icon className="size-[1.1em]" />
                 {opt.label}
               </button>
             );
@@ -117,7 +125,7 @@ export function Settings() {
                 }`}
                 style={{ backgroundColor: theme.hex }}
               >
-                {active && <IconCheck size="1em" className="text-white" />}
+                {active && <CheckIcon className="size-[1em] text-white" />}
               </button>
             );
           })}
@@ -133,9 +141,9 @@ export function Settings() {
             title="Custom color"
           >
             {isCustomAccent ? (
-              <IconCheck size="1em" className="text-white" />
+              <CheckIcon className="size-[1em] text-white" />
             ) : (
-              <IconPalette size="1em" className="text-white drop-shadow" />
+              <SwatchIcon className="size-[1em] text-white drop-shadow" />
             )}
             <input
               type="color"
@@ -257,14 +265,14 @@ export function Settings() {
             onClick={() => exportData()}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            <IconDownload size="1.1em" /> Export
+            <ArrowDownTrayIcon className="size-[1.1em]" /> Export
           </button>
           <button
             type="button"
             onClick={() => importInputRef.current?.click()}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            <IconUpload size="1.1em" /> Import
+            <ArrowUpTrayIcon className="size-[1.1em]" /> Import
           </button>
           <input
             ref={importInputRef}

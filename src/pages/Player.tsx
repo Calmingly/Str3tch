@@ -1,16 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion, type PanInfo } from 'framer-motion';
+import { XMarkIcon, FaceFrownIcon, MinusCircleIcon, FaceSmileIcon } from '@heroicons/react/24/outline';
 import {
-  IconX,
-  IconCheckFilled,
-  IconConfetti,
-  IconMoodSadFilled,
-  IconMoodConfuzedFilled,
-  IconMoodEmptyFilled,
-  IconMoodSmileFilled,
-  IconMoodHappyFilled,
-} from '@tabler/icons-react';
+  CheckCircleIcon,
+  HandThumbUpIcon,
+  FaceFrownIcon as FaceFrownIconSolid,
+  FaceSmileIcon as FaceSmileIconSolid,
+} from '@heroicons/react/24/solid';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
 import { useSessions } from '../hooks/useSessions';
@@ -30,12 +27,12 @@ import type { FeelingRating, Routine } from '../types';
 
 const TICK_MS = 100;
 
-const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof IconMoodEmptyFilled }[] = [
-  { value: 1, label: 'Rough', Icon: IconMoodSadFilled },
-  { value: 2, label: 'Meh', Icon: IconMoodConfuzedFilled },
-  { value: 3, label: 'Okay', Icon: IconMoodEmptyFilled },
-  { value: 4, label: 'Good', Icon: IconMoodSmileFilled },
-  { value: 5, label: 'Great', Icon: IconMoodHappyFilled },
+const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof MinusCircleIcon }[] = [
+  { value: 1, label: 'Rough', Icon: FaceFrownIconSolid },
+  { value: 2, label: 'Meh', Icon: FaceFrownIcon },
+  { value: 3, label: 'Okay', Icon: MinusCircleIcon },
+  { value: 4, label: 'Good', Icon: FaceSmileIcon },
+  { value: 5, label: 'Great', Icon: FaceSmileIconSolid },
 ];
 
 export function Player() {
@@ -170,7 +167,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <div
           className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
-          <IconCheckFilled size="1em" />
+          <CheckCircleIcon className="size-[1em]" />
         </div>
         <h1 className="text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
@@ -207,7 +204,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 px-6 text-center text-slate-900 dark:text-slate-100"
         style={{ background: 'var(--app-bg)' }}
       >
-        <IconConfetti size="1em" className="text-4xl" style={{ color: 'var(--accent)' }} />
+        <HandThumbUpIcon className="size-10" style={{ color: 'var(--accent)' }} />
         <h1 className="text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
         <div className="flex gap-2">
@@ -222,7 +219,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
                   : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]'
               }`}
             >
-              <f.Icon size="1.2em" className="text-lg" />
+              <f.Icon className="size-[1.2em]" />
               {f.label}
             </button>
           ))}
@@ -254,7 +251,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           to={`/routine/${routine.id}`}
           className="flex items-center gap-1 text-sm font-medium text-slate-400"
         >
-          <IconX size="1em" /> Exit
+          <XMarkIcon className="size-[1em]" /> Exit
         </Link>
         <span className="text-xs font-medium text-slate-400">
           {index + 1} / {steps.length}

@@ -1,12 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-  IconChevronUp,
-  IconChevronDown,
-  IconX,
-  IconPlus,
-  IconSearch,
-} from '@tabler/icons-react';
+import { ChevronUpIcon, ChevronDownIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { STRETCHES, getStretch } from '../data/stretches';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { GOAL_STYLES } from '../lib/theme';
@@ -137,7 +132,7 @@ export function RoutineBuilder() {
                 }`}
               >
                 <span className="inline-flex items-center gap-1">
-                  <style.icon size="1em" /> {style.label}
+                  <style.icon className="size-[1em]" /> {style.label}
                 </span>
               </button>
             );
@@ -169,7 +164,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move up"
                 >
-                  <IconChevronUp size="1em" />
+                  <ChevronUpIcon className="size-[1em]" />
                 </button>
                 <button
                   type="button"
@@ -178,7 +173,7 @@ export function RoutineBuilder() {
                   className="text-slate-400 disabled:opacity-20"
                   aria-label="Move down"
                 >
-                  <IconChevronDown size="1em" />
+                  <ChevronDownIcon className="size-[1em]" />
                 </button>
               </div>
               <p className="flex-1 text-sm font-medium text-slate-900 dark:text-slate-100">
@@ -198,7 +193,7 @@ export function RoutineBuilder() {
                 className="text-lg text-slate-400 hover:text-red-500"
                 aria-label="Remove"
               >
-                <IconX size="1em" />
+                <XMarkIcon className="size-[1em]" />
               </button>
             </div>
           );
@@ -210,7 +205,7 @@ export function RoutineBuilder() {
           Stretch library
         </h2>
         <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-          <IconSearch size="1em" className="text-slate-400" />
+          <MagnifyingGlassIcon className="size-[1em] text-slate-400" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -260,7 +255,7 @@ export function RoutineBuilder() {
                   {usedStretchIds.has(stretch.id) ? ' · added' : ''}
                 </p>
               </div>
-              <IconPlus size="1.1em" className="text-lg" style={{ color: 'var(--accent)' }} />
+              <PlusIcon className="size-[1.1em]" style={{ color: 'var(--accent)' }} />
             </button>
           ))}
         </div>

@@ -1,23 +1,20 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { HomeIcon, ChartBarIcon, TrophyIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 import {
-  IconHome,
-  IconHomeFilled,
-  IconChartAreaLine,
-  IconChartAreaLineFilled,
-  IconTrophy,
-  IconTrophyFilled,
-  IconSettings,
-  IconSettingsFilled,
-} from '@tabler/icons-react';
+  HomeIcon as HomeIconSolid,
+  ChartBarIcon as ChartBarIconSolid,
+  TrophyIcon as TrophyIconSolid,
+  Cog6ToothIcon as Cog6ToothIconSolid,
+} from '@heroicons/react/24/solid';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: IconHome, IconActive: IconHomeFilled },
-  { to: '/progress', label: 'Progress', Icon: IconChartAreaLine, IconActive: IconChartAreaLineFilled },
-  { to: '/awards', label: 'Awards', Icon: IconTrophy, IconActive: IconTrophyFilled },
-  { to: '/settings', label: 'Settings', Icon: IconSettings, IconActive: IconSettingsFilled },
+  { to: '/', label: 'Routines', Icon: HomeIcon, IconActive: HomeIconSolid },
+  { to: '/progress', label: 'Progress', Icon: ChartBarIcon, IconActive: ChartBarIconSolid },
+  { to: '/awards', label: 'Awards', Icon: TrophyIcon, IconActive: TrophyIconSolid },
+  { to: '/settings', label: 'Settings', Icon: Cog6ToothIcon, IconActive: Cog6ToothIconSolid },
 ];
 
 export function Layout() {
@@ -67,9 +64,9 @@ export function Layout() {
                   )}
                   <span className="relative z-10 text-lg leading-none">
                     {isActive ? (
-                      <IconActive size="1.2em" stroke={2} />
+                      <IconActive className="size-[1.2em]" />
                     ) : (
-                      <Icon size="1.2em" stroke={1.75} />
+                      <Icon className="size-[1.2em]" />
                     )}
                   </span>
                   <span className="relative z-10">{label}</span>
