@@ -1,10 +1,19 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiFireBold, PiMapPinBold, PiWrenchBold, PiXBold } from 'react-icons/pi';
+import {
+  IconFlameFilled,
+  IconMapPinFilled,
+  IconTools,
+  IconX,
+  IconPlayerPlayFilled,
+  IconHeart,
+  IconHeartFilled,
+} from '@tabler/icons-react';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
+import { useFavorites } from '../hooks/useFavorites';
 import { useCountUp } from '../hooks/useCountUp';
 import { GOAL_STYLES, primaryGoalStyle } from '../lib/theme';
 import { Logo } from '../components/Logo';
@@ -24,6 +33,7 @@ function minutes(seconds: number) {
 export function Home() {
   const { streak, sessions } = useSessions();
   const { all: routines } = useAllRoutines();
+  const { isFavorite, toggleFavorite } = useFavorites();
   const suggested = useMemo(() => pickSuggestedRoutine(routines, sessions), [routines, sessions]);
   const suggestedStyle = primaryGoalStyle(suggested.goal);
   const [activeGoal, setActiveGoal] = useState<Goal | null>(null);
@@ -85,9 +95,10 @@ export function Home() {
     return counts;
   }, [routines]);
 
-  const visibleRoutines = activeGoal
-    ? routines.filter((r) => r.goal.includes(activeGoal))
-    : routines;
+  const visibleRoutines = useMemo(() => {
+    const filtered = activeGoal ? routines.filter((r) => r.goal.includes(activeGoal)) : routines;
+    return [...filtered].sort((a, b) => Number(isFavorite(b.id)) - Number(isFavorite(a.id)));
+  }, [routines, activeGoal, isFavorite]);
 
   const weeklyProgress = Math.min(1, weeklyMinutes / WEEKLY_MINUTES_GOAL);
 
@@ -97,7 +108,7 @@ export function Home() {
         <Logo />
         {streak.current > 0 && (
           <p className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
-            <PiFireBold style={{ color: 'var(--accent)' }} />
+            <IconFlameFilled size="1em" style={{ color: 'var(--accent)' }} />
             {streak.current} day streak
           </p>
         )}
@@ -139,18 +150,26 @@ export function Home() {
         </div>
       </section>
 
-      <Link
-        to={`/routine/${suggested.id}`}
-        className={`block rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg ${suggestedStyle.gradient}`}
-      >
-        <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
-          <suggestedStyle.icon /> Quick start
-        </p>
-        <p className="mt-1 text-lg font-bold">{suggested.name}</p>
-        <p className="mt-1 text-sm text-white/85">
-          {minutes(routineDurationSeconds(suggested))} min · {suggested.description}
-        </p>
-      </Link>
+      <div className={`rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg ${suggestedStyle.gradient}`}>
+        <div className="flex items-start justify-between gap-3">
+          <Link to={`/routine/${suggested.id}`} className="min-w-0 flex-1">
+            <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
+              <suggestedStyle.icon size="1em" /> Quick start
+            </p>
+            <p className="mt-1 text-lg font-bold">{suggested.name}</p>
+            <p className="mt-1 text-sm text-white/85">
+              {minutes(routineDurationSeconds(suggested))} min · {suggested.description}
+            </p>
+          </Link>
+          <Link
+            to={`/session/${suggested.id}`}
+            aria-label={`Start ${suggested.name} now`}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-xl shadow-inner transition-transform active:scale-90"
+          >
+            <IconPlayerPlayFilled size="1em" />
+          </Link>
+        </div>
+      </div>
 
       <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -173,7 +192,7 @@ export function Home() {
                   }`}
                   style={active ? ({ '--tw-ring-color': 'var(--accent)' } as CSSProperties) : undefined}
                 >
-                  <style.icon />
+                  <style.icon size="1em" />
                 </span>
                 <span className="text-center text-[11px] font-semibold leading-tight text-slate-600 dark:text-slate-300">
                   {style.label.split(' ')[0]}
@@ -190,7 +209,7 @@ export function Home() {
           to="/body-map"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <PiMapPinBold className="text-2xl" style={{ color: 'var(--accent)' }} />
+          <IconMapPinFilled size="1em" className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Where's it tight?
           </span>
@@ -199,7 +218,7 @@ export function Home() {
           to="/build"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <PiWrenchBold className="text-2xl" style={{ color: 'var(--accent)' }} />
+          <IconTools size="1em" className="text-2xl" style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Build a routine
           </span>
@@ -221,7 +240,7 @@ export function Home() {
                 onClick={() => setActiveGoal(null)}
                 className="flex items-center gap-0.5 text-xs font-semibold text-slate-400"
               >
-                <PiXBold /> Clear
+                <IconX size="1em" /> Clear
               </motion.button>
             )}
           </AnimatePresence>
@@ -238,44 +257,60 @@ export function Home() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.25, delay: Math.min(i, 6) * 0.04 }}
               >
-                <Link
-                  to={`/routine/${routine.id}`}
-                  className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
-                >
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
+                <div className="relative">
+                  <Link
+                    to={`/routine/${routine.id}`}
+                    className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
                   >
-                    <style.icon />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="truncate font-semibold text-slate-900 dark:text-slate-100">
-                        {routine.name}
-                        {routine.isCustom && (
-                          <span className="ml-1.5 text-[10px] font-semibold text-violet-500">
-                            CUSTOM
-                          </span>
-                        )}
-                      </p>
-                      <span className="shrink-0 text-xs font-medium text-slate-400">
-                        {minutes(routineDurationSeconds(routine))} min
-                      </span>
+                    <div
+                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
+                    >
+                      <style.icon size="1em" />
                     </div>
-                    <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
-                      {routine.description}
-                    </p>
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      {routine.goal.map((g) => (
-                        <span
-                          key={g}
-                          className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${GOAL_STYLES[g].chip}`}
-                        >
-                          {GOAL_STYLES[g].label}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2 pr-6">
+                        <p className="truncate font-semibold text-slate-900 dark:text-slate-100">
+                          {routine.name}
+                          {routine.isCustom && (
+                            <span className="ml-1.5 text-[10px] font-semibold text-violet-500">
+                              CUSTOM
+                            </span>
+                          )}
+                        </p>
+                        <span className="shrink-0 text-xs font-medium text-slate-400">
+                          {minutes(routineDurationSeconds(routine))} min
                         </span>
-                      ))}
+                      </div>
+                      <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
+                        {routine.description}
+                      </p>
+                      <div className="mt-1.5 flex flex-wrap gap-1">
+                        {routine.goal.map((g) => (
+                          <span
+                            key={g}
+                            className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${GOAL_STYLES[g].chip}`}
+                          >
+                            {GOAL_STYLES[g].label}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Link>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => toggleFavorite(routine.id)}
+                    aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
+                    aria-pressed={isFavorite(routine.id)}
+                    className="absolute right-3 top-3 z-10 text-slate-300 transition-colors dark:text-slate-600"
+                    style={isFavorite(routine.id) ? { color: 'var(--accent)' } : undefined}
+                  >
+                    {isFavorite(routine.id) ? (
+                      <IconHeartFilled size="1.05em" />
+                    ) : (
+                      <IconHeart size="1.05em" />
+                    )}
+                  </button>
+                </div>
               </motion.div>
             );
           })}

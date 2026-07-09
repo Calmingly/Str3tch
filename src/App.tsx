@@ -5,6 +5,7 @@ import { Home } from './pages/Home';
 import { ThemeContext, useThemeModeState } from './hooks/useThemeMode';
 import { AccentContext, useAccentThemeState } from './hooks/useAccentTheme';
 import { TextSizeContext, useTextSizeState } from './hooks/useTextSize';
+import { CompactModeContext, useCompactModeState } from './hooks/useCompactMode';
 
 const RoutineDetail = lazy(() =>
   import('./pages/RoutineDetail').then((m) => ({ default: m.RoutineDetail })),
@@ -33,28 +34,31 @@ export default function App() {
   const theme = useThemeModeState();
   const accent = useAccentThemeState();
   const textSize = useTextSizeState();
+  const compactMode = useCompactModeState();
 
   return (
     <ThemeContext.Provider value={theme}>
       <AccentContext.Provider value={accent}>
         <TextSizeContext.Provider value={textSize}>
-          <HashRouter>
-            <Suspense fallback={<RouteFallback />}>
-              <Routes>
-                <Route element={<Layout />}>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/routine/:routineId" element={<RoutineDetail />} />
-                  <Route path="/progress" element={<Progress />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/awards" element={<Awards />} />
-                  <Route path="/body-map" element={<BodyMap />} />
-                  <Route path="/build" element={<RoutineBuilder />} />
-                  <Route path="/build/:customRoutineId" element={<RoutineBuilder />} />
-                </Route>
-                <Route path="/session/:routineId" element={<Player />} />
-              </Routes>
-            </Suspense>
-          </HashRouter>
+          <CompactModeContext.Provider value={compactMode}>
+            <HashRouter>
+              <Suspense fallback={<RouteFallback />}>
+                <Routes>
+                  <Route element={<Layout />}>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/routine/:routineId" element={<RoutineDetail />} />
+                    <Route path="/progress" element={<Progress />} />
+                    <Route path="/settings" element={<Settings />} />
+                    <Route path="/awards" element={<Awards />} />
+                    <Route path="/body-map" element={<BodyMap />} />
+                    <Route path="/build" element={<RoutineBuilder />} />
+                    <Route path="/build/:customRoutineId" element={<RoutineBuilder />} />
+                  </Route>
+                  <Route path="/session/:routineId" element={<Player />} />
+                </Routes>
+              </Suspense>
+            </HashRouter>
+          </CompactModeContext.Provider>
         </TextSizeContext.Provider>
       </AccentContext.Provider>
     </ThemeContext.Provider>

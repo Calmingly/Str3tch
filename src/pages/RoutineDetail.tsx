@@ -1,18 +1,43 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { PiArrowLeftBold, PiPencilSimpleBold, PiTrashBold, PiCopyBold } from 'react-icons/pi';
+import {
+  IconArrowLeft,
+  IconPencil,
+  IconTrash,
+  IconCopy,
+  IconHeart,
+  IconHeartFilled,
+  IconVolume,
+  IconVolumeOff,
+} from '@tabler/icons-react';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
+import { useFavorites } from '../hooks/useFavorites';
+import { useVoiceSettings } from '../hooks/useVoiceSettings';
+import {
+  useRoutineVoiceOverrides,
+  resolveVoiceEnabled,
+  type VoiceOverride,
+} from '../hooks/useRoutineVoiceOverrides';
 import { StretchIllustration } from '../components/StretchIllustration';
 import type { Routine } from '../types';
 
 const UNDO_WINDOW_MS = 4000;
 
+const VOICE_OVERRIDE_OPTIONS: { label: string; value: VoiceOverride }[] = [
+  { label: 'Default', value: null },
+  { label: 'On', value: 'on' },
+  { label: 'Off', value: 'off' },
+];
+
 export function RoutineDetail() {
   const { routineId } = useParams();
   const navigate = useNavigate();
   const { getById, removeCustom, saveCustom } = useAllRoutines();
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { settings: voice } = useVoiceSettings();
+  const { getOverride, setOverride } = useRoutineVoiceOverrides();
   const [pendingDelete, setPendingDelete] = useState<Routine | null>(null);
   const deleteTimerRef = useRef<number | null>(null);
 
@@ -70,6 +95,7 @@ export function RoutineDetail() {
   const steps = expandRoutine(routine);
   const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
   const style = primaryGoalStyle(routine.goal);
+  const voiceOverride = getOverride(routine.id);
 
   return (
     <div className="flex flex-col gap-5 pb-2">
@@ -78,27 +104,36 @@ export function RoutineDetail() {
       >
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
-            <PiArrowLeftBold /> Back
+            <IconArrowLeft size="1em" /> Back
           </Link>
-          <div className="flex gap-3 text-sm text-white/85">
+          <div className="flex items-center gap-3 text-sm text-white/85">
             <button type="button" onClick={handleDuplicate} className="flex items-center gap-1">
-              <PiCopyBold /> Duplicate
+              <IconCopy size="1em" /> Duplicate
             </button>
             {routine.isCustom && (
               <>
                 <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
-                  <PiPencilSimpleBold /> Edit
+                  <IconPencil size="1em" /> Edit
                 </Link>
                 <button type="button" className="flex items-center gap-1" onClick={handleDelete}>
-                  <PiTrashBold /> Delete
+                  <IconTrash size="1em" /> Delete
                 </button>
               </>
             )}
+            <button
+              type="button"
+              onClick={() => toggleFavorite(routine.id)}
+              aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
+              aria-pressed={isFavorite(routine.id)}
+              className="text-lg"
+            >
+              {isFavorite(routine.id) ? <IconHeartFilled size="1em" /> : <IconHeart size="1em" />}
+            </button>
           </div>
         </div>
         <div className="mt-3 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
-            <style.icon />
+            <style.icon size="1em" />
           </div>
           <div>
             <h1 className="text-xl font-bold">{routine.name}</h1>
@@ -108,6 +143,37 @@ export function RoutineDetail() {
           </div>
         </div>
         <p className="mt-3 text-sm text-white/90">{routine.description}</p>
+      </div>
+
+      <div className="flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+        <div className="flex items-center gap-2">
+          {resolveVoiceEnabled(voice.enabled, voiceOverride) ? (
+            <IconVolume size="1.1em" className="text-slate-400" />
+          ) : (
+            <IconVolumeOff size="1.1em" className="text-slate-400" />
+          )}
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+            Voice guidance
+          </span>
+        </div>
+        <div className="flex gap-1 rounded-full bg-slate-100 p-1 dark:bg-slate-800">
+          {VOICE_OVERRIDE_OPTIONS.map((opt) => {
+            const active = voiceOverride === opt.value;
+            return (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => setOverride(routine.id, opt.value)}
+                className={`rounded-full px-2.5 py-1 text-xs font-semibold transition-colors ${
+                  active ? 'text-white' : 'text-slate-500 dark:text-slate-400'
+                }`}
+                style={active ? { backgroundColor: 'var(--accent)' } : undefined}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <ol className="flex flex-col gap-2">

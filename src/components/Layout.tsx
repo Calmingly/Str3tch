@@ -1,23 +1,23 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-  PiHouseBold,
-  PiHouseFill,
-  PiChartLineBold,
-  PiChartLineFill,
-  PiTrophyBold,
-  PiTrophyFill,
-  PiGearBold,
-  PiGearFill,
-} from 'react-icons/pi';
+  IconHome,
+  IconHomeFilled,
+  IconChartAreaLine,
+  IconChartAreaLineFilled,
+  IconTrophy,
+  IconTrophyFilled,
+  IconSettings,
+  IconSettingsFilled,
+} from '@tabler/icons-react';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: PiHouseBold, IconActive: PiHouseFill },
-  { to: '/progress', label: 'Progress', Icon: PiChartLineBold, IconActive: PiChartLineFill },
-  { to: '/awards', label: 'Awards', Icon: PiTrophyBold, IconActive: PiTrophyFill },
-  { to: '/settings', label: 'Settings', Icon: PiGearBold, IconActive: PiGearFill },
+  { to: '/', label: 'Routines', Icon: IconHome, IconActive: IconHomeFilled },
+  { to: '/progress', label: 'Progress', Icon: IconChartAreaLine, IconActive: IconChartAreaLineFilled },
+  { to: '/awards', label: 'Awards', Icon: IconTrophy, IconActive: IconTrophyFilled },
+  { to: '/settings', label: 'Settings', Icon: IconSettings, IconActive: IconSettingsFilled },
 ];
 
 export function Layout() {
@@ -66,7 +66,11 @@ export function Layout() {
                     />
                   )}
                   <span className="relative z-10 text-lg leading-none">
-                    {isActive ? <IconActive /> : <Icon />}
+                    {isActive ? (
+                      <IconActive size="1.2em" stroke={2} />
+                    ) : (
+                      <Icon size="1.2em" stroke={1.75} />
+                    )}
                   </span>
                   <span className="relative z-10">{label}</span>
                 </>

@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
 import {
-  PiSmileySadFill,
-  PiSmileyMehFill,
-  PiSmileyBlankFill,
-  PiSmileyFill,
-  PiSmileyStickerFill,
-  PiMagnifyingGlassBold,
-} from 'react-icons/pi';
+  IconMoodSadFilled,
+  IconMoodConfuzedFilled,
+  IconMoodEmptyFilled,
+  IconMoodSmileFilled,
+  IconMoodHappyFilled,
+  IconSearch,
+} from '@tabler/icons-react';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
+import { RingProgress } from '../components/RingProgress';
 
 type HistoryRange = 'all' | '7d' | '30d';
 
@@ -19,13 +20,15 @@ const RANGE_OPTIONS: { value: HistoryRange; label: string }[] = [
   { value: '30d', label: '30 days' },
 ];
 
-const FEELING_ICON: Record<number, typeof PiSmileyBlankFill> = {
-  1: PiSmileySadFill,
-  2: PiSmileyMehFill,
-  3: PiSmileyBlankFill,
-  4: PiSmileyFill,
-  5: PiSmileyStickerFill,
+const FEELING_ICON: Record<number, typeof IconMoodEmptyFilled> = {
+  1: IconMoodSadFilled,
+  2: IconMoodConfuzedFilled,
+  3: IconMoodEmptyFilled,
+  4: IconMoodSmileFilled,
+  5: IconMoodHappyFilled,
 };
+
+const STREAK_RING_GOAL_DAYS = 7;
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 
@@ -79,10 +82,18 @@ export function Progress() {
       </header>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-          <p className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>
-            {animatedCurrent}
-          </p>
+        <div className="flex flex-col items-center gap-1 rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+          <RingProgress
+            progress={Math.min(1, streak.current / STREAK_RING_GOAL_DAYS)}
+            size={52}
+            strokeWidth={5}
+            color="var(--accent)"
+            trackColor="var(--accent-soft)"
+          >
+            <p className="text-lg font-bold" style={{ color: 'var(--accent)' }}>
+              {animatedCurrent}
+            </p>
+          </RingProgress>
           <p className="text-xs text-slate-500 dark:text-slate-400">Day streak</p>
         </div>
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
@@ -153,7 +164,7 @@ export function Progress() {
         {sessions.length > 0 && (
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-              <PiMagnifyingGlassBold className="text-slate-400" />
+              <IconSearch size="1em" className="text-slate-400" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -211,7 +222,7 @@ export function Progress() {
                 </p>
               </div>
               {FeelingIcon && (
-                <FeelingIcon className="text-xl text-slate-400 dark:text-slate-500" />
+                <FeelingIcon size="1.25em" className="text-lg text-slate-400 dark:text-slate-500" />
               )}
             </div>
           );

@@ -12,15 +12,21 @@ interface AccentContextValue {
 
 export const AccentContext = createContext<AccentContextValue | null>(null);
 
+function isCustomHex(id: string) {
+  return /^#[0-9a-f]{6}$/i.test(id);
+}
+
 export function useAccentThemeState() {
   const [accentId, setAccentId] = useLocalStorageState<string>(KEY, DEFAULT_ACCENT_ID);
-  const accent = ACCENT_THEMES.find((a) => a.id === accentId) ?? ACCENT_THEMES[0];
+  const accent: AccentTheme = isCustomHex(accentId)
+    ? { id: accentId, name: 'Custom', hex: accentId, hexSoft: `${accentId}22` }
+    : (ACCENT_THEMES.find((a) => a.id === accentId) ?? ACCENT_THEMES[0]);
 
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--accent', accent.hex);
     root.style.setProperty('--accent-soft', accent.hexSoft);
-  }, [accent]);
+  }, [accent.hex, accent.hexSoft]);
 
   return { accentId, setAccentId, accent };
 }

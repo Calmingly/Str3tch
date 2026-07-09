@@ -2,15 +2,15 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { motion, type PanInfo } from 'framer-motion';
 import {
-  PiXBold,
-  PiCheckFill,
-  PiConfettiFill,
-  PiSmileySadFill,
-  PiSmileyMehFill,
-  PiSmileyBlankFill,
-  PiSmileyFill,
-  PiSmileyStickerFill,
-} from 'react-icons/pi';
+  IconX,
+  IconCheckFilled,
+  IconConfetti,
+  IconMoodSadFilled,
+  IconMoodConfuzedFilled,
+  IconMoodEmptyFilled,
+  IconMoodSmileFilled,
+  IconMoodHappyFilled,
+} from '@tabler/icons-react';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
 import { useSessions } from '../hooks/useSessions';
@@ -21,6 +21,7 @@ import { StretchIllustration } from '../components/StretchIllustration';
 import { BreathingPacer } from '../components/BreathingPacer';
 import { AchievementToast } from '../components/AchievementToast';
 import { useVoiceSettings, speak } from '../hooks/useVoiceSettings';
+import { useRoutineVoiceOverrides, resolveVoiceEnabled } from '../hooks/useRoutineVoiceOverrides';
 import { useWakeLock } from '../hooks/useWakeLock';
 import { celebrateCompletion, celebrateAchievement } from '../lib/confetti';
 import { ACHIEVEMENTS, unlockedAchievementIds } from '../data/achievements';
@@ -29,12 +30,12 @@ import type { FeelingRating, Routine } from '../types';
 
 const TICK_MS = 100;
 
-const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof PiSmileyBlankFill }[] = [
-  { value: 1, label: 'Rough', Icon: PiSmileySadFill },
-  { value: 2, label: 'Meh', Icon: PiSmileyMehFill },
-  { value: 3, label: 'Okay', Icon: PiSmileyBlankFill },
-  { value: 4, label: 'Good', Icon: PiSmileyFill },
-  { value: 5, label: 'Great', Icon: PiSmileyStickerFill },
+const FEELINGS: { value: FeelingRating['value']; label: string; Icon: typeof IconMoodEmptyFilled }[] = [
+  { value: 1, label: 'Rough', Icon: IconMoodSadFilled },
+  { value: 2, label: 'Meh', Icon: IconMoodConfuzedFilled },
+  { value: 3, label: 'Okay', Icon: IconMoodEmptyFilled },
+  { value: 4, label: 'Good', Icon: IconMoodSmileFilled },
+  { value: 5, label: 'Great', Icon: IconMoodHappyFilled },
 ];
 
 export function Player() {
@@ -50,7 +51,9 @@ function PlayerSession({ routine }: { routine: Routine }) {
   const navigate = useNavigate();
   const { sessions, addSession } = useSessions();
   const { customRoutines } = useAllRoutines();
-  const { settings: voice } = useVoiceSettings();
+  const { settings: globalVoice } = useVoiceSettings();
+  const { getOverride } = useRoutineVoiceOverrides();
+  const voiceEnabled = resolveVoiceEnabled(globalVoice.enabled, getOverride(routine.id));
 
   const steps = useMemo(() => expandRoutine(routine), [routine]);
   const totalSeconds = useMemo(() => routineDurationSeconds(routine), [routine]);
@@ -93,23 +96,23 @@ function PlayerSession({ routine }: { routine: Routine }) {
   }, [paused, done, index, isLast]);
 
   useEffect(() => {
-    if (!voice.enabled || paused || done) return;
+    if (!voiceEnabled || paused || done) return;
     if (spokenIndex.current !== index) {
       spokenIndex.current = index;
       spokenCountdown.current = null;
       const label = current.side ? `${current.stretch.name}, ${current.side} side` : current.stretch.name;
       speak(label);
     }
-  }, [index, current, voice.enabled, paused, done]);
+  }, [index, current, voiceEnabled, paused, done]);
 
   useEffect(() => {
-    if (!voice.enabled || paused || done) return;
+    if (!voiceEnabled || paused || done) return;
     const secondsLeft = Math.ceil(msLeft / 1000);
     if (secondsLeft <= 3 && secondsLeft >= 1 && spokenCountdown.current !== secondsLeft) {
       spokenCountdown.current = secondsLeft;
       speak(String(secondsLeft));
     }
-  }, [msLeft, voice.enabled, paused, done]);
+  }, [msLeft, voiceEnabled, paused, done]);
 
   const goToStep = (nextIndex: number) => {
     const clamped = Math.max(0, Math.min(steps.length - 1, nextIndex));
@@ -167,7 +170,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <div
           className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
-          <PiCheckFill />
+          <IconCheckFilled size="1em" />
         </div>
         <h1 className="text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
@@ -204,7 +207,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 px-6 text-center text-slate-900 dark:text-slate-100"
         style={{ background: 'var(--app-bg)' }}
       >
-        <PiConfettiFill className="text-4xl" style={{ color: 'var(--accent)' }} />
+        <IconConfetti size="1em" className="text-4xl" style={{ color: 'var(--accent)' }} />
         <h1 className="text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
         <div className="flex gap-2">
@@ -219,7 +222,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
                   : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]'
               }`}
             >
-              <f.Icon className="text-xl" />
+              <f.Icon size="1.2em" className="text-lg" />
               {f.label}
             </button>
           ))}
@@ -251,7 +254,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           to={`/routine/${routine.id}`}
           className="flex items-center gap-1 text-sm font-medium text-slate-400"
         >
-          <PiXBold /> Exit
+          <IconX size="1em" /> Exit
         </Link>
         <span className="text-xs font-medium text-slate-400">
           {index + 1} / {steps.length}
@@ -298,17 +301,28 @@ function PlayerSession({ routine }: { routine: Routine }) {
           </h1>
         </div>
 
-        <RingProgress
-          progress={stepProgress}
-          size={168}
-          strokeWidth={9}
-          color={style.ring}
-          trackColor="#e2e8f0"
-        >
-          <span className="text-4xl font-bold tabular-nums text-slate-900 dark:text-slate-100">
-            {secondsLeftDisplay}
-          </span>
-        </RingProgress>
+        <div className="relative flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <RingProgress
+              progress={overallProgress}
+              size={190}
+              strokeWidth={4}
+              color="var(--accent)"
+              trackColor="var(--accent-soft)"
+            />
+          </div>
+          <RingProgress
+            progress={stepProgress}
+            size={168}
+            strokeWidth={9}
+            color={style.ring}
+            trackColor="#e2e8f0"
+          >
+            <span className="text-4xl font-bold tabular-nums text-slate-900 dark:text-slate-100">
+              {secondsLeftDisplay}
+            </span>
+          </RingProgress>
+        </div>
 
         <ul className="max-w-xs space-y-1 text-sm text-slate-500 dark:text-slate-400">
           {current.stretch.instructions.map((line, i) => (

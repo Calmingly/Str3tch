@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { PiSunDimBold, PiMoonBold, PiCircleHalfBold, PiCheckBold } from 'react-icons/pi';
+import { useEffect, useRef, useState } from 'react';
+import { IconSun, IconMoon, IconContrast, IconCheck, IconPalette, IconDownload, IconUpload } from '@tabler/icons-react';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -9,12 +9,14 @@ import { useVoiceSettings, speechSupported } from '../hooks/useVoiceSettings';
 import { useThemeMode, type ThemeMode } from '../hooks/useThemeMode';
 import { useAccentTheme } from '../hooks/useAccentTheme';
 import { useTextSize } from '../hooks/useTextSize';
+import { useCompactMode } from '../hooks/useCompactMode';
 import { ACCENT_THEMES } from '../lib/accentThemes';
+import { exportData, importData } from '../lib/dataTransfer';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof PiSunDimBold }[] = [
-  { value: 'light', label: 'Light', Icon: PiSunDimBold },
-  { value: 'dark', label: 'Dark', Icon: PiMoonBold },
-  { value: 'auto', label: 'Auto', Icon: PiCircleHalfBold },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof IconSun }[] = [
+  { value: 'light', label: 'Light', Icon: IconSun },
+  { value: 'dark', label: 'Dark', Icon: IconMoon },
+  { value: 'auto', label: 'Auto', Icon: IconContrast },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -36,15 +38,20 @@ function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: b
   );
 }
 
+const CUSTOM_HEX_RE = /^#[0-9a-f]{6}$/i;
+
 export function Settings() {
   const { settings, setSettings } = useReminderSettings();
   const { settings: voice, setSettings: setVoice } = useVoiceSettings();
   const { mode, setMode } = useThemeMode();
-  const { accentId, setAccentId } = useAccentTheme();
+  const { accentId, accent, setAccentId } = useAccentTheme();
   const { textSize, setTextSize } = useTextSize();
+  const { compact, setCompact } = useCompactMode();
   const [permission, setPermission] = useState<NotificationPermission | 'unsupported'>(
     notificationsSupported() ? Notification.permission : 'unsupported',
   );
+  const importInputRef = useRef<HTMLInputElement>(null);
+  const isCustomAccent = CUSTOM_HEX_RE.test(accentId);
 
   useEffect(() => {
     if (notificationsSupported()) setPermission(Notification.permission);
@@ -85,7 +92,7 @@ export function Settings() {
                 }`}
                 style={active ? { backgroundColor: 'var(--accent)' } : undefined}
               >
-                <opt.Icon className="text-lg" />
+                <opt.Icon size="1.1em" className="text-lg" />
                 {opt.label}
               </button>
             );
@@ -95,7 +102,7 @@ export function Settings() {
         <p className="mb-2 mt-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
           Color theme
         </p>
-        <div className="grid grid-cols-6 gap-2">
+        <div className="grid grid-cols-7 gap-2">
           {ACCENT_THEMES.map((theme) => {
             const active = accentId === theme.id;
             return (
@@ -110,10 +117,34 @@ export function Settings() {
                 }`}
                 style={{ backgroundColor: theme.hex }}
               >
-                {active && <PiCheckBold className="text-white" />}
+                {active && <IconCheck size="1em" className="text-white" />}
               </button>
             );
           })}
+          <label
+            className={`relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-inset ring-black/10 transition-transform dark:ring-white/15 ${
+              isCustomAccent ? 'scale-110' : ''
+            }`}
+            style={{
+              background: isCustomAccent
+                ? accent.hex
+                : 'conic-gradient(from 0deg, #f43f5e, #f97316, #eab308, #10b981, #0ea5e9, #8b5cf6, #f43f5e)',
+            }}
+            title="Custom color"
+          >
+            {isCustomAccent ? (
+              <IconCheck size="1em" className="text-white" />
+            ) : (
+              <IconPalette size="1em" className="text-white drop-shadow" />
+            )}
+            <input
+              type="color"
+              value={isCustomAccent ? accent.hex : '#0ea5e9'}
+              onChange={(e) => setAccentId(e.target.value)}
+              aria-label="Pick a custom accent color"
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            />
+          </label>
         </div>
       </section>
 
@@ -174,6 +205,18 @@ export function Settings() {
       <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center justify-between">
           <div>
+            <p className="font-semibold text-slate-900 dark:text-slate-100">Compact mode</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Tighten spacing to fit more on screen.
+            </p>
+          </div>
+          <ToggleSwitch checked={compact} onChange={setCompact} />
+        </div>
+      </section>
+
+      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+        <div className="flex items-center justify-between">
+          <div>
             <p className="font-semibold text-slate-900 dark:text-slate-100">Voice guidance</p>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Announce each stretch out loud during a session.
@@ -208,6 +251,33 @@ export function Settings() {
           Session history and settings are stored only on this device (browser local storage).
           Clearing your browser data will erase your history.
         </p>
+        <div className="mt-3 flex gap-2">
+          <button
+            type="button"
+            onClick={() => exportData()}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          >
+            <IconDownload size="1.1em" /> Export
+          </button>
+          <button
+            type="button"
+            onClick={() => importInputRef.current?.click()}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          >
+            <IconUpload size="1.1em" /> Import
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept="application/json"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) importData(file);
+              e.target.value = '';
+            }}
+          />
+        </div>
       </section>
     </div>
   );
