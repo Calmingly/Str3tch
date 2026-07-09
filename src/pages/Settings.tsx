@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import {
-  SunIcon,
-  MoonIcon,
-  ComputerDesktopIcon,
-  CheckIcon,
-  SwatchIcon,
-  ArrowDownTrayIcon,
-  ArrowUpTrayIcon,
-} from '@heroicons/react/24/outline';
+  RiSunLine,
+  RiMoonLine,
+  RiComputerLine,
+  RiCheckFill,
+  RiPaletteLine,
+  RiDownload2Line,
+  RiUpload2Line,
+} from '@remixicon/react';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
   notificationsSupported,
@@ -21,10 +21,10 @@ import { useCompactMode } from '../hooks/useCompactMode';
 import { ACCENT_THEMES } from '../lib/accentThemes';
 import { exportData, importData } from '../lib/dataTransfer';
 
-const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof SunIcon }[] = [
-  { value: 'light', label: 'Light', Icon: SunIcon },
-  { value: 'dark', label: 'Dark', Icon: MoonIcon },
-  { value: 'auto', label: 'Auto', Icon: ComputerDesktopIcon },
+const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof RiSunLine }[] = [
+  { value: 'light', label: 'Light', Icon: RiSunLine },
+  { value: 'dark', label: 'Dark', Icon: RiMoonLine },
+  { value: 'auto', label: 'Auto', Icon: RiComputerLine },
 ];
 
 function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
@@ -100,7 +100,7 @@ export function Settings() {
                 }`}
                 style={active ? { backgroundColor: 'var(--accent)' } : undefined}
               >
-                <opt.Icon className="size-[1.1em]" />
+                <opt.Icon size="1.1em" />
                 {opt.label}
               </button>
             );
@@ -125,7 +125,7 @@ export function Settings() {
                 }`}
                 style={{ backgroundColor: theme.hex }}
               >
-                {active && <CheckIcon className="size-[1em] text-white" />}
+                {active && <RiCheckFill size="1em" className="text-white" />}
               </button>
             );
           })}
@@ -141,9 +141,9 @@ export function Settings() {
             title="Custom color"
           >
             {isCustomAccent ? (
-              <CheckIcon className="size-[1em] text-white" />
+              <RiCheckFill size="1em" className="text-white" />
             ) : (
-              <SwatchIcon className="size-[1em] text-white drop-shadow" />
+              <RiPaletteLine size="1em" className="text-white drop-shadow" />
             )}
             <input
               type="color"
@@ -265,14 +265,14 @@ export function Settings() {
             onClick={() => exportData()}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            <ArrowDownTrayIcon className="size-[1.1em]" /> Export
+            <RiDownload2Line size="1.1em" /> Export
           </button>
           <button
             type="button"
             onClick={() => importInputRef.current?.click()}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-sm font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            <ArrowUpTrayIcon className="size-[1.1em]" /> Import
+            <RiUpload2Line size="1.1em" /> Import
           </button>
           <input
             ref={importInputRef}

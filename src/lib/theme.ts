@@ -1,4 +1,4 @@
-import { ArrowsPointingOutIcon, FireIcon, BoltIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { RiFlowerFill, RiFireFill, RiFlashlightFill, RiSparklingFill } from '@remixicon/react';
 import type { Icon } from './iconType';
 import type { Goal } from '../types';
 
@@ -15,7 +15,7 @@ export interface GoalStyle {
 export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   'general-mobility': {
     label: 'General mobility',
-    icon: ArrowsPointingOutIcon,
+    icon: RiFlowerFill,
     gradient: 'from-emerald-400 to-teal-500',
     solid: 'bg-emerald-500',
     text: 'text-emerald-600',
@@ -24,7 +24,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'targeted-relief': {
     label: 'Targeted relief',
-    icon: FireIcon,
+    icon: RiFireFill,
     gradient: 'from-amber-400 to-orange-500',
     solid: 'bg-orange-500',
     text: 'text-orange-600',
@@ -33,7 +33,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'activity-recovery': {
     label: 'Activity recovery',
-    icon: BoltIcon,
+    icon: RiFlashlightFill,
     gradient: 'from-sky-400 to-blue-500',
     solid: 'bg-sky-500',
     text: 'text-sky-600',
@@ -42,7 +42,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
   },
   'habit-building': {
     label: 'Daily habit',
-    icon: SparklesIcon,
+    icon: RiSparklingFill,
     gradient: 'from-violet-400 to-purple-500',
     solid: 'bg-violet-500',
     text: 'text-violet-600',

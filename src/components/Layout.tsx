@@ -1,20 +1,23 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { HomeIcon, ChartBarIcon, TrophyIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 import {
-  HomeIcon as HomeIconSolid,
-  ChartBarIcon as ChartBarIconSolid,
-  TrophyIcon as TrophyIconSolid,
-  Cog6ToothIcon as Cog6ToothIconSolid,
-} from '@heroicons/react/24/solid';
+  RiHomeLine,
+  RiHomeFill,
+  RiBarChartLine,
+  RiBarChartFill,
+  RiTrophyLine,
+  RiTrophyFill,
+  RiSettings3Line,
+  RiSettings3Fill,
+} from '@remixicon/react';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import { useReminderScheduler } from '../hooks/useReminderScheduler';
 
 const navItems = [
-  { to: '/', label: 'Routines', Icon: HomeIcon, IconActive: HomeIconSolid },
-  { to: '/progress', label: 'Progress', Icon: ChartBarIcon, IconActive: ChartBarIconSolid },
-  { to: '/awards', label: 'Awards', Icon: TrophyIcon, IconActive: TrophyIconSolid },
-  { to: '/settings', label: 'Settings', Icon: Cog6ToothIcon, IconActive: Cog6ToothIconSolid },
+  { to: '/', label: 'Routines', Icon: RiHomeLine, IconActive: RiHomeFill },
+  { to: '/progress', label: 'Progress', Icon: RiBarChartLine, IconActive: RiBarChartFill },
+  { to: '/awards', label: 'Awards', Icon: RiTrophyLine, IconActive: RiTrophyFill },
+  { to: '/settings', label: 'Settings', Icon: RiSettings3Line, IconActive: RiSettings3Fill },
 ];
 
 export function Layout() {
@@ -63,11 +66,7 @@ export function Layout() {
                     />
                   )}
                   <span className="relative z-10 text-lg leading-none">
-                    {isActive ? (
-                      <IconActive className="size-[1.2em]" />
-                    ) : (
-                      <Icon className="size-[1.2em]" />
-                    )}
+                    {isActive ? <IconActive size="1.2em" /> : <Icon size="1.2em" />}
                   </span>
                   <span className="relative z-10">{label}</span>
                 </>

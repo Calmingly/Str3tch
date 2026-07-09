@@ -1,3 +1,1 @@
-import type { ComponentType, SVGProps } from 'react';
-
-export type Icon = ComponentType<SVGProps<SVGSVGElement>>;
+export type { RemixiconComponentType as Icon } from '@remixicon/react';

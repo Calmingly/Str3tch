@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
-  ArrowLeftIcon,
-  PencilIcon,
-  TrashIcon,
-  Square2StackIcon,
-  HeartIcon,
-  SpeakerWaveIcon,
-  SpeakerXMarkIcon,
-} from '@heroicons/react/24/outline';
-import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+  RiArrowLeftLine,
+  RiPencilLine,
+  RiDeleteBinLine,
+  RiFileCopyLine,
+  RiHeartLine,
+  RiHeartFill,
+  RiVolumeUpLine,
+  RiVolumeMuteLine,
+} from '@remixicon/react';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle } from '../lib/theme';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -104,19 +104,19 @@ export function RoutineDetail() {
       >
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
-            <ArrowLeftIcon className="size-[1em]" /> Back
+            <RiArrowLeftLine size="1em" /> Back
           </Link>
           <div className="flex items-center gap-3 text-sm text-white/85">
             <button type="button" onClick={handleDuplicate} className="flex items-center gap-1">
-              <Square2StackIcon className="size-[1em]" /> Duplicate
+              <RiFileCopyLine size="1em" /> Duplicate
             </button>
             {routine.isCustom && (
               <>
                 <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
-                  <PencilIcon className="size-[1em]" /> Edit
+                  <RiPencilLine size="1em" /> Edit
                 </Link>
                 <button type="button" className="flex items-center gap-1" onClick={handleDelete}>
-                  <TrashIcon className="size-[1em]" /> Delete
+                  <RiDeleteBinLine size="1em" /> Delete
                 </button>
               </>
             )}
@@ -128,16 +128,16 @@ export function RoutineDetail() {
               className="text-lg"
             >
               {isFavorite(routine.id) ? (
-                <HeartIconSolid className="size-[1em]" />
+                <RiHeartFill size="1em" />
               ) : (
-                <HeartIcon className="size-[1em]" />
+                <RiHeartLine size="1em" />
               )}
             </button>
           </div>
         </div>
         <div className="mt-3 flex items-center gap-3">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
-            <style.icon className="size-[1em]" />
+            <style.icon size="1em" />
           </div>
           <div>
             <h1 className="text-xl font-bold">{routine.name}</h1>
@@ -152,9 +152,9 @@ export function RoutineDetail() {
       <div className="flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center gap-2">
           {resolveVoiceEnabled(voice.enabled, voiceOverride) ? (
-            <SpeakerWaveIcon className="size-[1.1em] text-slate-400" />
+            <RiVolumeUpLine size="1.1em" className="text-slate-400" />
           ) : (
-            <SpeakerXMarkIcon className="size-[1.1em] text-slate-400" />
+            <RiVolumeMuteLine size="1.1em" className="text-slate-400" />
           )}
           <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
             Voice guidance

@@ -1,8 +1,15 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { WrenchScrewdriverIcon, XMarkIcon, HeartIcon } from '@heroicons/react/24/outline';
-import { FireIcon, MapPinIcon, PlayIcon, HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid';
+import {
+  RiToolsFill,
+  RiCloseLine,
+  RiHeartLine,
+  RiFireFill,
+  RiMapPinFill,
+  RiPlayFill,
+  RiHeartFill,
+} from '@remixicon/react';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
 import { useAllRoutines } from '../hooks/useAllRoutines';
@@ -101,7 +108,7 @@ export function Home() {
         <Logo />
         {streak.current > 0 && (
           <p className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
-            <FireIcon className="size-[1em]" style={{ color: 'var(--accent)' }} />
+            <RiFireFill size="1em" style={{ color: 'var(--accent)' }} />
             {streak.current} day streak
           </p>
         )}
@@ -147,7 +154,7 @@ export function Home() {
         <div className="flex items-start justify-between gap-3">
           <Link to={`/routine/${suggested.id}`} className="min-w-0 flex-1">
             <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
-              <suggestedStyle.icon className="size-[1em]" /> Quick start
+              <suggestedStyle.icon size="1em" /> Quick start
             </p>
             <p className="mt-1 text-lg font-bold">{suggested.name}</p>
             <p className="mt-1 text-sm text-white/85">
@@ -159,7 +166,7 @@ export function Home() {
             aria-label={`Start ${suggested.name} now`}
             className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-xl shadow-inner transition-transform active:scale-90"
           >
-            <PlayIcon className="size-[1em]" />
+            <RiPlayFill size="1em" />
           </Link>
         </div>
       </div>
@@ -185,7 +192,7 @@ export function Home() {
                   }`}
                   style={active ? ({ '--tw-ring-color': 'var(--accent)' } as CSSProperties) : undefined}
                 >
-                  <style.icon className="size-[1em]" />
+                  <style.icon size="1em" />
                 </span>
                 <span className="text-center text-[11px] font-semibold leading-tight text-slate-600 dark:text-slate-300">
                   {style.label.split(' ')[0]}
@@ -202,7 +209,7 @@ export function Home() {
           to="/body-map"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <MapPinIcon className="size-6" style={{ color: 'var(--accent)' }} />
+          <RiMapPinFill size={24} style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Where's it tight?
           </span>
@@ -211,7 +218,7 @@ export function Home() {
           to="/build"
           className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
         >
-          <WrenchScrewdriverIcon className="size-6" style={{ color: 'var(--accent)' }} />
+          <RiToolsFill size={24} style={{ color: 'var(--accent)' }} />
           <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             Build a routine
           </span>
@@ -233,7 +240,7 @@ export function Home() {
                 onClick={() => setActiveGoal(null)}
                 className="flex items-center gap-0.5 text-xs font-semibold text-slate-400"
               >
-                <XMarkIcon className="size-[1em]" /> Clear
+                <RiCloseLine size="1em" /> Clear
               </motion.button>
             )}
           </AnimatePresence>
@@ -258,7 +265,7 @@ export function Home() {
                     <div
                       className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
                     >
-                      <style.icon className="size-[1em]" />
+                      <style.icon size="1em" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2 pr-6">
@@ -298,9 +305,9 @@ export function Home() {
                     style={isFavorite(routine.id) ? { color: 'var(--accent)' } : undefined}
                   >
                     {isFavorite(routine.id) ? (
-                      <HeartIconSolid className="size-[1.05em]" />
+                      <RiHeartFill size="1.05em" />
                     ) : (
-                      <HeartIcon className="size-[1.05em]" />
+                      <RiHeartLine size="1.05em" />
                     )}
                   </button>
                 </div>
