@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ROUTINES } from '../data/routines';
 import { routineDurationSeconds } from '../data/expand';
 import { GOAL_COLORS, GOAL_LABELS, primaryGoal } from '../lib/goals';
+import { StretchIllustration } from '../components/StretchIllustration';
 import type { Goal } from '../types';
 
 const FILTERS: { label: string; value: Goal | null }[] = [
@@ -18,6 +20,29 @@ function pad(n: number) {
   return String(n).padStart(2, '0');
 }
 
+function Sprig() {
+  return (
+    <svg
+      width="72"
+      height="28"
+      viewBox="0 0 72 28"
+      fill="none"
+      aria-hidden="true"
+      className="opacity-70"
+    >
+      <path
+        d="M2 24C16 24 20 6 36 6S56 24 70 24"
+        stroke="var(--accent)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <circle cx="14" cy="17.5" r="1.6" fill="var(--accent)" />
+      <circle cx="36" cy="6" r="1.8" fill="var(--accent)" />
+      <circle cx="58" cy="17.5" r="1.6" fill="var(--accent)" />
+    </svg>
+  );
+}
+
 export function Home() {
   const [filter, setFilter] = useState<Goal | null>(null);
 
@@ -28,68 +53,97 @@ export function Home() {
 
   return (
     <div className="flex flex-col gap-10">
-      <header>
-        <h1 className="font-serif text-4xl font-medium leading-none">
+      <header className="flex flex-col items-start gap-3">
+        <Sprig />
+        <h1 className="font-serif text-5xl font-medium leading-none tracking-tight">
           Str<span style={{ color: 'var(--accent)' }}>3</span>tch
         </h1>
-        <p className="mt-2 text-sm" style={{ color: 'var(--ink-soft)' }}>
+        <p className="text-sm italic" style={{ color: 'var(--ink-soft)' }}>
           A short list of routines. Pick one and go.
         </p>
       </header>
 
-      <nav className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
-        {FILTERS.map((f) => {
-          const active = filter === f.value;
-          return (
-            <button
-              key={f.label}
-              type="button"
-              onClick={() => setFilter(f.value)}
-              className="pb-0.5"
-              style={{
-                color: active ? 'var(--ink)' : 'var(--ink-soft)',
-                borderBottom: active ? '1.5px solid var(--accent)' : '1.5px solid transparent',
-                fontWeight: active ? 600 : 400,
-              }}
-            >
-              {f.label}
-            </button>
-          );
-        })}
-      </nav>
+      <LayoutGroup>
+        <nav className="flex flex-wrap gap-x-1 text-sm">
+          {FILTERS.map((f) => {
+            const active = filter === f.value;
+            return (
+              <button
+                key={f.label}
+                type="button"
+                onClick={() => setFilter(f.value)}
+                className="relative px-2.5 pb-2"
+                style={{
+                  color: active ? 'var(--ink)' : 'var(--ink-soft)',
+                  fontWeight: active ? 600 : 400,
+                }}
+              >
+                {f.label}
+                {active && (
+                  <motion.span
+                    layoutId="filter-underline"
+                    className="absolute inset-x-2 bottom-0 h-[1.5px]"
+                    style={{ backgroundColor: 'var(--accent)' }}
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+      </LayoutGroup>
 
       <ol className="flex flex-col">
-        {visible.map((routine, i) => {
-          const goal = primaryGoal(routine.goal);
-          return (
-            <li key={routine.id} style={{ borderTop: '1px solid var(--rule)' }}>
-              <Link
-                to={`/routine/${routine.id}`}
-                className="flex items-start gap-4 py-5 transition-opacity active:opacity-60"
+        <AnimatePresence mode="popLayout" initial={false}>
+          {visible.map((routine, i) => {
+            const goal = primaryGoal(routine.goal);
+            return (
+              <motion.li
+                key={routine.id}
+                layout
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25, delay: Math.min(i, 5) * 0.04 }}
+                style={{ borderTop: '1px solid var(--rule)' }}
               >
-                <span
-                  className="font-serif pt-0.5 text-lg tabular-nums"
-                  style={{ color: 'var(--ink-soft)' }}
+                <Link
+                  to={`/routine/${routine.id}`}
+                  className="group flex items-center gap-4 py-5 transition-colors active:bg-[var(--paper-2)]"
                 >
-                  {pad(i + 1)}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="font-serif text-xl font-medium">{routine.name}</p>
-                  <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
-                    {routine.description}
-                  </p>
-                  <p className="mt-2 flex items-center gap-1.5 text-xs uppercase tracking-wide" style={{ color: 'var(--ink-soft)' }}>
-                    <span
-                      className="inline-block h-1.5 w-1.5 rounded-full"
-                      style={{ backgroundColor: GOAL_COLORS[goal] }}
-                    />
-                    {GOAL_LABELS[goal]} · {minutes(routineDurationSeconds(routine))} min
-                  </p>
-                </div>
-              </Link>
-            </li>
-          );
-        })}
+                  <span
+                    className="font-serif w-6 shrink-0 text-lg tabular-nums"
+                    style={{ color: 'var(--ink-soft)' }}
+                  >
+                    {pad(i + 1)}
+                  </span>
+                  <StretchIllustration
+                    stretchId={routine.steps[0].stretchId}
+                    tone="duotone"
+                    size={52}
+                    className="ring-1 ring-black/5 transition-transform group-active:scale-95 dark:ring-white/10"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-serif text-xl font-medium">{routine.name}</p>
+                    <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
+                      {routine.description}
+                    </p>
+                    <p
+                      className="mt-2 flex items-center gap-1.5 text-xs uppercase tracking-wide"
+                      style={{ color: 'var(--ink-soft)' }}
+                    >
+                      <span
+                        className="inline-block h-1.5 w-1.5 rounded-full"
+                        style={{ backgroundColor: GOAL_COLORS[goal] }}
+                      />
+                      {GOAL_LABELS[goal]} · {minutes(routineDurationSeconds(routine))} min
+                    </p>
+                  </div>
+                </Link>
+              </motion.li>
+            );
+          })}
+        </AnimatePresence>
       </ol>
     </div>
   );

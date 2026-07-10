@@ -1,6 +1,8 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { ROUTINES } from '../data/routines';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
+import { GOAL_COLORS, GOAL_LABELS, primaryGoal } from '../lib/goals';
 import { ArrowLeftIcon } from '../components/icons';
 import { StretchIllustration } from '../components/StretchIllustration';
 
@@ -16,6 +18,7 @@ export function RoutineDetail() {
 
   const steps = expandRoutine(routine);
   const totalMinutes = Math.round(routineDurationSeconds(routine) / 60);
+  const goal = primaryGoal(routine.goal);
 
   return (
     <div className="flex flex-col gap-8">
@@ -27,12 +30,36 @@ export function RoutineDetail() {
         >
           <ArrowLeftIcon size={16} /> Routines
         </Link>
-        <h1 className="font-serif mt-4 text-3xl font-medium leading-tight">{routine.name}</h1>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.35, ease: 'easeOut' }}
+          className="mt-4"
+        >
+          <StretchIllustration
+            stretchId={routine.steps[0].stretchId}
+            tone="duotone"
+            rounded="lg"
+            width="100%"
+            height={176}
+            className="w-full"
+          />
+        </motion.div>
+
+        <h1 className="font-serif mt-5 text-3xl font-medium leading-tight">{routine.name}</h1>
         <p className="mt-2 text-sm" style={{ color: 'var(--ink-soft)' }}>
           {routine.description}
         </p>
-        <p className="mt-2 text-xs uppercase tracking-wide" style={{ color: 'var(--ink-soft)' }}>
-          {steps.length} stretches · about {totalMinutes} min
+        <p
+          className="mt-3 flex items-center gap-1.5 text-xs uppercase tracking-wide"
+          style={{ color: 'var(--ink-soft)' }}
+        >
+          <span
+            className="inline-block h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: GOAL_COLORS[goal] }}
+          />
+          {GOAL_LABELS[goal]} · {steps.length} stretches · about {totalMinutes} min
         </p>
       </div>
 
@@ -69,7 +96,7 @@ export function RoutineDetail() {
 
       <Link
         to={`/session/${routine.id}`}
-        className="rounded-full py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-[var(--paper)]"
+        className="rounded-full py-3.5 text-center text-sm font-semibold uppercase tracking-wide text-[var(--paper)] transition-transform active:scale-[0.98]"
         style={{ backgroundColor: 'var(--ink)' }}
       >
         Begin

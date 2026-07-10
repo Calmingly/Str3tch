@@ -76,10 +76,32 @@ function PlayerSession({ routine }: { routine: Routine }) {
         className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-5 px-6 text-center"
         style={{ background: 'var(--paper)', color: 'var(--ink)' }}
       >
-        <p className="font-serif text-3xl font-medium">Nice work.</p>
-        <p className="text-sm" style={{ color: 'var(--ink-soft)' }}>
-          {routine.name} · {Math.round(totalSeconds / 60)} min
-        </p>
+        <motion.div
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', bounce: 0.5, duration: 0.6 }}
+        >
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
+            <circle cx="28" cy="28" r="27" stroke="var(--accent)" strokeWidth="1.4" />
+            <path
+              d="M17 29l7 7 15-16"
+              stroke="var(--accent)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.4 }}
+        >
+          <p className="font-serif text-3xl font-medium">Nice work.</p>
+          <p className="mt-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
+            {routine.name} · {Math.round(totalSeconds / 60)} min
+          </p>
+        </motion.div>
         <Link
           to="/"
           className="mt-2 flex items-center gap-1.5 rounded-full px-6 py-3 text-sm font-semibold uppercase tracking-wide text-[var(--paper)]"
@@ -120,6 +142,9 @@ function PlayerSession({ routine }: { routine: Routine }) {
 
       <motion.div
         key={index}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.15}
@@ -139,6 +164,8 @@ function PlayerSession({ routine }: { routine: Routine }) {
             name={current.stretch.name}
             size={160}
             rounded="lg"
+            tone="duotone"
+            className="shadow-[0_8px_28px_-12px_rgba(31,42,36,0.35)]"
           />
         )}
 
@@ -179,7 +206,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           type="button"
           onClick={() => goToStep(index - 1)}
           disabled={index === 0}
-          className="flex h-11 w-11 items-center justify-center rounded-full disabled:opacity-30"
+          className="flex h-11 w-11 items-center justify-center rounded-full transition-transform active:scale-90 disabled:opacity-30"
           style={{ color: 'var(--ink-soft)' }}
           aria-label="Previous stretch"
         >
@@ -188,7 +215,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <button
           type="button"
           onClick={() => setPaused((p) => !p)}
-          className="flex h-14 w-14 items-center justify-center rounded-full text-[var(--paper)]"
+          className="flex h-14 w-14 items-center justify-center rounded-full text-[var(--paper)] transition-transform active:scale-90"
           style={{ backgroundColor: 'var(--ink)' }}
           aria-label={paused ? 'Resume' : 'Pause'}
         >
@@ -197,7 +224,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <button
           type="button"
           onClick={() => (isLast ? setDone(true) : goToStep(index + 1))}
-          className="flex h-11 w-11 items-center justify-center rounded-full"
+          className="flex h-11 w-11 items-center justify-center rounded-full transition-transform active:scale-90"
           style={{ color: 'var(--ink-soft)' }}
           aria-label="Next stretch"
         >
