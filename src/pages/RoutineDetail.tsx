@@ -86,8 +86,8 @@ export function RoutineDetail() {
         <button
           type="button"
           onClick={handleUndo}
-          className="rounded-2xl px-5 py-2.5 text-sm font-bold uppercase tracking-wide"
-          style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
+          className="rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-lg"
+          style={{ backgroundColor: 'var(--accent)' }}
         >
           Undo
         </button>
@@ -103,19 +103,20 @@ export function RoutineDetail() {
 
   return (
     <div className="flex flex-col gap-5 pb-2">
-      <div>
+      <div
+        className={`-mx-4 -mt-6 rounded-b-[32px] bg-gradient-to-br px-4 pb-6 pt-6 text-white ${style.gradient}`}
+      >
         <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
+          <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
             <RiArrowLeftLine size="1em" /> Back
           </Link>
-          <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-3 text-sm text-white/85">
             <button
               type="button"
               onClick={() => toggleFavorite(routine.id)}
               aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
               aria-pressed={isFavorite(routine.id)}
               className="text-lg"
-              style={isFavorite(routine.id) ? { color: 'var(--accent)' } : undefined}
             >
               {isFavorite(routine.id) ? (
                 <RiHeartFill size="1em" />
@@ -182,20 +183,18 @@ export function RoutineDetail() {
             </div>
           </div>
         </div>
-        <div className="mt-4 flex items-center gap-3">
-          <div
-            className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-2xl text-white ${style.gradient}`}
-          >
+        <div className="mt-3 flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-2xl">
             <Icon size="1em" />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-black dark:text-white">{routine.name}</h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <h1 className="font-display text-xl font-bold">{routine.name}</h1>
+            <p className="text-sm text-white/85">
               {steps.length} stretches · about {totalMinutes} min
             </p>
           </div>
         </div>
-        <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">{routine.description}</p>
+        <p className="mt-3 text-sm text-white/90">{routine.description}</p>
       </div>
 
       <div className="flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
@@ -229,11 +228,11 @@ export function RoutineDetail() {
         </div>
       </div>
 
-      <ol className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <ol className="flex flex-col gap-2">
         {steps.map((step, i) => (
           <li
             key={`${step.stretch.id}-${step.side}-${i}`}
-            className="flex items-center gap-3 border-b border-slate-100 px-3 py-2.5 last:border-0 dark:border-white/5"
+            className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
           >
             <StretchIllustration stretchId={step.stretch.id} name={step.stretch.name} size={44} />
             <div className="min-w-0 flex-1">
@@ -255,8 +254,7 @@ export function RoutineDetail() {
 
       <Link
         to={`/session/${routine.id}`}
-        className="rounded-2xl py-3.5 text-center text-sm font-bold uppercase tracking-wide"
-        style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
+        className={`rounded-2xl bg-gradient-to-br py-3.5 text-center font-bold text-white shadow-lg ${style.gradient}`}
       >
         Start routine
       </Link>

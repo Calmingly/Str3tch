@@ -6,12 +6,12 @@ export interface AccentTheme {
 }
 
 export const ACCENT_THEMES: AccentTheme[] = [
-  { id: 'sunrise', name: 'Volt', hex: '#65A30D', hexSoft: '#65A30D1F' },
-  { id: 'gold', name: 'Orange', hex: '#EA580C', hexSoft: '#EA580C1F' },
-  { id: 'sage', name: 'Crimson', hex: '#DC2626', hexSoft: '#DC26261F' },
-  { id: 'rose', name: 'Pink', hex: '#DB2777', hexSoft: '#DB27771F' },
-  { id: 'plum', name: 'Purple', hex: '#7C3AED', hexSoft: '#7C3AED1F' },
-  { id: 'denim', name: 'Blue', hex: '#2563EB', hexSoft: '#2563EB1F' },
+  { id: 'sunrise', name: 'Sunrise', hex: '#F0552E', hexSoft: '#F0552E22' },
+  { id: 'gold', name: 'Gold', hex: '#D9932A', hexSoft: '#D9932A22' },
+  { id: 'sage', name: 'Sage', hex: '#4F7358', hexSoft: '#4F735822' },
+  { id: 'rose', name: 'Rose', hex: '#D14C69', hexSoft: '#D14C6922' },
+  { id: 'plum', name: 'Plum', hex: '#7A5CB0', hexSoft: '#7A5CB022' },
+  { id: 'denim', name: 'Denim', hex: '#3E6690', hexSoft: '#3E669022' },
 ];
 
 export const DEFAULT_ACCENT_ID = 'sunrise';

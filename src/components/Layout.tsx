@@ -30,7 +30,7 @@ export function Layout() {
       className="min-h-full flex flex-col text-slate-900 transition-colors dark:text-slate-100"
       style={{ background: 'var(--app-bg)' }}
     >
-      <main className="flex-1 overflow-y-auto pb-24">
+      <main className="flex-1 overflow-y-auto pb-28">
         <div className="mx-auto w-full max-w-md px-4 pt-6">
           <AnimatePresence mode="wait">
             <motion.div
@@ -45,32 +45,42 @@ export function Layout() {
           </AnimatePresence>
         </div>
       </main>
-      <nav
-        className="fixed inset-x-0 bottom-0 border-t bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl dark:bg-black/85"
-        style={{ borderColor: 'var(--surface-border)' }}
-      >
-        <div className="mx-auto flex max-w-md px-1">
+      <nav className="fixed inset-x-4 bottom-4 mx-auto max-w-md rounded-full bg-white/90 shadow-lg shadow-black/5 ring-1 ring-slate-900/5 backdrop-blur-lg dark:bg-white/[0.06] dark:ring-white/10">
+        <div className="flex px-1.5 py-1.5">
           {navItems.map(({ to, label, Icon, IconActive }) => (
             <NavLink
               key={to}
               to={to}
               end={to === '/'}
-              className="flex flex-1 flex-col items-center gap-0.5 py-1.5 text-[10px] font-medium text-slate-400"
+              className="relative flex-1 flex flex-col items-center gap-0.5 rounded-full py-2 text-[11px] font-semibold text-slate-400 transition-colors"
               style={({ isActive }) => (isActive ? { color: 'var(--accent)' } : undefined)}
             >
               {({ isActive }) => (
-                <motion.span whileTap={{ scale: 0.85 }} className="flex flex-col items-center gap-0.5">
+                <>
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-pill"
+                      className="absolute inset-0 rounded-full"
+                      style={{ backgroundColor: 'var(--accent-soft)' }}
+                      transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
+                    />
+                  )}
                   <motion.span
-                    key={isActive ? 'active' : 'inactive'}
-                    initial={{ scale: 0.7, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ type: 'spring', bounce: 0.5, duration: 0.4 }}
-                    className="text-xl leading-none"
+                    whileTap={{ scale: 0.85 }}
+                    className="relative z-10 flex flex-col items-center gap-0.5"
                   >
-                    {isActive ? <IconActive size="1.2em" /> : <Icon size="1.2em" />}
+                    <motion.span
+                      key={isActive ? 'active' : 'inactive'}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: 'spring', bounce: 0.5, duration: 0.4 }}
+                      className="text-lg leading-none"
+                    >
+                      {isActive ? <IconActive size="1.2em" /> : <Icon size="1.2em" />}
+                    </motion.span>
+                    <span>{label}</span>
                   </motion.span>
-                  <span>{label}</span>
-                </motion.span>
+                </>
               )}
             </NavLink>
           ))}

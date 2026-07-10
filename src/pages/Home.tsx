@@ -28,10 +28,22 @@ import type { Goal } from '../types';
 const WEEKLY_MINUTES_GOAL = 60;
 const PILLAR_GOALS = Object.keys(GOAL_STYLES) as Goal[];
 
-const MOMENTUM_TIER_STYLES: Record<MomentumResult['tier'], { badge: string }> = {
-  high: { badge: 'text-black' },
-  mid: { badge: 'bg-[#EA580C] text-white' },
-  low: { badge: 'bg-white/10 text-white' },
+const MOMENTUM_TIER_STYLES: Record<MomentumResult['tier'], { wash: string; ring: string; badge: string }> = {
+  high: {
+    wash: 'from-[#5F8267]/20 to-[var(--surface)] dark:from-[#5F8267]/30 dark:to-[var(--surface)]',
+    ring: 'ring-[#5F8267]/25 dark:ring-[#5F8267]/30',
+    badge: 'bg-[#5F8267] text-white',
+  },
+  mid: {
+    wash: 'from-[#D9932A]/20 to-[var(--surface)] dark:from-[#D9932A]/30 dark:to-[var(--surface)]',
+    ring: 'ring-[#D9932A]/25 dark:ring-[#D9932A]/30',
+    badge: 'bg-[#D9932A] text-white',
+  },
+  low: {
+    wash: 'from-[var(--surface-2)] to-[var(--surface)]',
+    ring: 'ring-[var(--surface-border)]',
+    badge: 'bg-[var(--surface-2)] text-slate-600 dark:text-slate-300',
+  },
 };
 
 function minutes(seconds: number) {
@@ -112,28 +124,34 @@ export function Home() {
 
   return (
     <div className="flex flex-col gap-4 pb-2">
-      <header className="mb-1 flex flex-col gap-1">
+      <header className="relative mb-1 flex flex-col gap-1">
+        <div
+          aria-hidden="true"
+          className="animate-pose-breathe pointer-events-none absolute -left-4 -top-6 h-32 w-32 rounded-full blur-2xl"
+          style={{ background: 'var(--accent-soft)' }}
+        />
         <Logo />
         {streak.current > 0 && (
-          <p className="flex items-center gap-1 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          <p className="relative flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
             <RiFireFill size="1em" style={{ color: 'var(--accent)' }} />
             {streak.current} day streak
           </p>
         )}
       </header>
 
-      <section className="rounded-2xl bg-[#0a0a0a] p-5 text-white ring-1 ring-white/10">
+      <section
+        className={`rounded-3xl bg-gradient-to-br p-5 shadow-sm shadow-black/5 ring-1 ${MOMENTUM_TIER_STYLES[momentum.tier].wash} ${MOMENTUM_TIER_STYLES[momentum.tier].ring}`}
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--accent)' }}>
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
               Momentum
             </p>
-            <p className="font-display mt-1 text-6xl font-bold tabular-nums text-white">
+            <p className="font-display mt-2 text-5xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
               {animatedScore}
             </p>
             <span
-              className={`mt-2 inline-block rounded-md px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${MOMENTUM_TIER_STYLES[momentum.tier].badge}`}
-              style={momentum.tier === 'high' ? { backgroundColor: 'var(--accent)' } : undefined}
+              className={`mt-2 inline-block rounded-full px-2.5 py-1 text-xs font-bold ${MOMENTUM_TIER_STYLES[momentum.tier].badge}`}
             >
               {momentum.tier === 'high' ? 'Excellent' : momentum.tier === 'mid' ? 'Good' : momentum.message}
             </span>
@@ -143,18 +161,18 @@ export function Home() {
           </div>
         </div>
 
-        <div className="mt-4 border-t border-white/10 pt-4">
+        <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-800">
           <div className="flex items-baseline justify-between">
-            <p className="font-display text-3xl font-bold tabular-nums text-white">
+            <p className="text-2xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
               {animatedWeeklyMinutes}
-              <span className="ml-1 font-sans text-sm font-semibold text-white/50">min this week</span>
+              <span className="ml-1 text-sm font-semibold text-slate-400">min this week</span>
             </p>
-            <span className="text-xs text-white/50">Goal {WEEKLY_MINUTES_GOAL} min</span>
+            <span className="text-xs text-slate-400">Goal {WEEKLY_MINUTES_GOAL} min</span>
           </div>
-          <p className="mt-1 text-xs text-white/50">
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
             {streak.longest} day best streak
           </p>
-          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
             <div
               className="h-full rounded-full transition-all"
               style={{ width: `${weeklyProgress * 100}%`, backgroundColor: 'var(--accent)' }}
@@ -163,31 +181,29 @@ export function Home() {
         </div>
       </section>
 
-      <div className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-        <div
-          className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-lg text-white ${suggestedStyle.gradient}`}
-        >
-          <suggestedStyle.icon size="1em" />
+      <div className={`rounded-3xl bg-gradient-to-br p-5 text-white shadow-md shadow-black/10 ${suggestedStyle.gradient}`}>
+        <div className="flex items-start justify-between gap-3">
+          <Link to={`/routine/${suggested.id}`} className="min-w-0 flex-1">
+            <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
+              <suggestedStyle.icon size="1em" /> Quick start
+            </p>
+            <p className="mt-1 text-lg font-bold">{suggested.name}</p>
+            <p className="mt-1 text-sm text-white/85">
+              {minutes(routineDurationSeconds(suggested))} min · {suggested.description}
+            </p>
+          </Link>
+          <Link
+            to={`/session/${suggested.id}`}
+            aria-label={`Start ${suggested.name} now`}
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 text-xl shadow-inner transition-transform active:scale-90"
+          >
+            <RiPlayFill size="1em" />
+          </Link>
         </div>
-        <Link to={`/routine/${suggested.id}`} className="min-w-0 flex-1">
-          <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Quick start</p>
-          <p className="truncate text-[15px] font-semibold text-black dark:text-white">{suggested.name}</p>
-          <p className="truncate text-xs text-slate-500 dark:text-slate-400">
-            {minutes(routineDurationSeconds(suggested))} min · {suggested.description}
-          </p>
-        </Link>
-        <Link
-          to={`/session/${suggested.id}`}
-          aria-label={`Start ${suggested.name} now`}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg transition-transform active:scale-90"
-          style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
-        >
-          <RiPlayFill size="1em" />
-        </Link>
       </div>
 
-      <section className="rounded-2xl bg-white p-5 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-        <h2 className="mb-4 text-xs font-bold uppercase tracking-wide text-slate-400">
+      <section className="rounded-3xl bg-white p-5 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+        <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
           Browse by focus
         </h2>
         <div className="flex justify-between gap-2">
@@ -202,14 +218,14 @@ export function Home() {
                 className="flex flex-col items-center gap-1.5"
               >
                 <span
-                  className={`flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br text-2xl text-white transition-transform ${style.gradient} ${
+                  className={`flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br text-2xl text-white transition-transform ${style.gradient} ${
                     active ? 'scale-110 ring-2 ring-offset-2 ring-offset-white dark:ring-offset-[var(--surface)]' : ''
                   }`}
                   style={active ? ({ '--tw-ring-color': 'var(--accent)' } as CSSProperties) : undefined}
                 >
                   <style.icon size="1em" />
                 </span>
-                <span className="text-center text-[11px] font-bold uppercase leading-tight tracking-wide text-slate-600 dark:text-slate-300">
+                <span className="text-center text-[11px] font-semibold leading-tight text-slate-600 dark:text-slate-300">
                   {style.label.split(' ')[0]}
                 </span>
                 <span className="text-[10px] text-slate-400">{pillarCounts[g]}</span>
@@ -218,17 +234,17 @@ export function Home() {
           })}
         </div>
 
-        <div className="mt-4 flex gap-2 border-t border-slate-100 pt-4 dark:border-white/10">
+        <div className="mt-4 flex gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
           <Link
             to="/body-map"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-white/5 dark:text-slate-300"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
           >
             <RiMapPinFill size="1.1em" style={{ color: 'var(--accent)' }} />
             Where's it tight?
           </Link>
           <Link
             to="/build"
-            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-white/5 dark:text-slate-300"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
           >
             <RiToolsFill size="1.1em" style={{ color: 'var(--accent)' }} />
             Build a routine
@@ -268,48 +284,49 @@ export function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.25, delay: Math.min(i, 6) * 0.04 }}
-                className="relative"
               >
-                <Link
-                  to={`/routine/${routine.id}`}
-                  className="flex items-center gap-3 rounded-2xl border-2 border-black bg-white p-3 pr-11 transition-transform active:scale-[0.98] dark:border-white dark:bg-[var(--surface)]"
-                >
-                  <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-xl text-white ${style.gradient}`}
+                <div className="relative">
+                  <Link
+                    to={`/routine/${routine.id}`}
+                    className={`flex items-center gap-3 rounded-2xl bg-gradient-to-br p-4 text-white shadow-sm shadow-black/10 transition-transform active:scale-[0.98] ${style.gradient}`}
                   >
-                    <Icon size="1em" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-bold uppercase tracking-tight text-black dark:text-white">
-                      {routine.name}
-                      {routine.isCustom && (
-                        <span className="ml-1.5 text-[10px] font-semibold normal-case text-slate-400">
-                          custom
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-xl">
+                      <Icon size="1em" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2 pr-6">
+                        <p className="truncate font-semibold text-white">
+                          {routine.name}
+                          {routine.isCustom && (
+                            <span className="ml-1.5 text-[10px] font-semibold text-white/80">
+                              CUSTOM
+                            </span>
+                          )}
+                        </p>
+                        <span className="shrink-0 text-xs font-medium text-white/80">
+                          {minutes(routineDurationSeconds(routine))} min
                         </span>
-                      )}
-                    </p>
-                    <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
-                      {routine.description}
-                    </p>
-                  </div>
-                  <span className="shrink-0 text-xs font-bold text-slate-400">
-                    {minutes(routineDurationSeconds(routine))} min
-                  </span>
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => toggleFavorite(routine.id)}
-                  aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
-                  aria-pressed={isFavorite(routine.id)}
-                  className="absolute right-4 top-1/2 z-10 -translate-y-1/2 text-slate-300 transition-colors dark:text-slate-600"
-                  style={isFavorite(routine.id) ? { color: 'var(--accent)' } : undefined}
-                >
-                  {isFavorite(routine.id) ? (
-                    <RiHeartFill size="1.05em" />
-                  ) : (
-                    <RiHeartLine size="1.05em" />
-                  )}
-                </button>
+                      </div>
+                      <p className="mt-0.5 truncate text-xs text-white/80">
+                        {routine.description}
+                      </p>
+                    </div>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => toggleFavorite(routine.id)}
+                    aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
+                    aria-pressed={isFavorite(routine.id)}
+                    className="absolute right-3 top-3 z-10 text-white/60 transition-colors"
+                    style={isFavorite(routine.id) ? { color: '#ffffff' } : undefined}
+                  >
+                    {isFavorite(routine.id) ? (
+                      <RiHeartFill size="1.05em" />
+                    ) : (
+                      <RiHeartLine size="1.05em" />
+                    )}
+                  </button>
+                </div>
               </motion.div>
             );
           })}

@@ -40,7 +40,7 @@ export function BodyMap() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header>
-        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-slate-900 dark:text-slate-100">Where's it tight?</h1>
+        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Where's it tight?</h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Tap a spot to find routines for that area.
         </p>
@@ -100,35 +100,27 @@ export function BodyMap() {
               description="Try another spot, or build your own routine."
             />
           )}
-          {matches.length > 0 && (
-            <div className="flex flex-col gap-3">
-              {matches.map((routine) => {
-                const style = primaryGoalStyle(routine.goal);
-                const Icon = routineIcon(routine);
-                return (
-                  <Link
-                    key={routine.id}
-                    to={`/routine/${routine.id}`}
-                    className="flex items-center gap-3 rounded-2xl border-2 border-black bg-white p-3 transition-transform active:scale-[0.98] dark:border-white dark:bg-[var(--surface)]"
-                  >
-                    <div
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-lg text-white ${style.gradient}`}
-                    >
-                      <Icon size="1em" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-[15px] font-bold uppercase tracking-tight text-black dark:text-white">
-                        {routine.name}
-                      </p>
-                    </div>
-                    <span className="shrink-0 text-xs font-bold text-slate-400">
-                      {minutes(routineDurationSeconds(routine))} min
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          {matches.map((routine) => {
+            const style = primaryGoalStyle(routine.goal);
+            const Icon = routineIcon(routine);
+            return (
+              <Link
+                key={routine.id}
+                to={`/routine/${routine.id}`}
+                className={`flex items-center gap-3 rounded-2xl bg-gradient-to-br p-4 text-white shadow-sm shadow-black/10 ${style.gradient}`}
+              >
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-lg">
+                  <Icon size="1em" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-semibold text-white">{routine.name}</p>
+                  <p className="text-xs text-white/80">
+                    {minutes(routineDurationSeconds(routine))} min
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </section>
       )}
     </div>

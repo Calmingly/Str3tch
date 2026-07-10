@@ -81,7 +81,7 @@ export function Progress() {
   return (
     <div className="flex flex-col gap-6 pb-4">
       <header>
-        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-slate-900 dark:text-slate-100">Progress</h1>
+        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Progress</h1>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
