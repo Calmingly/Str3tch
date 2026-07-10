@@ -131,22 +131,24 @@ export function Home() {
             <WeekBarChart days={chartDays} height={92} />
           </div>
         </div>
-      </section>
 
-      <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">This week</p>
-        <p className="mt-2 text-4xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
-          {animatedWeeklyMinutes}
-          <span className="ml-1 text-lg font-semibold text-slate-400">min</span>
-        </p>
-        <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-          Goal: {WEEKLY_MINUTES_GOAL} min · {streak.longest} day best streak
-        </p>
-        <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
-          <div
-            className="h-full rounded-full transition-all"
-            style={{ width: `${weeklyProgress * 100}%`, backgroundColor: 'var(--accent)' }}
-          />
+        <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-800">
+          <div className="flex items-baseline justify-between">
+            <p className="text-2xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
+              {animatedWeeklyMinutes}
+              <span className="ml-1 text-sm font-semibold text-slate-400">min this week</span>
+            </p>
+            <span className="text-xs text-slate-400">Goal {WEEKLY_MINUTES_GOAL} min</span>
+          </div>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+            {streak.longest} day best streak
+          </p>
+          <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
+            <div
+              className="h-full rounded-full transition-all"
+              style={{ width: `${weeklyProgress * 100}%`, backgroundColor: 'var(--accent)' }}
+            />
+          </div>
         </div>
       </section>
 

@@ -7,6 +7,7 @@ import {
   RiPaletteLine,
   RiDownload2Line,
   RiUpload2Line,
+  RiDeleteBin6Line,
 } from '@remixicon/react';
 import { useReminderSettings } from '../hooks/useReminderSettings';
 import {
@@ -19,7 +20,7 @@ import { useAccentTheme } from '../hooks/useAccentTheme';
 import { useTextSize } from '../hooks/useTextSize';
 import { useCompactMode } from '../hooks/useCompactMode';
 import { ACCENT_THEMES } from '../lib/accentThemes';
-import { exportData, importData } from '../lib/dataTransfer';
+import { exportData, importData, resetAllData } from '../lib/dataTransfer';
 
 const THEME_OPTIONS: { value: ThemeMode; label: string; Icon: typeof RiSunLine }[] = [
   { value: 'light', label: 'Light', Icon: RiSunLine },
@@ -286,6 +287,21 @@ export function Settings() {
             }}
           />
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (
+              window.confirm(
+                'Reset all data? This clears your session history, routines, and settings on this device. This cannot be undone.',
+              )
+            ) {
+              resetAllData();
+            }
+          }}
+          className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-xl bg-red-50 py-2.5 text-sm font-semibold text-red-600 dark:bg-red-500/10 dark:text-red-400"
+        >
+          <RiDeleteBin6Line size="1.1em" /> Reset all data
+        </button>
       </section>
     </div>
   );

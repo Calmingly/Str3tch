@@ -1,4 +1,12 @@
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
+}
+
 export async function celebrateCompletion() {
+  if (prefersReducedMotion()) return;
   const { default: confetti } = await import('canvas-confetti');
   confetti({
     particleCount: 60,
@@ -10,6 +18,7 @@ export async function celebrateCompletion() {
 }
 
 export async function celebrateAchievement() {
+  if (prefersReducedMotion()) return;
   const { default: confetti } = await import('canvas-confetti');
   const end = Date.now() + 600;
   const colors = ['#facc15', '#f97316', '#0ea5e9'];

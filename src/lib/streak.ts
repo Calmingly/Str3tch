@@ -6,6 +6,7 @@ export interface StreakInfo {
   longest: number;
   totalSessions: number;
   daysThisWeek: Set<string>;
+  graceUsed: boolean;
 }
 
 export function computeStreak(sessions: SessionRecord[]): StreakInfo {
@@ -28,9 +29,22 @@ export function computeStreak(sessions: SessionRecord[]): StreakInfo {
   const today = todayKey();
   let cursor = days.has(today) ? today : addDays(today, -1);
   let current = 0;
-  while (days.has(cursor)) {
-    current += 1;
-    cursor = addDays(cursor, -1);
+  let graceUsed = false;
+  let graceAvailable = true;
+  while (true) {
+    if (days.has(cursor)) {
+      current += 1;
+      cursor = addDays(cursor, -1);
+      continue;
+    }
+    // Forgive a single missed day per streak so one busy evening doesn't zero it out.
+    if (graceAvailable && current > 0 && days.has(addDays(cursor, -1))) {
+      graceAvailable = false;
+      graceUsed = true;
+      cursor = addDays(cursor, -1);
+      continue;
+    }
+    break;
   }
 
   return {
@@ -38,5 +52,6 @@ export function computeStreak(sessions: SessionRecord[]): StreakInfo {
     longest,
     totalSessions: sessions.length,
     daysThisWeek: days,
+    graceUsed,
   };
 }

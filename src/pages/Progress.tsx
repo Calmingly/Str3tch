@@ -6,6 +6,7 @@ import {
   RiEmotionNormalFill,
   RiEmotionHappyFill,
   RiEmotionLaughFill,
+  RiShieldCheckFill,
 } from '@remixicon/react';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
@@ -94,7 +95,14 @@ export function Progress() {
               {animatedCurrent}
             </p>
           </RingProgress>
-          <p className="text-xs text-slate-500 dark:text-slate-400">Day streak</p>
+          <p className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+            Day streak
+            {streak.graceUsed && (
+              <span title="Streak protected — one missed day is forgiven">
+                <RiShieldCheckFill size="1em" style={{ color: 'var(--accent)' }} />
+              </span>
+            )}
+          </p>
         </div>
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
           <p className="text-2xl font-bold text-orange-500">{animatedLongest}</p>

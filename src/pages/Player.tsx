@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { motion, type PanInfo } from 'framer-motion';
+import { motion, AnimatePresence, type PanInfo } from 'framer-motion';
 import {
   RiCloseLine,
   RiCheckLine,
   RiMedalFill,
+  RiHistoryLine,
   RiEmotionSadFill,
   RiEmotionUnhappyFill,
   RiEmotionNormalFill,
@@ -23,6 +24,7 @@ import { AchievementToast } from '../components/AchievementToast';
 import { useVoiceSettings, speak } from '../hooks/useVoiceSettings';
 import { useRoutineVoiceOverrides, resolveVoiceEnabled } from '../hooks/useRoutineVoiceOverrides';
 import { useWakeLock } from '../hooks/useWakeLock';
+import { useActiveSession } from '../hooks/useActiveSession';
 import { celebrateCompletion, celebrateAchievement } from '../lib/confetti';
 import { ACHIEVEMENTS, unlockedAchievementIds } from '../data/achievements';
 import type { Achievement } from '../data/achievements';
@@ -54,6 +56,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
   const { settings: globalVoice } = useVoiceSettings();
   const { getOverride } = useRoutineVoiceOverrides();
   const voiceEnabled = resolveVoiceEnabled(globalVoice.enabled, getOverride(routine.id));
+  const { session: savedSession, setSession: setSavedSession } = useActiveSession();
 
   const steps = useMemo(() => expandRoutine(routine), [routine]);
   const totalSeconds = useMemo(() => routineDurationSeconds(routine), [routine]);
@@ -61,19 +64,61 @@ function PlayerSession({ routine }: { routine: Routine }) {
 
   useWakeLock(true);
 
-  const [index, setIndex] = useState(0);
-  const [msLeft, setMsLeft] = useState(steps[0].seconds * 1000);
+  const resumedFrom = useRef(
+    savedSession?.routineId === routine.id
+      ? { ...savedSession, index: Math.min(savedSession.index, steps.length - 1) }
+      : null,
+  ).current;
+
+  const [index, setIndex] = useState(resumedFrom?.index ?? 0);
+  const [msLeft, setMsLeft] = useState(resumedFrom?.msLeft ?? steps[0].seconds * 1000);
   const [paused, setPaused] = useState(false);
   const [done, setDone] = useState(false);
   const [feeling, setFeeling] = useState<FeelingRating['value'] | null>(null);
   const [saved, setSaved] = useState(false);
   const [newlyUnlocked, setNewlyUnlocked] = useState<Achievement[]>([]);
-  const startedAt = useRef(new Date().toISOString());
+  const [showResumedBanner, setShowResumedBanner] = useState(resumedFrom !== null);
+  const startedAt = useRef(resumedFrom?.startedAt ?? new Date().toISOString());
   const spokenIndex = useRef(-1);
   const spokenCountdown = useRef<number | null>(null);
 
   const current = steps[index];
   const isLast = index === steps.length - 1;
+
+  useEffect(() => {
+    if (!showResumedBanner) return;
+    const t = window.setTimeout(() => setShowResumedBanner(false), 4000);
+    return () => window.clearTimeout(t);
+  }, [showResumedBanner]);
+
+  const latestProgress = useRef({ index, msLeft });
+  useEffect(() => {
+    latestProgress.current = { index, msLeft };
+  }, [index, msLeft]);
+
+  useEffect(() => {
+    if (done || saved) return;
+    setSavedSession({ routineId: routine.id, index, msLeft, startedAt: startedAt.current });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index, done, saved]);
+
+  useEffect(() => {
+    if (done || saved) return;
+    const t = window.setInterval(() => {
+      setSavedSession({
+        routineId: routine.id,
+        ...latestProgress.current,
+        startedAt: startedAt.current,
+      });
+    }, 2000);
+    return () => window.clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, saved, routine.id]);
+
+  useEffect(() => {
+    if (done) setSavedSession(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
 
   useEffect(() => {
     if (paused || done) return;
@@ -252,6 +297,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
       <div className="flex items-center justify-between">
         <Link
           to={`/routine/${routine.id}`}
+          onClick={() => setSavedSession(null)}
           className="flex items-center gap-1 text-sm font-medium text-slate-400"
         >
           <RiCloseLine size="1em" /> Exit
@@ -267,6 +313,20 @@ function PlayerSession({ routine }: { routine: Routine }) {
           style={{ width: `${overallProgress * 100}%` }}
         />
       </div>
+
+      <AnimatePresence>
+        {showResumedBanner && (
+          <motion.p
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-2 flex items-center justify-center gap-1.5 overflow-hidden text-xs font-semibold"
+            style={{ color: 'var(--accent)' }}
+          >
+            <RiHistoryLine size="1em" /> Resumed where you left off
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       <motion.div
         key={index}
