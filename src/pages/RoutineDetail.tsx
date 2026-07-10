@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   RiArrowLeftLine,
   RiPencilLine,
@@ -9,6 +10,7 @@ import {
   RiHeartFill,
   RiVolumeUpLine,
   RiVolumeMuteLine,
+  RiMore2Fill,
 } from '@remixicon/react';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { primaryGoalStyle, routineIcon } from '../lib/theme';
@@ -39,6 +41,7 @@ export function RoutineDetail() {
   const { settings: voice } = useVoiceSettings();
   const { getOverride, setOverride } = useRoutineVoiceOverrides();
   const [pendingDelete, setPendingDelete] = useState<Routine | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const deleteTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -108,19 +111,6 @@ export function RoutineDetail() {
             <RiArrowLeftLine size="1em" /> Back
           </Link>
           <div className="flex items-center gap-3 text-sm text-white/85">
-            <button type="button" onClick={handleDuplicate} className="flex items-center gap-1">
-              <RiFileCopyLine size="1em" /> Duplicate
-            </button>
-            {routine.isCustom && (
-              <>
-                <Link to={`/build/${routine.id}`} className="flex items-center gap-1">
-                  <RiPencilLine size="1em" /> Edit
-                </Link>
-                <button type="button" className="flex items-center gap-1" onClick={handleDelete}>
-                  <RiDeleteBinLine size="1em" /> Delete
-                </button>
-              </>
-            )}
             <button
               type="button"
               onClick={() => toggleFavorite(routine.id)}
@@ -134,6 +124,63 @@ export function RoutineDetail() {
                 <RiHeartLine size="1em" />
               )}
             </button>
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setMenuOpen((v) => !v)}
+                aria-label="More actions"
+                aria-expanded={menuOpen}
+                className="text-lg"
+              >
+                <RiMore2Fill size="1em" />
+              </button>
+              <AnimatePresence>
+                {menuOpen && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full z-20 mt-2 w-40 overflow-hidden rounded-xl bg-white py-1 text-left text-slate-700 shadow-lg ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-200 dark:ring-[var(--surface-border)]"
+                    >
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuOpen(false);
+                          handleDuplicate();
+                        }}
+                        className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-white/5"
+                      >
+                        <RiFileCopyLine size="1em" /> Duplicate
+                      </button>
+                      {routine.isCustom && (
+                        <>
+                          <Link
+                            to={`/build/${routine.id}`}
+                            onClick={() => setMenuOpen(false)}
+                            className="flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-slate-50 dark:hover:bg-white/5"
+                          >
+                            <RiPencilLine size="1em" /> Edit
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenuOpen(false);
+                              handleDelete();
+                            }}
+                            className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-500/10"
+                          >
+                            <RiDeleteBinLine size="1em" /> Delete
+                          </button>
+                        </>
+                      )}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
         <div className="mt-3 flex items-center gap-3">

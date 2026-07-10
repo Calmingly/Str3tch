@@ -244,21 +244,11 @@ export function Settings() {
       </section>
 
       <section className="rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]">
-        <p className="font-semibold text-slate-900 dark:text-slate-100">About reminders</p>
+        <p className="font-semibold text-slate-900 dark:text-slate-100">About</p>
         <p className="mt-1">
-          This is a local-only app with no account or server, so reminders only fire while
-          Str3tch is open or running in the background on devices that support it. For the most
-          reliable nudges, add Str3tch to your home screen (browser menu → "Add to Home Screen")
-          and keep notifications allowed. iOS Safari in particular limits background
-          notifications for web apps.
-        </p>
-      </section>
-
-      <section className="rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]">
-        <p className="font-semibold text-slate-900 dark:text-slate-100">Your data</p>
-        <p className="mt-1">
-          Session history and settings are stored only on this device (browser local storage).
-          Clearing your browser data will erase your history.
+          Str3tch is local-only — no account, no server. Everything, including reminders, lives
+          in this browser, so add Str3tch to your home screen for the most reliable nudges, and
+          note that clearing your browser data erases your history.
         </p>
         <div className="mt-3 flex gap-2">
           <button

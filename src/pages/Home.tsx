@@ -204,28 +204,24 @@ export function Home() {
             );
           })}
         </div>
-      </section>
 
-      <div className="grid grid-cols-2 gap-3">
-        <Link
-          to="/body-map"
-          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
-        >
-          <RiMapPinFill size={24} style={{ color: 'var(--accent)' }} />
-          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+        <div className="mt-4 flex gap-2 border-t border-slate-100 pt-4 dark:border-slate-800">
+          <Link
+            to="/body-map"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          >
+            <RiMapPinFill size="1.1em" style={{ color: 'var(--accent)' }} />
             Where's it tight?
-          </span>
-        </Link>
-        <Link
-          to="/build"
-          className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
-        >
-          <RiToolsFill size={24} style={{ color: 'var(--accent)' }} />
-          <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+          </Link>
+          <Link
+            to="/build"
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-slate-50 py-2.5 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300"
+          >
+            <RiToolsFill size="1.1em" style={{ color: 'var(--accent)' }} />
             Build a routine
-          </span>
-        </Link>
-      </div>
+          </Link>
+        </div>
+      </section>
 
       <section className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
@@ -287,16 +283,6 @@ export function Home() {
                       <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
                         {routine.description}
                       </p>
-                      <div className="mt-1.5 flex flex-wrap gap-1">
-                        {routine.goal.map((g) => (
-                          <span
-                            key={g}
-                            className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${GOAL_STYLES[g].chip}`}
-                          >
-                            {GOAL_STYLES[g].label}
-                          </span>
-                        ))}
-                      </div>
                     </div>
                   </Link>
                   <button
