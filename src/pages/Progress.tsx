@@ -81,7 +81,7 @@ export function Progress() {
   return (
     <div className="flex flex-col gap-6 pb-4">
       <header>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Progress</h1>
+        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Progress</h1>
       </header>
 
       <div className="grid grid-cols-3 gap-3">
@@ -93,7 +93,7 @@ export function Progress() {
             color="var(--accent)"
             trackColor="var(--accent-soft)"
           >
-            <p className="text-lg font-bold" style={{ color: 'var(--accent)' }}>
+            <p className="font-display text-lg font-bold" style={{ color: 'var(--accent)' }}>
               {animatedCurrent}
             </p>
           </RingProgress>
@@ -107,11 +107,11 @@ export function Progress() {
           </p>
         </div>
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-          <p className="text-2xl font-bold text-orange-500">{animatedLongest}</p>
+          <p className="font-display text-2xl font-bold text-orange-500">{animatedLongest}</p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Best streak</p>
         </div>
         <div className="rounded-2xl bg-white p-3 text-center shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
-          <p className="text-2xl font-bold text-violet-600 dark:text-violet-400">
+          <p className="font-display text-2xl font-bold text-violet-600 dark:text-violet-400">
             {animatedTotal}
           </p>
           <p className="text-xs text-slate-500 dark:text-slate-400">Total sessions</p>

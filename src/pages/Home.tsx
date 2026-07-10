@@ -124,10 +124,15 @@ export function Home() {
 
   return (
     <div className="flex flex-col gap-4 pb-2">
-      <header className="mb-1 flex flex-col gap-1">
+      <header className="relative mb-1 flex flex-col gap-1">
+        <div
+          aria-hidden="true"
+          className="animate-pose-breathe pointer-events-none absolute -left-4 -top-6 h-32 w-32 rounded-full blur-2xl"
+          style={{ background: 'var(--accent-soft)' }}
+        />
         <Logo />
         {streak.current > 0 && (
-          <p className="flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
+          <p className="relative flex items-center gap-1 text-sm font-medium text-slate-500 dark:text-slate-400">
             <RiFireFill size="1em" style={{ color: 'var(--accent)' }} />
             {streak.current} day streak
           </p>
@@ -142,7 +147,7 @@ export function Home() {
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
               Momentum
             </p>
-            <p className="mt-2 text-5xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
+            <p className="font-display mt-2 text-5xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
               {animatedScore}
             </p>
             <span

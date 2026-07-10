@@ -102,7 +102,7 @@ export function RoutineBuilder() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">
           {existing ? 'Edit routine' : 'Build a routine'}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">

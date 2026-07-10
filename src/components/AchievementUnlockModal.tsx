@@ -23,7 +23,7 @@ export function AchievementUnlockModal({ achievements, onDismiss }: AchievementU
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ type: 'spring', bounce: 0.45, duration: 0.6 }}
         onClick={(e) => e.stopPropagation()}
-        className="flex w-full max-w-xs flex-col items-center gap-3 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 p-6 text-center text-white shadow-2xl"
+        className="flex w-full max-w-xs flex-col items-center gap-3 rounded-[28px] bg-gradient-to-br from-amber-300 to-orange-400 p-6 text-center text-white shadow-2xl"
       >
         <p className="text-xs font-bold uppercase tracking-wide text-white/80">
           Achievement unlocked
@@ -36,7 +36,7 @@ export function AchievementUnlockModal({ achievements, onDismiss }: AchievementU
         >
           <first.icon size={44} />
         </motion.div>
-        <p className="text-xl font-extrabold">{first.name}</p>
+        <p className="font-display text-xl font-bold">{first.name}</p>
         <p className="text-sm text-white/90">{first.description}</p>
         {rest.length > 0 && (
           <p className="text-xs font-semibold text-white/80">+{rest.length} more unlocked</p>

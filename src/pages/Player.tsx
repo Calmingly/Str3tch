@@ -228,7 +228,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         >
           <RiCheckLine size="1em" />
         </div>
-        <h1 className="text-xl font-bold">Nice work</h1>
+        <h1 className="font-display text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
 
         <button
@@ -256,7 +256,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         style={{ background: 'var(--app-bg)' }}
       >
         <RiMedalFill size={40} style={{ color: 'var(--accent)' }} />
-        <h1 className="text-xl font-bold">Routine complete</h1>
+        <h1 className="font-display text-xl font-bold">Routine complete</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">How did that feel?</p>
         <div className="flex gap-2">
           {FEELINGS.map((f) => (
@@ -359,7 +359,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             {current.side ? `${current.side} side` : current.stretch.area.join(' · ')}
           </p>
-          <h1 className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
+          <h1 className="font-display mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
             {current.stretch.name}
           </h1>
         </div>
@@ -381,7 +381,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
             color={style.ring}
             trackColor="#e2e8f0"
           >
-            <span className="text-4xl font-bold tabular-nums text-slate-900 dark:text-slate-100">
+            <span className="font-display text-4xl font-bold tabular-nums text-slate-900 dark:text-slate-100">
               {secondsLeftDisplay}
             </span>
           </RingProgress>

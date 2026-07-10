@@ -4,22 +4,27 @@
 
 :root {
   color-scheme: light;
-  --accent: #0ea5e9;
-  --accent-soft: #0ea5e922;
-  --app-bg: radial-gradient(140% 60% at 50% 0%, #eaf6f6 0%, #f4f7fa 45%, #f8fafc 100%);
-  --surface: #ffffff;
-  --surface-2: #f8fafc;
-  --surface-border: rgba(15, 23, 42, 0.06);
-  --text-hero: #0f172a;
+  --accent: #ff7a59;
+  --accent-soft: #ff7a5922;
+  --app-bg: radial-gradient(140% 60% at 50% 0%, #fff1e6 0%, #fdf6f0 45%, #fffaf5 100%);
+  --surface: #fffdfa;
+  --surface-2: #fdf6ef;
+  --surface-border: rgba(120, 72, 40, 0.08);
+  --text-hero: #3d2b23;
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 :root.dark {
   color-scheme: dark;
-  --app-bg: radial-gradient(120% 55% at 50% 0%, #164048 0%, #0d2830 28%, #0a1720 55%, #05080c 100%);
-  --surface: #12161c;
-  --surface-2: #171c23;
-  --surface-border: rgba(255, 255, 255, 0.05);
-  --text-hero: #f8fafc;
+  --app-bg: radial-gradient(120% 55% at 50% 0%, #3a2436 0%, #26192a 28%, #191320 55%, #100c14 100%);
+  --surface: #211a24;
+  --surface-2: #271f2b;
+  --surface-border: rgba(255, 235, 220, 0.06);
+  --text-hero: #fbf2ec;
 }
 
 html,

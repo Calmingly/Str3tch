@@ -40,7 +40,7 @@ export function BodyMap() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Where's it tight?</h1>
+        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Where's it tight?</h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Tap a spot to find routines for that area.
         </p>

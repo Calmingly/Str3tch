@@ -6,12 +6,12 @@ export interface AccentTheme {
 }
 
 export const ACCENT_THEMES: AccentTheme[] = [
-  { id: 'ocean', name: 'Ocean', hex: '#0ea5e9', hexSoft: '#0ea5e922' },
-  { id: 'sunset', name: 'Sunset', hex: '#f97316', hexSoft: '#f9731622' },
-  { id: 'forest', name: 'Forest', hex: '#10b981', hexSoft: '#10b98122' },
-  { id: 'berry', name: 'Berry', hex: '#f43f5e', hexSoft: '#f43f5e22' },
-  { id: 'grape', name: 'Grape', hex: '#8b5cf6', hexSoft: '#8b5cf622' },
-  { id: 'teal', name: 'Teal', hex: '#14b8a6', hexSoft: '#14b8a622' },
+  { id: 'sunrise', name: 'Sunrise', hex: '#ff7a59', hexSoft: '#ff7a5922' },
+  { id: 'peach', name: 'Peach', hex: '#ffb37b', hexSoft: '#ffb37b22' },
+  { id: 'sage', name: 'Sage', hex: '#7fbfa0', hexSoft: '#7fbfa022' },
+  { id: 'blush', name: 'Blush', hex: '#f28fa8', hexSoft: '#f28fa822' },
+  { id: 'lavender', name: 'Lavender', hex: '#a78bd6', hexSoft: '#a78bd622' },
+  { id: 'sky', name: 'Sky', hex: '#7ab8d6', hexSoft: '#7ab8d622' },
 ];
 
-export const DEFAULT_ACCENT_ID = 'ocean';
+export const DEFAULT_ACCENT_ID = 'sunrise';

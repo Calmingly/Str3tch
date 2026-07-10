@@ -188,7 +188,7 @@ export function RoutineDetail() {
             <Icon size="1em" />
           </div>
           <div>
-            <h1 className="text-xl font-bold">{routine.name}</h1>
+            <h1 className="font-display text-xl font-bold">{routine.name}</h1>
             <p className="text-sm text-white/85">
               {steps.length} stretches · about {totalMinutes} min
             </p>
