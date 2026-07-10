@@ -100,27 +100,35 @@ export function BodyMap() {
               description="Try another spot, or build your own routine."
             />
           )}
-          {matches.map((routine) => {
-            const style = primaryGoalStyle(routine.goal);
-            const Icon = routineIcon(routine);
-            return (
-              <Link
-                key={routine.id}
-                to={`/routine/${routine.id}`}
-                className={`flex items-center gap-3 rounded-[22px] bg-gradient-to-br p-4 text-white ${style.gradient}`}
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-lg">
-                  <Icon size="1em" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-white">{routine.name}</p>
-                  <p className="text-xs text-white/80">
-                    {minutes(routineDurationSeconds(routine))} min
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
+          {matches.length > 0 && (
+            <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+              {matches.map((routine) => {
+                const style = primaryGoalStyle(routine.goal);
+                const Icon = routineIcon(routine);
+                return (
+                  <Link
+                    key={routine.id}
+                    to={`/routine/${routine.id}`}
+                    className="flex items-center gap-3 border-b border-slate-100 py-3 pl-3 pr-4 transition-colors last:border-0 active:bg-slate-50 dark:border-white/5 dark:active:bg-white/5"
+                  >
+                    <div
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-gradient-to-br text-lg text-white ${style.gradient}`}
+                    >
+                      <Icon size="1em" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-[15px] font-semibold text-black dark:text-white">
+                        {routine.name}
+                      </p>
+                    </div>
+                    <span className="shrink-0 text-xs font-medium text-slate-400">
+                      {minutes(routineDurationSeconds(routine))} min
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
     </div>
