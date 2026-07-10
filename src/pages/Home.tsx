@@ -5,6 +5,7 @@ import { ROUTINES } from '../data/routines';
 import { routineDurationSeconds } from '../data/expand';
 import { GOAL_COLORS, GOAL_LABELS, primaryGoal } from '../lib/goals';
 import { StretchIllustration } from '../components/StretchIllustration';
+import { SettingsIcon } from '../components/icons';
 import type { Goal } from '../types';
 
 const FILTERS: { label: string; value: Goal | null }[] = [
@@ -61,12 +62,22 @@ export function Home() {
       <header className="flex flex-col items-start gap-3">
         <div className="flex w-full items-center justify-between">
           <Sprig />
-          <span
-            className="font-serif text-[11px] uppercase italic tracking-[0.2em]"
-            style={{ color: 'var(--ink-soft)' }}
-          >
-            Vol. 01
-          </span>
+          <div className="flex items-center gap-3">
+            <span
+              className="font-serif text-[11px] uppercase italic tracking-[0.2em]"
+              style={{ color: 'var(--ink-soft)' }}
+            >
+              Vol. 01
+            </span>
+            <Link
+              to="/settings"
+              aria-label="Settings"
+              className="flex h-8 w-8 items-center justify-center rounded-full transition-transform active:scale-90"
+              style={{ color: 'var(--ink-soft)' }}
+            >
+              <SettingsIcon size={17} />
+            </Link>
+          </div>
         </div>
         <h1 className="font-serif text-5xl font-medium leading-none tracking-tight">
           Str<span style={{ color: 'var(--accent)' }}>3</span>tch
