@@ -20,7 +20,7 @@ import { primaryGoalStyle } from '../lib/theme';
 import { RingProgress } from '../components/RingProgress';
 import { StretchIllustration } from '../components/StretchIllustration';
 import { BreathingPacer } from '../components/BreathingPacer';
-import { AchievementToast } from '../components/AchievementToast';
+import { AchievementUnlockModal } from '../components/AchievementUnlockModal';
 import { useVoiceSettings, speak } from '../hooks/useVoiceSettings';
 import { useRoutineVoiceOverrides, resolveVoiceEnabled } from '../hooks/useRoutineVoiceOverrides';
 import { useWakeLock } from '../hooks/useWakeLock';
@@ -77,6 +77,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
   const [feeling, setFeeling] = useState<FeelingRating['value'] | null>(null);
   const [saved, setSaved] = useState(false);
   const [newlyUnlocked, setNewlyUnlocked] = useState<Achievement[]>([]);
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
   const [showResumedBanner, setShowResumedBanner] = useState(resumedFrom !== null);
   const startedAt = useRef(resumedFrom?.startedAt ?? new Date().toISOString());
   const spokenIndex = useRef(-1);
@@ -201,6 +202,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
     );
     if (unlocked.length > 0) {
       setNewlyUnlocked(unlocked);
+      setShowAchievementModal(true);
       celebrateAchievement();
     }
     setSaved(true);
@@ -212,6 +214,15 @@ function PlayerSession({ routine }: { routine: Routine }) {
         className="mx-auto flex min-h-full max-w-md flex-col items-center justify-center gap-4 px-6 text-center text-slate-900 dark:text-slate-100"
         style={{ background: 'var(--app-bg)' }}
       >
+        <AnimatePresence>
+          {showAchievementModal && newlyUnlocked.length > 0 && (
+            <AchievementUnlockModal
+              achievements={newlyUnlocked}
+              onDismiss={() => setShowAchievementModal(false)}
+            />
+          )}
+        </AnimatePresence>
+
         <div
           className={`flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br text-3xl text-white ${style.gradient}`}
         >
@@ -219,14 +230,6 @@ function PlayerSession({ routine }: { routine: Routine }) {
         </div>
         <h1 className="text-xl font-bold">Nice work</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">Logged in your progress.</p>
-
-        {newlyUnlocked.length > 0 && (
-          <div className="flex w-full flex-col gap-2">
-            {newlyUnlocked.map((a) => (
-              <AchievementToast key={a.id} achievement={a} />
-            ))}
-          </div>
-        )}
 
         <button
           type="button"

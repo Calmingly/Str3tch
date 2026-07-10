@@ -10,6 +10,7 @@ export interface GoalStyle {
   text: string;
   chip: string;
   ring: string;
+  cardTint: string;
 }
 
 export const GOAL_STYLES: Record<Goal, GoalStyle> = {
@@ -21,6 +22,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
     text: 'text-emerald-600',
     chip: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300',
     ring: '#10b981',
+    cardTint: 'from-emerald-50 to-white dark:from-emerald-500/10 dark:to-[var(--surface)]',
   },
   'targeted-relief': {
     label: 'Targeted relief',
@@ -30,6 +32,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
     text: 'text-orange-600',
     chip: 'bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300',
     ring: '#f97316',
+    cardTint: 'from-orange-50 to-white dark:from-orange-500/10 dark:to-[var(--surface)]',
   },
   'activity-recovery': {
     label: 'Activity recovery',
@@ -39,6 +42,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
     text: 'text-sky-600',
     chip: 'bg-sky-50 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300',
     ring: '#0ea5e9',
+    cardTint: 'from-sky-50 to-white dark:from-sky-500/10 dark:to-[var(--surface)]',
   },
   'habit-building': {
     label: 'Daily habit',
@@ -48,6 +52,7 @@ export const GOAL_STYLES: Record<Goal, GoalStyle> = {
     text: 'text-violet-600',
     chip: 'bg-violet-50 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300',
     ring: '#8b5cf6',
+    cardTint: 'from-violet-50 to-white dark:from-violet-500/10 dark:to-[var(--surface)]',
   },
 };
 

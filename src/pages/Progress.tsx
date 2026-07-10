@@ -7,11 +7,13 @@ import {
   RiEmotionHappyFill,
   RiEmotionLaughFill,
   RiShieldCheckFill,
+  RiCalendarLine,
 } from '@remixicon/react';
 import { useSessions } from '../hooks/useSessions';
 import { useCountUp } from '../hooks/useCountUp';
 import { addDays, dayKey, formatFriendlyDate, formatTime, todayKey } from '../lib/date';
 import { RingProgress } from '../components/RingProgress';
+import { EmptyState } from '../components/EmptyState';
 
 type HistoryRange = 'all' | '7d' | '30d';
 
@@ -204,9 +206,11 @@ export function Progress() {
         )}
 
         {sessions.length === 0 && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            No sessions yet — finish a routine to see it here.
-          </p>
+          <EmptyState
+            icon={RiCalendarLine}
+            title="No sessions yet"
+            description="Finish a routine to see your history here."
+          />
         )}
         {sessions.length > 0 && filteredSessions.length === 0 && (
           <p className="text-sm text-slate-500 dark:text-slate-400">

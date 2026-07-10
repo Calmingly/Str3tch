@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { RiSearchLine } from '@remixicon/react';
 import type { BodyArea } from '../types';
 import { useAllRoutines } from '../hooks/useAllRoutines';
 import { primaryGoalStyle, routineIcon } from '../lib/theme';
 import { routineDurationSeconds } from '../data/expand';
+import { EmptyState } from '../components/EmptyState';
 
 interface Hotspot {
   areas: BodyArea[];
@@ -92,9 +94,11 @@ export function BodyMap() {
             Routines for {selected.label.toLowerCase()}
           </h2>
           {matches.length === 0 && (
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              No routines target this area yet.
-            </p>
+            <EmptyState
+              icon={RiSearchLine}
+              title="No routines target this area yet"
+              description="Try another spot, or build your own routine."
+            />
           )}
           {matches.map((routine) => {
             const style = primaryGoalStyle(routine.goal);
@@ -103,7 +107,7 @@ export function BodyMap() {
               <Link
                 key={routine.id}
                 to={`/routine/${routine.id}`}
-                className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
+                className={`flex items-center gap-3 rounded-2xl bg-gradient-to-br p-4 shadow-sm ring-1 ring-slate-100 dark:ring-[var(--surface-border)] ${style.cardTint}`}
               >
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-lg ${style.gradient}`}

@@ -65,10 +65,21 @@ export function Layout() {
                       transition={{ type: 'spring', bounce: 0.25, duration: 0.5 }}
                     />
                   )}
-                  <span className="relative z-10 text-lg leading-none">
-                    {isActive ? <IconActive size="1.2em" /> : <Icon size="1.2em" />}
-                  </span>
-                  <span className="relative z-10">{label}</span>
+                  <motion.span
+                    whileTap={{ scale: 0.85 }}
+                    className="relative z-10 flex flex-col items-center gap-0.5"
+                  >
+                    <motion.span
+                      key={isActive ? 'active' : 'inactive'}
+                      initial={{ scale: 0.5, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: 'spring', bounce: 0.5, duration: 0.4 }}
+                      className="text-lg leading-none"
+                    >
+                      {isActive ? <IconActive size="1.2em" /> : <Icon size="1.2em" />}
+                    </motion.span>
+                    <span>{label}</span>
+                  </motion.span>
                 </>
               )}
             </NavLink>

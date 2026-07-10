@@ -9,6 +9,7 @@ import {
   RiMapPinFill,
   RiPlayFill,
   RiHeartFill,
+  RiInboxLine,
 } from '@remixicon/react';
 import { routineDurationSeconds } from '../data/expand';
 import { useSessions } from '../hooks/useSessions';
@@ -18,13 +19,32 @@ import { useCountUp } from '../hooks/useCountUp';
 import { GOAL_STYLES, primaryGoalStyle, routineIcon } from '../lib/theme';
 import { Logo } from '../components/Logo';
 import { WeekBarChart } from '../components/WeekBarChart';
+import { EmptyState } from '../components/EmptyState';
 import { addDays, dayKey, todayKey } from '../lib/date';
-import { computeMomentum } from '../lib/momentum';
+import { computeMomentum, type MomentumResult } from '../lib/momentum';
 import { pickSuggestedRoutine } from '../lib/suggest';
 import type { Goal } from '../types';
 
 const WEEKLY_MINUTES_GOAL = 60;
 const PILLAR_GOALS = Object.keys(GOAL_STYLES) as Goal[];
+
+const MOMENTUM_TIER_STYLES: Record<MomentumResult['tier'], { wash: string; ring: string; badge: string }> = {
+  high: {
+    wash: 'from-emerald-50 to-white dark:from-emerald-500/15 dark:to-[var(--surface)]',
+    ring: 'ring-emerald-100 dark:ring-emerald-500/20',
+    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
+  },
+  mid: {
+    wash: 'from-amber-50 to-white dark:from-amber-500/15 dark:to-[var(--surface)]',
+    ring: 'ring-amber-100 dark:ring-amber-500/20',
+    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+  },
+  low: {
+    wash: 'from-slate-50 to-white dark:from-white/5 dark:to-[var(--surface)]',
+    ring: 'ring-slate-100 dark:ring-[var(--surface-border)]',
+    badge: 'bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-300',
+  },
+};
 
 function minutes(seconds: number) {
   return Math.round(seconds / 60);
@@ -114,7 +134,9 @@ export function Home() {
         )}
       </header>
 
-      <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section
+        className={`rounded-3xl bg-gradient-to-br p-5 shadow-sm ring-1 ${MOMENTUM_TIER_STYLES[momentum.tier].wash} ${MOMENTUM_TIER_STYLES[momentum.tier].ring}`}
+      >
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -123,9 +145,11 @@ export function Home() {
             <p className="mt-2 text-5xl font-bold tabular-nums text-slate-900 dark:text-[var(--text-hero)]">
               {animatedScore}
             </p>
-            <p className="mt-1 text-sm font-bold" style={{ color: 'var(--accent)' }}>
+            <span
+              className={`mt-2 inline-block rounded-full px-2.5 py-1 text-xs font-bold ${MOMENTUM_TIER_STYLES[momentum.tier].badge}`}
+            >
               {momentum.tier === 'high' ? 'Excellent' : momentum.tier === 'mid' ? 'Good' : momentum.message}
-            </p>
+            </span>
           </div>
           <div className="w-[46%] shrink-0">
             <WeekBarChart days={chartDays} height={92} />
@@ -259,7 +283,7 @@ export function Home() {
                 <div className="relative">
                   <Link
                     to={`/routine/${routine.id}`}
-                    className="flex items-center gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
+                    className={`flex items-center gap-3 rounded-2xl bg-gradient-to-br p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:ring-[var(--surface-border)] ${style.cardTint}`}
                   >
                     <div
                       className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
@@ -305,9 +329,11 @@ export function Home() {
           })}
         </AnimatePresence>
         {visibleRoutines.length === 0 && (
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            No routines in this category yet.
-          </p>
+          <EmptyState
+            icon={RiInboxLine}
+            title="No routines in this category yet"
+            description="Try a different focus, or build your own."
+          />
         )}
       </section>
     </div>
