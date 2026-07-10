@@ -110,7 +110,7 @@ export function RoutineBuilder() {
         </p>
       </header>
 
-      <section className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="flex flex-col gap-3 rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -159,7 +159,7 @@ export function RoutineBuilder() {
           return (
             <div
               key={`${step.stretchId}-${i}`}
-              className="flex items-center gap-2 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
+              className="flex items-center gap-2 rounded-2xl bg-white p-3 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
             >
               <div className="flex flex-col">
                 <button
@@ -209,7 +209,7 @@ export function RoutineBuilder() {
         <h2 className="text-sm font-bold uppercase tracking-wide text-slate-400">
           Stretch library
         </h2>
-        <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+        <div className="flex items-center gap-2 rounded-2xl bg-white px-3 py-2 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
           <RiSearchLine size="1em" className="text-slate-400" />
           <input
             value={search}
@@ -249,7 +249,7 @@ export function RoutineBuilder() {
               key={stretch.id}
               type="button"
               onClick={() => addStretch(stretch.id)}
-              className="flex items-center justify-between rounded-2xl bg-white p-3 text-left shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
+              className="flex items-center justify-between rounded-2xl bg-white p-3 text-left ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
             >
               <div>
                 <p className="text-sm font-medium text-slate-900 dark:text-slate-100">

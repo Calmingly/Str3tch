@@ -30,19 +30,19 @@ const PILLAR_GOALS = Object.keys(GOAL_STYLES) as Goal[];
 
 const MOMENTUM_TIER_STYLES: Record<MomentumResult['tier'], { wash: string; ring: string; badge: string }> = {
   high: {
-    wash: 'from-emerald-50 to-white dark:from-emerald-500/15 dark:to-[var(--surface)]',
-    ring: 'ring-emerald-100 dark:ring-emerald-500/20',
-    badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
+    wash: 'from-[#5F8267]/20 to-[var(--surface)] dark:from-[#5F8267]/30 dark:to-[var(--surface)]',
+    ring: 'ring-[#5F8267]/25 dark:ring-[#5F8267]/30',
+    badge: 'bg-[#5F8267] text-white',
   },
   mid: {
-    wash: 'from-amber-50 to-white dark:from-amber-500/15 dark:to-[var(--surface)]',
-    ring: 'ring-amber-100 dark:ring-amber-500/20',
-    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+    wash: 'from-[#D9932A]/20 to-[var(--surface)] dark:from-[#D9932A]/30 dark:to-[var(--surface)]',
+    ring: 'ring-[#D9932A]/25 dark:ring-[#D9932A]/30',
+    badge: 'bg-[#D9932A] text-white',
   },
   low: {
-    wash: 'from-slate-50 to-white dark:from-white/5 dark:to-[var(--surface)]',
-    ring: 'ring-slate-100 dark:ring-[var(--surface-border)]',
-    badge: 'bg-slate-100 text-slate-600 dark:bg-white/10 dark:text-slate-300',
+    wash: 'from-[var(--surface-2)] to-[var(--surface)]',
+    ring: 'ring-[var(--surface-border)]',
+    badge: 'bg-[var(--surface-2)] text-slate-600 dark:text-slate-300',
   },
 };
 
@@ -140,7 +140,7 @@ export function Home() {
       </header>
 
       <section
-        className={`rounded-3xl bg-gradient-to-br p-5 shadow-sm ring-1 ${MOMENTUM_TIER_STYLES[momentum.tier].wash} ${MOMENTUM_TIER_STYLES[momentum.tier].ring}`}
+        className={`rounded-[32px] bg-gradient-to-br p-5 ring-1 ${MOMENTUM_TIER_STYLES[momentum.tier].wash} ${MOMENTUM_TIER_STYLES[momentum.tier].ring}`}
       >
         <div className="flex items-start justify-between gap-4">
           <div>
@@ -181,7 +181,7 @@ export function Home() {
         </div>
       </section>
 
-      <div className={`rounded-3xl bg-gradient-to-br p-5 text-white shadow-lg ${suggestedStyle.gradient}`}>
+      <div className={`rounded-[32px] bg-gradient-to-br p-5 text-white shadow-lg ${suggestedStyle.gradient}`}>
         <div className="flex items-start justify-between gap-3">
           <Link to={`/routine/${suggested.id}`} className="min-w-0 flex-1">
             <p className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-white/80">
@@ -202,7 +202,7 @@ export function Home() {
         </div>
       </div>
 
-      <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-3xl bg-white p-5 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-slate-400">
           Browse by focus
         </h2>
@@ -288,28 +288,26 @@ export function Home() {
                 <div className="relative">
                   <Link
                     to={`/routine/${routine.id}`}
-                    className={`flex items-center gap-3 rounded-2xl bg-gradient-to-br p-4 shadow-sm ring-1 ring-slate-100 transition-transform active:scale-[0.98] dark:ring-[var(--surface-border)] ${style.cardTint}`}
+                    className={`flex items-center gap-3 rounded-[24px] bg-gradient-to-br p-4 text-white transition-transform active:scale-[0.98] ${style.gradient}`}
                   >
-                    <div
-                      className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-xl ${style.gradient}`}
-                    >
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-xl">
                       <Icon size="1em" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-2 pr-6">
-                        <p className="truncate font-semibold text-slate-900 dark:text-slate-100">
+                        <p className="truncate font-semibold text-white">
                           {routine.name}
                           {routine.isCustom && (
-                            <span className="ml-1.5 text-[10px] font-semibold text-violet-500">
+                            <span className="ml-1.5 text-[10px] font-semibold text-white/80">
                               CUSTOM
                             </span>
                           )}
                         </p>
-                        <span className="shrink-0 text-xs font-medium text-slate-400">
+                        <span className="shrink-0 text-xs font-medium text-white/80">
                           {minutes(routineDurationSeconds(routine))} min
                         </span>
                       </div>
-                      <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400">
+                      <p className="mt-0.5 truncate text-xs text-white/80">
                         {routine.description}
                       </p>
                     </div>
@@ -319,8 +317,8 @@ export function Home() {
                     onClick={() => toggleFavorite(routine.id)}
                     aria-label={isFavorite(routine.id) ? 'Remove from favorites' : 'Add to favorites'}
                     aria-pressed={isFavorite(routine.id)}
-                    className="absolute right-3 top-3 z-10 text-slate-300 transition-colors dark:text-slate-600"
-                    style={isFavorite(routine.id) ? { color: 'var(--accent)' } : undefined}
+                    className="absolute right-3 top-3 z-10 text-white/60 transition-colors"
+                    style={isFavorite(routine.id) ? { color: '#ffffff' } : undefined}
                   >
                     {isFavorite(routine.id) ? (
                       <RiHeartFill size="1.05em" />

@@ -4,8 +4,8 @@
 
 :root {
   color-scheme: light;
-  --accent: #ff7a59;
-  --accent-soft: #ff7a5922;
+  --accent: #f0552e;
+  --accent-soft: #f0552e22;
   --app-bg: radial-gradient(140% 60% at 50% 0%, #fff1e6 0%, #fdf6f0 45%, #fffaf5 100%);
   --surface: #fffdfa;
   --surface-2: #fdf6ef;

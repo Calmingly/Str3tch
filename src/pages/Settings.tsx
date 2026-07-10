@@ -84,7 +84,7 @@ export function Settings() {
         <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Settings</h1>
       </header>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <p className="mb-3 font-semibold text-slate-900 dark:text-slate-100">Appearance</p>
         <div className="grid grid-cols-3 gap-2">
           {THEME_OPTIONS.map((opt) => {
@@ -157,7 +157,7 @@ export function Settings() {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-slate-900 dark:text-slate-100">Daily reminder</p>
@@ -196,7 +196,7 @@ export function Settings() {
         )}
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-slate-900 dark:text-slate-100">Larger text</p>
@@ -211,7 +211,7 @@ export function Settings() {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-slate-900 dark:text-slate-100">Compact mode</p>
@@ -223,7 +223,7 @@ export function Settings() {
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-slate-900 dark:text-slate-100">Voice guidance</p>
@@ -243,7 +243,7 @@ export function Settings() {
         )}
       </section>
 
-      <section className="rounded-2xl bg-white p-4 text-sm text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]">
+      <section className="rounded-2xl bg-white p-4 text-sm text-slate-500 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]">
         <p className="font-semibold text-slate-900 dark:text-slate-100">About</p>
         <p className="mt-1">
           Str3tch is local-only — no account, no server. Everything, including reminders, lives

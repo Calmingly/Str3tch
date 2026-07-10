@@ -104,7 +104,7 @@ export function RoutineDetail() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <div
-        className={`-mx-4 -mt-6 rounded-b-3xl bg-gradient-to-br px-4 pb-6 pt-6 text-white ${style.gradient}`}
+        className={`-mx-4 -mt-6 rounded-b-[32px] bg-gradient-to-br px-4 pb-6 pt-6 text-white ${style.gradient}`}
       >
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-1 text-sm text-white/80">
@@ -197,7 +197,7 @@ export function RoutineDetail() {
         <p className="mt-3 text-sm text-white/90">{routine.description}</p>
       </div>
 
-      <div className="flex items-center justify-between rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+      <div className="flex items-center justify-between rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
         <div className="flex items-center gap-2">
           {resolveVoiceEnabled(voice.enabled, voiceOverride) ? (
             <RiVolumeUpLine size="1.1em" className="text-slate-400" />
@@ -232,7 +232,7 @@ export function RoutineDetail() {
         {steps.map((step, i) => (
           <li
             key={`${step.stretch.id}-${step.side}-${i}`}
-            className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
+            className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2.5 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]"
           >
             <StretchIllustration stretchId={step.stretch.id} name={step.stretch.name} size={44} />
             <div className="min-w-0 flex-1">

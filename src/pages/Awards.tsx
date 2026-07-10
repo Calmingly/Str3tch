@@ -44,7 +44,7 @@ export function Awards() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25, delay: Math.min(i, 8) * 0.03 }}
-              className={`relative flex flex-col items-center gap-2 rounded-2xl p-4 text-center shadow-sm ring-1 transition-opacity ${
+              className={`relative flex flex-col items-center gap-2 rounded-2xl p-4 text-center ring-1 transition-opacity ${
                 unlocked
                   ? 'bg-white ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]'
                   : 'bg-white/60 opacity-50 ring-slate-100 dark:bg-white/[0.03] dark:ring-[var(--surface-border)]'

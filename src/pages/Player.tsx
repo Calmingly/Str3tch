@@ -241,7 +241,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
         <button
           type="button"
           onClick={() => navigate('/')}
-          className="w-full rounded-2xl bg-white py-3 font-semibold text-slate-600 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-300 dark:ring-[var(--surface-border)]"
+          className="w-full rounded-2xl bg-white py-3 font-semibold text-slate-600 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-300 dark:ring-[var(--surface-border)]"
         >
           Back to routines
         </button>
@@ -267,7 +267,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
               className={`flex flex-col items-center gap-1 rounded-2xl px-2.5 py-2 text-xs font-medium transition-colors ${
                 feeling === f.value
                   ? `bg-gradient-to-br text-white ${style.gradient}`
-                  : 'bg-white text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]'
+                  : 'bg-white text-slate-500 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]'
               }`}
             >
               <f.Icon size="1.2em" />
@@ -400,7 +400,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
           type="button"
           onClick={() => goToStep(index - 1)}
           disabled={index === 0}
-          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 disabled:opacity-30 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 ring-1 ring-slate-100 disabled:opacity-30 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
         >
           Back
         </button>
@@ -420,7 +420,7 @@ function PlayerSession({ routine }: { routine: Routine }) {
               goToStep(index + 1);
             }
           }}
-          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 shadow-sm ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
+          className="rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-500 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:text-slate-400 dark:ring-[var(--surface-border)]"
         >
           Skip
         </button>
