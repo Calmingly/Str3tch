@@ -1,10 +1,3 @@
-import {
-  RiSunFill,
-  RiComputerFill,
-  RiFirstAidKitFill,
-  RiExpandDiagonalFill,
-  RiSnowflakeFill,
-} from '@remixicon/react';
 import type { Routine } from '../types';
 
 export const ROUTINES: Routine[] = [
@@ -14,7 +7,6 @@ export const ROUTINES: Routine[] = [
     description: 'A gentle full-body sequence to start the day and build the habit.',
     goal: ['general-mobility', 'habit-building'],
     area: ['full-body'],
-    icon: RiSunFill,
     steps: [
       { stretchId: 'deep-breathing' },
       { stretchId: 'cat-cow' },
@@ -30,7 +22,6 @@ export const ROUTINES: Routine[] = [
     description: 'Undo hours of sitting: neck, shoulders, and upper back.',
     goal: ['targeted-relief'],
     area: ['neck', 'shoulders', 'back', 'wrists'],
-    icon: RiComputerFill,
     steps: [
       { stretchId: 'neck-tilt' },
       { stretchId: 'neck-rotation' },
@@ -48,7 +39,6 @@ export const ROUTINES: Routine[] = [
     description: 'Targeted relief for a tight or achy low back and hips.',
     goal: ['targeted-relief'],
     area: ['back', 'hips'],
-    icon: RiFirstAidKitFill,
     steps: [
       { stretchId: 'childs-pose' },
       { stretchId: 'knee-to-chest' },
@@ -63,7 +53,6 @@ export const ROUTINES: Routine[] = [
     description: 'Build long-term flexibility through the hips and legs.',
     goal: ['general-mobility'],
     area: ['hips', 'hamstrings'],
-    icon: RiExpandDiagonalFill,
     steps: [
       { stretchId: 'hip-flexor-lunge' },
       { stretchId: 'figure-four' },
@@ -78,7 +67,6 @@ export const ROUTINES: Routine[] = [
     description: 'Cool down after running, lifting, or a round of golf.',
     goal: ['activity-recovery'],
     area: ['hamstrings', 'quads', 'calves', 'hips'],
-    icon: RiSnowflakeFill,
     steps: [
       { stretchId: 'standing-hamstring' },
       { stretchId: 'quad-stretch' },

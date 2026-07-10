@@ -4,27 +4,26 @@
 
 :root {
   color-scheme: light;
-  --accent: #f0552e;
-  --accent-soft: #f0552e22;
-  --app-bg: radial-gradient(140% 60% at 50% 0%, #fff1e6 0%, #fdf6f0 45%, #fffaf5 100%);
-  --surface: #fffdfa;
-  --surface-2: #fdf6ef;
-  --surface-border: rgba(120, 72, 40, 0.08);
-  --text-hero: #3d2b23;
-  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
-}
-
-.font-display {
-  font-family: var(--font-display);
+  --paper: #f7f3ec;
+  --paper-2: #efe9dd;
+  --ink: #1f2a24;
+  --ink-soft: #5b6259;
+  --rule: rgba(31, 42, 36, 0.14);
+  --accent: #bc5b39;
+  --accent-soft: #bc5b3922;
+  --font-serif: 'Fraunces', ui-serif, Georgia, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 }
 
 :root.dark {
   color-scheme: dark;
-  --app-bg: radial-gradient(120% 55% at 50% 0%, #3a2436 0%, #26192a 28%, #191320 55%, #100c14 100%);
-  --surface: #211a24;
-  --surface-2: #271f2b;
-  --surface-border: rgba(255, 235, 220, 0.06);
-  --text-hero: #fbf2ec;
+  --paper: #17140f;
+  --paper-2: #201c15;
+  --ink: #f2ece1;
+  --ink-soft: #a49c8d;
+  --rule: rgba(242, 236, 225, 0.14);
+  --accent: #e08a63;
+  --accent-soft: #e08a6322;
 }
 
 html,
@@ -33,91 +32,24 @@ body,
   height: 100%;
 }
 
-html.text-large {
-  font-size: 118%;
-}
-
-html.compact .p-4 {
-  padding: 0.75rem;
-}
-html.compact .p-5 {
-  padding: 0.875rem;
-}
-html.compact .px-4 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-html.compact .py-2\.5 {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-html.compact .gap-3 {
-  gap: 0.5rem;
-}
-html.compact .gap-4 {
-  gap: 0.625rem;
-}
-html.compact .gap-5 {
-  gap: 0.75rem;
-}
-html.compact .gap-6 {
-  gap: 0.875rem;
-}
-html.compact .mb-4 {
-  margin-bottom: 0.625rem;
-}
-html.compact .mt-3 {
-  margin-top: 0.5rem;
-}
-
 body {
   margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: none;
 }
 
-@keyframes pop-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-  100% {
-    transform: scale(1);
-  }
+.font-serif {
+  font-family: var(--font-serif);
 }
 
-.animate-pop {
-  animation: pop-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
-
-@keyframes pose-sway {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(4deg); }
-}
-@keyframes pose-rotate {
-  0%, 100% { transform: rotate(-9deg); }
-  50% { transform: rotate(9deg); }
-}
-@keyframes pose-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.06); }
-}
-@keyframes pose-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-@keyframes pose-breathe {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.035); opacity: 0.92; }
-}
-
-.animate-pose-sway { transform-origin: 50% 60%; animation: pose-sway 2.6s ease-in-out infinite; }
-.animate-pose-rotate { transform-origin: 50% 60%; animation: pose-rotate 2s ease-in-out infinite; }
-.animate-pose-pulse { transform-origin: 50% 60%; animation: pose-pulse 1.8s ease-in-out infinite; }
-.animate-pose-bounce { transform-origin: 50% 60%; animation: pose-bounce 1.6s ease-in-out infinite; }
-.animate-pose-breathe { transform-origin: 50% 60%; animation: pose-breathe 3.2s ease-in-out infinite; }

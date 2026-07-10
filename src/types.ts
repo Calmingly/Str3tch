@@ -1,5 +1,3 @@
-import type { Icon } from './lib/iconType';
-
 export type BodyArea =
   | 'neck'
   | 'shoulders'
@@ -45,31 +43,10 @@ export interface Routine {
   goal: Goal[];
   area: BodyArea[];
   steps: RoutineStep[];
-  isCustom?: boolean;
-  icon?: Icon;
 }
 
 export interface ExpandedStep {
   stretch: Stretch;
   side: 'left' | 'right' | null;
   seconds: number;
-}
-
-export interface FeelingRating {
-  value: 1 | 2 | 3 | 4 | 5;
-  label: string;
-}
-
-export interface SessionRecord {
-  id: string;
-  routineId: string;
-  routineName: string;
-  completedAt: string;
-  durationSeconds: number;
-  feeling: FeelingRating['value'] | null;
-}
-
-export interface ReminderSettings {
-  enabled: boolean;
-  time: string;
 }
