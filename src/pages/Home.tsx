@@ -51,16 +51,34 @@ export function Home() {
     [filter],
   );
 
+  const totalMinutes = useMemo(
+    () => ROUTINES.reduce((sum, r) => sum + minutes(routineDurationSeconds(r)), 0),
+    [],
+  );
+
   return (
     <div className="flex flex-col gap-10">
       <header className="flex flex-col items-start gap-3">
-        <Sprig />
+        <div className="flex w-full items-center justify-between">
+          <Sprig />
+          <span
+            className="font-serif text-[11px] uppercase italic tracking-[0.2em]"
+            style={{ color: 'var(--ink-soft)' }}
+          >
+            Vol. 01
+          </span>
+        </div>
         <h1 className="font-serif text-5xl font-medium leading-none tracking-tight">
           Str<span style={{ color: 'var(--accent)' }}>3</span>tch
         </h1>
         <p className="text-sm italic" style={{ color: 'var(--ink-soft)' }}>
           A short list of routines. Pick one and go.
         </p>
+        <div
+          className="mt-1 h-px w-full"
+          style={{ background: 'linear-gradient(to right, var(--rule), transparent 85%)' }}
+        />
+        <div className="h-px w-full" style={{ backgroundColor: 'var(--rule)' }} />
       </header>
 
       <LayoutGroup>
@@ -105,11 +123,19 @@ export function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.25, delay: Math.min(i, 5) * 0.04 }}
+                className="relative overflow-hidden"
                 style={{ borderTop: '1px solid var(--rule)' }}
               >
+                <span
+                  aria-hidden="true"
+                  className="font-serif pointer-events-none absolute -right-2 -top-3 select-none text-[86px] font-medium leading-none"
+                  style={{ color: 'var(--ink)', opacity: 0.045 }}
+                >
+                  {pad(i + 1)}
+                </span>
                 <Link
                   to={`/routine/${routine.id}`}
-                  className="group flex items-center gap-4 py-5 transition-colors active:bg-[var(--paper-2)]"
+                  className="group relative flex items-center gap-4 py-5 transition-colors active:bg-[var(--paper-2)]"
                 >
                   <span
                     className="font-serif w-6 shrink-0 text-lg tabular-nums"
@@ -145,6 +171,16 @@ export function Home() {
           })}
         </AnimatePresence>
       </ol>
+
+      <footer
+        className="flex flex-col items-center gap-1 pb-2 pt-2 text-center text-[11px] uppercase tracking-[0.2em]"
+        style={{ color: 'var(--ink-soft)' }}
+      >
+        <Sprig />
+        <p className="mt-1">
+          {ROUTINES.length} routines · {totalMinutes} minutes, cover to cover
+        </p>
+      </footer>
     </div>
   );
 }

@@ -35,7 +35,7 @@ export function RoutineDetail() {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="mt-4"
+          className="relative mt-4"
         >
           <StretchIllustration
             stretchId={routine.steps[0].stretchId}
@@ -45,6 +45,20 @@ export function RoutineDetail() {
             height={176}
             className="w-full"
           />
+          <div
+            className="absolute -bottom-4 -right-3 flex h-16 w-16 rotate-[-9deg] flex-col items-center justify-center rounded-full text-center shadow-[0_6px_16px_-6px_rgba(31,42,36,0.4)]"
+            style={{ backgroundColor: 'var(--paper)', border: '1.4px solid var(--accent)' }}
+          >
+            <span className="font-serif text-lg font-medium leading-none" style={{ color: 'var(--accent)' }}>
+              {totalMinutes}
+            </span>
+            <span
+              className="mt-0.5 text-[8px] font-semibold uppercase tracking-wide"
+              style={{ color: 'var(--accent)' }}
+            >
+              min
+            </span>
+          </div>
         </motion.div>
 
         <h1 className="font-serif mt-5 text-3xl font-medium leading-tight">{routine.name}</h1>
@@ -67,12 +81,12 @@ export function RoutineDetail() {
         {steps.map((step, i) => (
           <li
             key={`${step.stretch.id}-${step.side}-${i}`}
-            className="flex items-center gap-4 py-3"
+            className="flex items-center gap-3 py-3"
             style={{ borderTop: '1px solid var(--rule)' }}
           >
             <span
-              className="font-serif w-6 shrink-0 text-sm tabular-nums"
-              style={{ color: 'var(--ink-soft)' }}
+              className="font-serif flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] tabular-nums"
+              style={{ color: 'var(--ink-soft)', border: '1px solid var(--rule)' }}
             >
               {pad(i + 1)}
             </span>
@@ -87,7 +101,7 @@ export function RoutineDetail() {
                 )}
               </p>
             </div>
-            <span className="text-xs tabular-nums" style={{ color: 'var(--ink-soft)' }}>
+            <span className="shrink-0 text-xs tabular-nums" style={{ color: 'var(--ink-soft)' }}>
               {step.seconds}s
             </span>
           </li>

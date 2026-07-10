@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { motion, type PanInfo } from 'framer-motion';
+import { motion, AnimatePresence, type PanInfo } from 'framer-motion';
 import { ROUTINES } from '../data/routines';
 import { expandRoutine, routineDurationSeconds } from '../data/expand';
 import { playChime, vibrate } from '../lib/sound';
@@ -121,9 +121,33 @@ function PlayerSession({ routine }: { routine: Routine }) {
 
   return (
     <div
-      className="mx-auto flex min-h-full max-w-md flex-col px-6 pb-8 pt-6"
+      className="relative mx-auto flex min-h-full max-w-md flex-col overflow-hidden px-6 pb-8 pt-6"
       style={{ background: 'var(--paper)', color: 'var(--ink)' }}
     >
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <AnimatePresence>
+          <motion.img
+            key={current.stretch.id}
+            src={`${import.meta.env.BASE_URL}stretches/${current.stretch.id}.webp`}
+            alt=""
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.16 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9, ease: 'easeInOut' }}
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ filter: 'grayscale(1) blur(30px) saturate(0)' }}
+          />
+        </AnimatePresence>
+        <div className="duotone-overlay absolute inset-0" style={{ opacity: 0.5 }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'linear-gradient(to bottom, var(--paper) 0%, transparent 18%, transparent 78%, var(--paper) 100%)',
+          }}
+        />
+      </div>
+
       <div className="flex items-center justify-between">
         <Link to={`/routine/${routine.id}`} className="flex items-center gap-1 text-sm" style={{ color: 'var(--ink-soft)' }}>
           <CloseIcon size={16} /> Exit
