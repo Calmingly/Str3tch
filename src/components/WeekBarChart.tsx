@@ -23,13 +23,13 @@ export function WeekBarChart({ days, height = 90 }: WeekBarChartProps) {
                 className="w-full rounded-full transition-all"
                 style={{
                   height: `${barHeight}%`,
-                  backgroundColor: d.value > 0 ? 'var(--accent)' : 'var(--surface-border)',
+                  backgroundColor: d.value > 0 ? 'var(--accent)' : 'rgba(255,255,255,0.14)',
                 }}
               />
             </div>
             <span
-              className="text-[10px] font-semibold"
-              style={{ color: d.isToday ? '#f87171' : undefined }}
+              className="text-[10px] font-bold text-white/50"
+              style={{ color: d.isToday ? 'var(--accent)' : undefined }}
             >
               {d.label}
             </span>

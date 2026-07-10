@@ -81,7 +81,7 @@ export function Settings() {
   return (
     <div className="flex flex-col gap-6 pb-4">
       <header>
-        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Settings</h1>
+        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-slate-900 dark:text-slate-100">Settings</h1>
       </header>
 
       <section className="rounded-2xl bg-white p-4 ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">

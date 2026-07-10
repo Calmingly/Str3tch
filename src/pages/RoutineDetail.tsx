@@ -86,8 +86,8 @@ export function RoutineDetail() {
         <button
           type="button"
           onClick={handleUndo}
-          className="rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-lg"
-          style={{ backgroundColor: 'var(--accent)' }}
+          className="rounded-2xl px-5 py-2.5 text-sm font-bold uppercase tracking-wide"
+          style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
         >
           Undo
         </button>
@@ -189,7 +189,7 @@ export function RoutineDetail() {
             <Icon size="1em" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-black dark:text-white">{routine.name}</h1>
+            <h1 className="font-display text-2xl font-bold uppercase tracking-wide text-black dark:text-white">{routine.name}</h1>
             <p className="text-sm text-slate-500 dark:text-slate-400">
               {steps.length} stretches · about {totalMinutes} min
             </p>
@@ -255,8 +255,8 @@ export function RoutineDetail() {
 
       <Link
         to={`/session/${routine.id}`}
-        className="rounded-2xl py-3.5 text-center font-bold text-white"
-        style={{ backgroundColor: style.ring }}
+        className="rounded-2xl py-3.5 text-center text-sm font-bold uppercase tracking-wide"
+        style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
       >
         Start routine
       </Link>

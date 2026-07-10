@@ -40,7 +40,7 @@ export function BodyMap() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header>
-        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">Where's it tight?</h1>
+        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-slate-900 dark:text-slate-100">Where's it tight?</h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Tap a spot to find routines for that area.
         </p>
@@ -101,7 +101,7 @@ export function BodyMap() {
             />
           )}
           {matches.length > 0 && (
-            <div className="overflow-hidden rounded-2xl bg-white ring-1 ring-slate-100 dark:bg-[var(--surface)] dark:ring-[var(--surface-border)]">
+            <div className="flex flex-col gap-3">
               {matches.map((routine) => {
                 const style = primaryGoalStyle(routine.goal);
                 const Icon = routineIcon(routine);
@@ -109,19 +109,19 @@ export function BodyMap() {
                   <Link
                     key={routine.id}
                     to={`/routine/${routine.id}`}
-                    className="flex items-center gap-3 border-b border-slate-100 py-3 pl-3 pr-4 transition-colors last:border-0 active:bg-slate-50 dark:border-white/5 dark:active:bg-white/5"
+                    className="flex items-center gap-3 rounded-2xl border-2 border-black bg-white p-3 transition-transform active:scale-[0.98] dark:border-white dark:bg-[var(--surface)]"
                   >
                     <div
-                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-gradient-to-br text-lg text-white ${style.gradient}`}
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-lg text-white ${style.gradient}`}
                     >
                       <Icon size="1em" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[15px] font-semibold text-black dark:text-white">
+                      <p className="truncate text-[15px] font-bold uppercase tracking-tight text-black dark:text-white">
                         {routine.name}
                       </p>
                     </div>
-                    <span className="shrink-0 text-xs font-medium text-slate-400">
+                    <span className="shrink-0 text-xs font-bold text-slate-400">
                       {minutes(routineDurationSeconds(routine))} min
                     </span>
                   </Link>

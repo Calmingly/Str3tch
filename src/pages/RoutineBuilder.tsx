@@ -102,7 +102,7 @@ export function RoutineBuilder() {
   return (
     <div className="flex flex-col gap-5 pb-2">
       <header>
-        <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-slate-100">
+        <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-slate-900 dark:text-slate-100">
           {existing ? 'Edit routine' : 'Build a routine'}
         </h1>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -270,8 +270,8 @@ export function RoutineBuilder() {
         type="button"
         disabled={!canSave}
         onClick={handleSave}
-        className="rounded-2xl py-3.5 text-center font-bold text-white shadow-lg disabled:opacity-40"
-        style={{ backgroundColor: 'var(--accent)' }}
+        className="rounded-2xl py-3.5 text-center text-sm font-bold uppercase tracking-wide disabled:opacity-40"
+        style={{ backgroundColor: 'var(--ink)', color: 'var(--ink-contrast)' }}
       >
         Save routine
       </button>

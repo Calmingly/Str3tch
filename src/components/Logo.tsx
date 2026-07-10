@@ -39,7 +39,7 @@ export function Logo({ size = 32, className = '' }: LogoProps) {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <LogoMark size={size} />
-      <span className="font-display text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+      <span className="font-display text-2xl font-bold uppercase tracking-tight text-slate-900 dark:text-slate-100">
         Str<span style={{ color: 'var(--accent)' }}>3</span>tch
       </span>
     </div>
